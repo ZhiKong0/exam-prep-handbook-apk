@@ -1,7 +1,8 @@
 param(
     [Parameter(Mandatory = $true)]
     [string]$RepoSlug,
-    [switch]$CreateRepo
+    [switch]$CreateRepo,
+    [string]$MetadataOutputPath = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -9,11 +10,52 @@ $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
 Set-Location $root
 
-function Ensure-GitHubAuth {
-    gh auth status | Out-Null
-    if ($LASTEXITCODE -ne 0) {
-        throw "GitHub CLI has not logged in yet. Run 'gh auth login' first, then retry this script."
+function Try-LoadGitHubTokenFromCredentialManager {
+    try {
+        $credential = "protocol=https`nhost=github.com`n`n" | git credential-manager get 2>$null
+        if (-not $credential) {
+            return $false
+        }
+        $password = $credential | Select-String '^password=' | ForEach-Object { $_.Line } | Select-Object -First 1
+        if (-not $password) {
+            return $false
+        }
+        $token = $password.Substring("password=".Length).Trim()
+        if (-not $token) {
+            return $false
+        }
+        $env:GH_TOKEN = $token
+        $env:GITHUB_TOKEN = $token
+        return $true
+    } catch {
+        return $false
     }
+}
+
+function Test-GitHubCliAccess {
+    try {
+        gh api user 1>$null 2>$null
+        return $LASTEXITCODE -eq 0
+    } catch {
+        return $false
+    }
+}
+
+function Ensure-GitHubAuth {
+    if (Test-GitHubCliAccess) {
+        return
+    }
+    if (Try-LoadGitHubTokenFromCredentialManager -and (Test-GitHubCliAccess)) {
+        return
+    }
+    throw "GitHub CLI has not logged in yet. Run 'gh auth login' first, or ensure git-credential-manager already stores a usable GitHub token."
+}
+
+function Resolve-MetadataPath([string]$preferredPath, [string]$defaultPath) {
+    if ($preferredPath) {
+        return [System.IO.Path]::GetFullPath($preferredPath)
+    }
+    return $defaultPath
 }
 
 function Ensure-GitRepository {
@@ -103,12 +145,13 @@ if (-not $versionName) {
 
 $tag = "v$versionName"
 $notes = Join-Path $root "release\RELEASE_NOTES.md"
-$meta = Join-Path $root "release\network_quiz_update.json"
+$defaultMeta = Join-Path $root "release\network_quiz_update.json"
+$meta = Resolve-MetadataPath -preferredPath $MetadataOutputPath -defaultPath $defaultMeta
 
 Ensure-ReleaseNotes -path $notes -versionName $versionName
 
 python .\tools\build_network_quiz_apk.py
-python .\tools\generate_release_metadata.py --release-notes-file $notes
+python .\tools\generate_release_metadata.py --release-notes-file $notes --output $meta
 
 $metaInfo = Read-JsonFile $meta
 $apk = Join-Path $root ("build\out\" + $metaInfo.apkFileName)
@@ -130,7 +173,7 @@ if (Test-ReleaseExists -repoSlug $RepoSlug -tag $tag) {
 $release = Get-ReleaseApi -repoSlug $RepoSlug -tag $tag
 $apkDownloadUrl = Find-ApkAssetUrl -release $release -preferredName $metaInfo.apkFileName
 
-python .\tools\generate_release_metadata.py --release-notes-file $notes --apk-download-url $apkDownloadUrl
+python .\tools\generate_release_metadata.py --release-notes-file $notes --apk-download-url $apkDownloadUrl --output $meta
 gh release upload $tag $meta --repo $RepoSlug --clobber
 
 $releaseUrl = $release.html_url

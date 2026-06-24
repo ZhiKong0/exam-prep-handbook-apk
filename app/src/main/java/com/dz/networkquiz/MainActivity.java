@@ -23,6 +23,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -84,11 +85,18 @@ public class MainActivity extends Activity {
     private static final String PREF_WRONG_REQUIRED = "wrong_required_correct";
     private static final String PREF_THEME_MODE = "theme_mode";
     private static final String PREF_UPDATE_REPO_SLUG = "update_repo_slug";
+    private static final String PREF_UPDATE_STATUS_TEXT = "update_status_text";
+    private static final String PREF_UPDATE_STATUS_VERSION_CODE = "update_status_version_code";
+    private static final String PREF_LAST_LAUNCHED_VERSION_CODE = "last_launched_version_code";
+    private static final String PREF_UPDATE_PENDING_CLEANUP = "update_pending_cleanup_paths";
     private static final String THEME_DARK = "dark";
     private static final String THEME_LIGHT = "light";
     private static final String UPDATE_METADATA_NAME = "network_quiz_update.json";
     private static final String UPDATE_CACHE_DIR = "updates";
     private static final String UPDATE_INSTALL_ACTION = "com.dz.networkquiz.UPDATE_INSTALL_STATUS";
+    private static final String UPDATE_STATUS_NOT_CHECKED = "\u672a\u68c0\u67e5";
+    private static final String UPDATE_STATUS_REPO_NOT_CONFIGURED = "\u672a\u914d\u7f6e GitHub \u4ed3\u5e93";
+    private static final String UPDATE_STATUS_UPDATED_TO_PREFIX = "\u5df2\u66f4\u65b0\u5230 ";
     private static final int HTTP_TIMEOUT_MS = 15000;
     private static final int DEFAULT_WRONG_REQUIRED = 2;
     private static final int MIN_WRONG_REQUIRED = 1;
@@ -98,6 +106,7 @@ public class MainActivity extends Activity {
     private final List<MemoryCard> allMemoryCards = new ArrayList<>();
     private final List<Question> visibleQuestions = new ArrayList<>();
     private final List<MemoryCard> visibleCards = new ArrayList<>();
+    private final Set<String> pendingUpdateCleanupPaths = new LinkedHashSet<>();
     private final Set<String> selected = new LinkedHashSet<>();
     private final List<EditText> blankInputs = new ArrayList<>();
     private LinearLayout optionList;
@@ -212,6 +221,8 @@ public class MainActivity extends Activity {
         themeMode = prefs.getString(PREF_THEME_MODE, THEME_LIGHT);
         updateRepoSlug = normalizeRepoSlug(prefs.getString(PREF_UPDATE_REPO_SLUG, ""));
         updateStatusText = hasUpdateRepoConfig() ? "未检查" : "未配置 GitHub 仓库";
+        loadPendingUpdateCleanupPaths();
+        restorePersistedUpdateStatus();
         applyThemePalette();
         touchSlop = ViewConfiguration.get(this).getScaledTouchSlop();
         ensureUpdateInstallReceiver();
@@ -226,6 +237,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        cleanupUpdateCache(null);
         maybeResumePendingInstall();
     }
 
@@ -3622,6 +3634,9 @@ public class MainActivity extends Activity {
     }
 
     private void refreshUpdateSettingViews() {
+        if (!updateBusy) {
+            persistStableUpdateStatus();
+        }
         if (updateVersionLineView != null) {
             updateVersionLineView.setText("当前版本 路 " + currentVersionSummary());
         }
@@ -3652,6 +3667,49 @@ public class MainActivity extends Activity {
 
     private String updateStatusSummary() {
         return updateStatusText == null || updateStatusText.trim().length() == 0 ? "未检查" : updateStatusText;
+    }
+
+    private void restorePersistedUpdateStatus() {
+        if (!hasUpdateRepoConfig()) {
+            updateStatusText = UPDATE_STATUS_REPO_NOT_CONFIGURED;
+            persistStableUpdateStatus();
+            rememberCurrentLaunchVersion();
+            return;
+        }
+
+        int currentCode = currentVersionCode();
+        int lastLaunchedCode = prefs.getInt(PREF_LAST_LAUNCHED_VERSION_CODE, 0);
+        int persistedCode = prefs.getInt(PREF_UPDATE_STATUS_VERSION_CODE, 0);
+        String persistedText = prefs.getString(PREF_UPDATE_STATUS_TEXT, "");
+        String trimmedText = persistedText == null ? "" : persistedText.trim();
+
+        if (currentCode > 0 && lastLaunchedCode > 0 && currentCode > lastLaunchedCode) {
+            updateStatusText = UPDATE_STATUS_UPDATED_TO_PREFIX + currentVersionSummary();
+        } else if (currentCode > 0 && lastLaunchedCode > 0 && currentCode < lastLaunchedCode) {
+            updateStatusText = UPDATE_STATUS_NOT_CHECKED;
+        } else if (trimmedText.length() > 0 && (persistedCode == 0 || persistedCode == currentCode)) {
+            updateStatusText = trimmedText;
+        } else {
+            updateStatusText = UPDATE_STATUS_NOT_CHECKED;
+        }
+
+        persistStableUpdateStatus();
+        rememberCurrentLaunchVersion();
+    }
+
+    private void persistStableUpdateStatus() {
+        if (prefs == null) return;
+        prefs.edit()
+                .putString(PREF_UPDATE_STATUS_TEXT, updateStatusText == null ? "" : updateStatusText)
+                .putInt(PREF_UPDATE_STATUS_VERSION_CODE, currentVersionCode())
+                .apply();
+    }
+
+    private void rememberCurrentLaunchVersion() {
+        if (prefs == null) return;
+        prefs.edit()
+                .putInt(PREF_LAST_LAUNCHED_VERSION_CODE, currentVersionCode())
+                .apply();
     }
 
     private String currentVersionName() {
@@ -3745,6 +3803,7 @@ public class MainActivity extends Activity {
                         public void run() {
                             updateBusy = false;
                             updateStatusText = safeErrorMessage(e);
+                            cleanupUpdateCache(null);
                             refreshUpdateSettingViews();
                             Toast.makeText(MainActivity.this, updateStatusText, Toast.LENGTH_LONG).show();
                         }
@@ -4273,8 +4332,8 @@ public class MainActivity extends Activity {
             tempFile = new File(dir, fileName + ".download");
             File finalFile = new File(dir, fileName);
             cleanupUpdateCache(tempFile.getAbsolutePath());
-            if (tempFile.exists()) tempFile.delete();
-            if (finalFile.exists()) finalFile.delete();
+            deleteUpdateFile(tempFile);
+            deleteUpdateFile(finalFile);
             out = new FileOutputStream(tempFile);
             byte[] buffer = new byte[32768];
             long copied = 0L;
@@ -4309,7 +4368,7 @@ public class MainActivity extends Activity {
             closeQuietly(stream);
             if (connection != null) connection.disconnect();
             if (tempFile != null && tempFile.exists() && tempFile.getName().endsWith(".download")) {
-                tempFile.delete();
+                deleteUpdateFile(tempFile);
             }
         }
     }
@@ -4321,6 +4380,7 @@ public class MainActivity extends Activity {
             refreshUpdateSettingViews();
             return;
         }
+        rememberPendingCleanupPath(file.getAbsolutePath());
         if (Build.VERSION.SDK_INT >= 26 && !getPackageManager().canRequestPackageInstalls()) {
             pendingInstallApkPath = file.getAbsolutePath();
             pendingInstallVersionName = versionName;
@@ -4348,6 +4408,7 @@ public class MainActivity extends Activity {
         pendingInstallApkPath = null;
         pendingInstallVersionName = null;
         if (!file.exists()) {
+            forgetPendingCleanupPath(file.getAbsolutePath());
             updateStatusText = "安装包已丢失，请重新下载";
             refreshUpdateSettingViews();
             return;
@@ -4399,8 +4460,9 @@ public class MainActivity extends Activity {
                     closeQuietly(in);
                     out = null;
                     in = null;
+                    rememberPendingCleanupPath(file.getAbsolutePath());
                     cleanupUpdateCache(file.getAbsolutePath());
-                    file.delete();
+                    deleteUpdateFile(file);
 
                     Intent callback = new Intent(UPDATE_INSTALL_ACTION);
                     callback.setPackage(getPackageName());
@@ -4488,13 +4550,79 @@ public class MainActivity extends Activity {
         }
         if (status == PackageInstaller.STATUS_SUCCESS) {
             updateStatusText = versionName == null || versionName.length() == 0 ? "安装完成" : ("安装完成：" + versionName);
+            cleanupUpdateCache(null);
             refreshUpdateSettingViews();
             Toast.makeText(this, updateStatusText, Toast.LENGTH_LONG).show();
             return;
         }
         updateStatusText = "安装失败：" + (message == null || message.trim().length() == 0 ? ("状态 " + status) : message.trim());
+        cleanupUpdateCache(null);
         refreshUpdateSettingViews();
         Toast.makeText(this, updateStatusText, Toast.LENGTH_LONG).show();
+    }
+
+    private void loadPendingUpdateCleanupPaths() {
+        pendingUpdateCleanupPaths.clear();
+        if (prefs == null) return;
+        Set<String> saved = prefs.getStringSet(PREF_UPDATE_PENDING_CLEANUP, null);
+        if (saved != null) {
+            pendingUpdateCleanupPaths.addAll(saved);
+        }
+    }
+
+    private void persistPendingUpdateCleanupPaths() {
+        if (prefs == null) return;
+        if (pendingUpdateCleanupPaths.isEmpty()) {
+            prefs.edit().remove(PREF_UPDATE_PENDING_CLEANUP).apply();
+            return;
+        }
+        prefs.edit()
+                .putStringSet(PREF_UPDATE_PENDING_CLEANUP, new LinkedHashSet<>(pendingUpdateCleanupPaths))
+                .apply();
+    }
+
+    private void rememberPendingCleanupPath(String path) {
+        if (path == null || path.trim().length() == 0) return;
+        if (pendingUpdateCleanupPaths.add(path)) {
+            persistPendingUpdateCleanupPaths();
+        }
+    }
+
+    private void forgetPendingCleanupPath(String path) {
+        if (path == null || path.trim().length() == 0) return;
+        if (pendingUpdateCleanupPaths.remove(path)) {
+            persistPendingUpdateCleanupPaths();
+        }
+    }
+
+    private boolean deleteUpdateFile(File file) {
+        if (file == null) return true;
+        String path = file.getAbsolutePath();
+        for (int attempt = 0; attempt < 4; attempt++) {
+            if (!file.exists()) {
+                forgetPendingCleanupPath(path);
+                return true;
+            }
+            if (file.delete() || !file.exists()) {
+                forgetPendingCleanupPath(path);
+                return true;
+            }
+            SystemClock.sleep(120L * (attempt + 1));
+        }
+        rememberPendingCleanupPath(path);
+        return false;
+    }
+
+    private void flushPendingUpdateCleanup() {
+        if (pendingUpdateCleanupPaths.isEmpty()) return;
+        List<String> paths = new ArrayList<>(pendingUpdateCleanupPaths);
+        for (String path : paths) {
+            if (path == null || path.trim().length() == 0) {
+                forgetPendingCleanupPath(path);
+                continue;
+            }
+            deleteUpdateFile(new File(path));
+        }
     }
 
     private File updateCacheDir() {
@@ -4504,13 +4632,14 @@ public class MainActivity extends Activity {
     }
 
     private void cleanupUpdateCache(String keepPath) {
+        flushPendingUpdateCleanup();
         File dir = updateCacheDir();
         File[] files = dir.listFiles();
         if (files == null) return;
         for (File file : files) {
             if (file == null) continue;
             if (keepPath != null && keepPath.equals(file.getAbsolutePath())) continue;
-            file.delete();
+            deleteUpdateFile(file);
         }
     }
 
