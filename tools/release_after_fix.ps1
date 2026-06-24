@@ -76,6 +76,13 @@ function Ensure-CleanWorktree {
     }
 }
 
+function Invoke-NativeOrThrow([scriptblock]$command, [string]$errorMessage) {
+    & $command
+    if ($LASTEXITCODE -ne 0) {
+        throw $errorMessage
+    }
+}
+
 if (-not $RepoSlug) {
     $RepoSlug = Get-GitConfigValue "networkquiz.releaseRepo"
 }
@@ -119,13 +126,13 @@ python .\tools\generate_release_metadata.py --release-notes-file $notesPath
 git add .\app\src\main\AndroidManifest.xml .\release\RELEASE_NOTES.md .\release\network_quiz_update.json
 
 $env:CODEX_AUTO_RELEASE_RUNNING = "1"
-git commit -m "Release prep: v$versionName" | Out-Null
-git tag $tag
+Invoke-NativeOrThrow { git commit -m "Release prep: v$versionName" | Out-Null } "Failed to create release prep commit for $tag."
+Invoke-NativeOrThrow { git tag $tag } "Failed to create git tag $tag."
 
 $hasOrigin = Has-OriginRemote
 if ($hasOrigin) {
-    git push origin $Branch | Out-Null
-    git push origin $tag | Out-Null
+    Invoke-NativeOrThrow { git push origin $Branch | Out-Null } "Failed to push branch $Branch to origin."
+    Invoke-NativeOrThrow { git push origin $tag | Out-Null } "Failed to push tag $tag to origin."
 }
 
 try {
