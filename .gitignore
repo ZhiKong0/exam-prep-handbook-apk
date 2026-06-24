@@ -1,0 +1,10 @@
+build/
+tmp/
+.codegraph/
+__pycache__/
+*.pyc
+*.keystore
+*.idsig
+*.log
+Thumbs.db
+.DS_Store

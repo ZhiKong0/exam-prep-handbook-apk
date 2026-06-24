@@ -1,0 +1,78 @@
+# v2.9 Optionwise Explanation Audit
+
+- total_questions: 372
+- answer_or_judgment_label_ok: 372/372
+- eye_reason_trap_label_ok: 372/372
+- core_variant_expand_label_ok: 372/372
+- optionwise_or_blankwise_ok: 305/372
+- no_step_template_ok: 372/372
+
+## Problem List
+
+- 1-5 (tf): missing per-option explanation
+- 1-6 (tf): missing per-option explanation
+- 1-7 (tf): missing per-option explanation
+- 1-8 (tf): missing per-option explanation
+- 1-14 (tf): missing per-option explanation
+- 1-25 (tf): missing per-option explanation
+- 1-33 (tf): missing per-option explanation
+- 1-34 (tf): missing per-option explanation
+- 1-44 (tf): missing per-option explanation
+- 1-46 (tf): missing per-option explanation
+- 1-49 (tf): missing per-option explanation
+- 1-55 (tf): missing per-option explanation
+- 1-57 (tf): missing per-option explanation
+- 1-63 (tf): missing per-option explanation
+- 1-64 (tf): missing per-option explanation
+- 1-65 (tf): missing per-option explanation
+- 1-66 (tf): missing per-option explanation
+- 1-71 (tf): missing per-option explanation
+- 1-73 (tf): missing per-option explanation
+- 1-74 (tf): missing per-option explanation
+- 1-76 (tf): missing per-option explanation
+- 1-78 (tf): missing per-option explanation
+- 1-79 (tf): missing per-option explanation
+- 1-82 (tf): missing per-option explanation
+- 1-84 (tf): missing per-option explanation
+- 1-85 (tf): missing per-option explanation
+- 1-89 (tf): missing per-option explanation
+- 1-90 (tf): missing per-option explanation
+- 1-94 (tf): missing per-option explanation
+- 1-96 (tf): missing per-option explanation
+- 1-99 (tf): missing per-option explanation
+- 1-101 (tf): missing per-option explanation
+- 1-102 (tf): missing per-option explanation
+- 1-105 (tf): missing per-option explanation
+- 1-110 (tf): missing per-option explanation
+- 2-41 (single): missing per-option explanation
+- 2-46 (single): missing per-option explanation
+- 2-52 (single): missing per-option explanation
+- 2-53 (single): missing per-option explanation
+- 2-55 (single): missing per-option explanation
+- 2-56 (single): missing per-option explanation
+- 2-57 (single): missing per-option explanation
+- 2-58 (single): missing per-option explanation
+- 2-59 (single): missing per-option explanation
+- 2-60 (single): missing per-option explanation
+- 2-61 (single): missing per-option explanation
+- 2-62 (single): missing per-option explanation
+- 2-65 (single): missing per-option explanation
+- 2-66 (single): missing per-option explanation
+- 3-15 (multi): missing per-option explanation
+- 3-52 (multi): missing per-option explanation
+- 3-53 (multi): missing per-option explanation
+- 3-54 (multi): missing per-option explanation
+- 3-55 (multi): missing per-option explanation
+- 3-56 (multi): missing per-option explanation
+- 3-57 (multi): missing per-option explanation
+- 3-58 (multi): missing per-option explanation
+- 3-59 (multi): missing per-option explanation
+- 3-60 (multi): missing per-option explanation
+- 3-61 (multi): missing per-option explanation
+- 3-62 (multi): missing per-option explanation
+- 3-63 (multi): missing per-option explanation
+- 3-64 (multi): missing per-option explanation
+- 3-65 (multi): missing per-option explanation
+- 3-66 (multi): missing per-option explanation
+- 3-70 (multi): missing per-option explanation
+- 3-71 (multi): missing per-option explanation
