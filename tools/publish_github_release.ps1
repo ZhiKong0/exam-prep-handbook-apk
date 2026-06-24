@@ -58,6 +58,16 @@ function Resolve-MetadataPath([string]$preferredPath, [string]$defaultPath) {
     return $defaultPath
 }
 
+function New-MetadataUploadCopy([string]$sourcePath) {
+    $uploadDir = Join-Path $root "tmp\release_upload"
+    if (-not (Test-Path $uploadDir)) {
+        New-Item -ItemType Directory -Path $uploadDir -Force | Out-Null
+    }
+    $uploadPath = Join-Path $uploadDir "network_quiz_update.json"
+    Copy-Item -LiteralPath $sourcePath -Destination $uploadPath -Force
+    return $uploadPath
+}
+
 function Ensure-GitRepository {
     if (-not (Test-Path .git)) {
         git init -b main | Out-Null
@@ -174,7 +184,14 @@ $release = Get-ReleaseApi -repoSlug $RepoSlug -tag $tag
 $apkDownloadUrl = Find-ApkAssetUrl -release $release -preferredName $metaInfo.apkFileName
 
 python .\tools\generate_release_metadata.py --release-notes-file $notes --apk-download-url $apkDownloadUrl --output $meta
-gh release upload $tag $meta --repo $RepoSlug --clobber
+$metadataUploadPath = New-MetadataUploadCopy -sourcePath $meta
+try {
+    gh release upload $tag $metadataUploadPath --repo $RepoSlug --clobber
+} finally {
+    if (Test-Path $metadataUploadPath) {
+        Remove-Item $metadataUploadPath -Force -ErrorAction SilentlyContinue
+    }
+}
 
 $releaseUrl = $release.html_url
 Write-Host "Release published:" $tag

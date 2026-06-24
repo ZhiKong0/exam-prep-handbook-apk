@@ -4500,6 +4500,7 @@ public class MainActivity extends Activity {
                     }
                     closeQuietly(out);
                     closeQuietly(in);
+                    cleanupUpdateCache(null);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
