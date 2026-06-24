@@ -3980,21 +3980,28 @@ public class MainActivity extends Activity {
         }
 
         if (metadataAsset != null) {
-            info.hasMetadataAsset = true;
-            JSONObject meta = readGithubJsonObject(
-                    metadataAsset.optString("browser_download_url", ""),
-                    "Release 缺少可读取的更新元数据文件",
-                    "读取 Release 更新元数据失败"
-            );
-            String packageName = meta.optString("packageName", "").trim();
-            if (packageName.length() > 0 && !getPackageName().equals(packageName)) {
-                throw new UpdateCheckException("这个 Release 不是当前 App 的更新包（包名不匹配）");
+            JSONObject meta = null;
+            try {
+                meta = readGithubJsonObject(
+                        metadataAsset.optString("browser_download_url", ""),
+                        "Release 缺少可读取的更新元数据文件",
+                        "读取 Release 更新元数据失败"
+                );
+            } catch (UpdateCheckException metadataError) {
+                info.validationNotes.add("network_quiz_update.json 读取失败，已回退到直接识别 APK：" + metadataError.userMessage);
             }
-            info.versionName = nonEmpty(normalizeVersionName(meta.optString("versionName", "")), info.versionName);
-            info.versionCode = meta.optInt("versionCode", info.versionCode);
-            info.apkName = nonEmpty(meta.optString("apkFileName", ""), info.apkName);
-            info.downloadUrl = nonEmpty(meta.optString("apkDownloadUrl", ""), info.downloadUrl);
-            info.notes = nonEmpty(meta.optString("releaseNotes", ""), info.notes);
+            if (meta != null) {
+                info.hasMetadataAsset = true;
+                String packageName = meta.optString("packageName", "").trim();
+                if (packageName.length() > 0 && !getPackageName().equals(packageName)) {
+                    throw new UpdateCheckException("这个 Release 不是当前 App 的更新包（包名不匹配）");
+                }
+                info.versionName = nonEmpty(normalizeVersionName(meta.optString("versionName", "")), info.versionName);
+                info.versionCode = meta.optInt("versionCode", info.versionCode);
+                info.apkName = nonEmpty(meta.optString("apkFileName", ""), info.apkName);
+                info.downloadUrl = nonEmpty(meta.optString("apkDownloadUrl", ""), info.downloadUrl);
+                info.notes = nonEmpty(meta.optString("releaseNotes", ""), info.notes);
+            }
         } else {
             info.validationNotes.add("Release 未附带 network_quiz_update.json，当前会退回到直接识别 APK。");
         }
