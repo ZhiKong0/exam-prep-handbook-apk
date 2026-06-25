@@ -1,13 +1,6 @@
-# v2.10.9
+# v2.10.11
 
-- Auto release after fix: Updater: speed up CN update path and rename release repo
-- Auto release after fix: Updater: delayed auto-check with looser network gate
-- Auto release after fix: Updater: auto-check on app launch
-- Auto release after fix: Updater: default repo fallback and ready-state copy
-- Auto release after fix: Fallback to APK matching when metadata fetch times out
-- Auto release after fix: Fail auto release when git push does not succeed
-- Auto release after fix: Tighten updater cleanup and fix metadata asset upload
-- Auto release after fix: Fix updater cleanup fallback and add auto release hooks
-- 新增基于 GitHub Release 的联网检查更新入口。
-- 支持应用内下载 APK、调起系统安装流程，并在写入安装会话后自动清理缓存安装包。
-- 设置页新增 GitHub 更新仓库配置，支持填写 `owner/repo` 或完整 GitHub 链接。
+- 修复多选题答案页的逐项理由展示：每个选项现在都会单独高亮显示对错依据，更容易一眼看懂。
+- 继续精修 75 道多选题的“选项判断”文案，减少脚本腔，补强贴题表达。
+- 修复更新状态文案：当本机版本比 GitHub latest 更新时，会明确提示“本机版本较新”，不再误导成“无可更新”。
+- 统一本地 release 元数据输出，APK 资产名固定为 `review-baodian.apk`，避免中文文件名带来的更新识别问题。

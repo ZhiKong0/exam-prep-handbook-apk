@@ -4,6 +4,8 @@
 - replaced_questions: 372
 - untouched_questions: 0
 - missing_outputs: none
+- source_validation_errors: 0
+- write_validation_errors: 0
 
 ## Agent File Counts
 

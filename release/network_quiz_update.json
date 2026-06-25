@@ -1,18 +1,18 @@
 {
   "packageName": "com.dz.networkquiz",
-  "versionCode": 34,
-  "versionName": "2.10.9",
-  "apkFileName": "计算机网络复习宝典.apk",
-  "apkDownloadUrl": "https://ghfast.top/https://github.com/ZhiKong0/review-baodian-apk/releases/latest/download/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%A4%8D%E4%B9%A0%E5%AE%9D%E5%85%B8.apk",
+  "versionCode": 36,
+  "versionName": "2.10.11",
+  "apkFileName": "review-baodian.apk",
+  "apkDownloadUrl": "https://ghfast.top/https://github.com/ZhiKong0/review-baodian-apk/releases/download/v2.10.11/review-baodian.apk",
   "apkDownloadCandidates": [
-    "https://ghfast.top/https://github.com/ZhiKong0/review-baodian-apk/releases/latest/download/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%A4%8D%E4%B9%A0%E5%AE%9D%E5%85%B8.apk",
-    "https://github.com/ZhiKong0/review-baodian-apk/releases/latest/download/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%A4%8D%E4%B9%A0%E5%AE%9D%E5%85%B8.apk",
-    "https://ghfast.top/https://github.com/ZhiKong0/review-baodian-apk/releases/download/v2.10.9/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%A4%8D%E4%B9%A0%E5%AE%9D%E5%85%B8.apk",
-    "https://github.com/ZhiKong0/review-baodian-apk/releases/download/v2.10.9/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%A4%8D%E4%B9%A0%E5%AE%9D%E5%85%B8.apk"
+    "https://ghfast.top/https://github.com/ZhiKong0/review-baodian-apk/releases/download/v2.10.11/review-baodian.apk",
+    "https://github.com/ZhiKong0/review-baodian-apk/releases/download/v2.10.11/review-baodian.apk",
+    "https://ghfast.top/https://github.com/ZhiKong0/review-baodian-apk/releases/latest/download/review-baodian.apk",
+    "https://github.com/ZhiKong0/review-baodian-apk/releases/latest/download/review-baodian.apk"
   ],
-  "releaseHtmlUrl": "https://github.com/ZhiKong0/review-baodian-apk/releases/latest",
-  "releaseNotes": "# v2.10.9\n\n- Auto release after fix: Updater: speed up CN update path and rename release repo\n- Auto release after fix: Updater: delayed auto-check with looser network gate\n- Auto release after fix: Updater: auto-check on app launch\n- Auto release after fix: Updater: default repo fallback and ready-state copy\n- Auto release after fix: Fallback to APK matching when metadata fetch times out\n- Auto release after fix: Fail auto release when git push does not succeed\n- Auto release after fix: Tighten updater cleanup and fix metadata asset upload\n- Auto release after fix: Fix updater cleanup fallback and add auto release hooks\n- 新增基于 GitHub Release 的联网检查更新入口。\n- 支持应用内下载 APK、调起系统安装流程，并在写入安装会话后自动清理缓存安装包。\n- 设置页新增 GitHub 更新仓库配置，支持填写 `owner/repo` 或完整 GitHub 链接。",
-  "apkSize": 981477,
-  "sha256": "0405fd0a738791a001793068f28e896d32631649e08bf110e089833667a65ca5",
-  "generatedAt": "2026-06-25T06:55:32.472119+00:00"
+  "releaseHtmlUrl": "https://github.com/ZhiKong0/review-baodian-apk/releases/tag/v2.10.11",
+  "releaseNotes": "# v2.10.11\n\n- 修复多选题答案页的逐项理由展示：每个选项现在都会单独高亮显示对错依据，更容易一眼看懂。\n- 继续精修 75 道多选题的“选项判断”文案，减少脚本腔，补强贴题表达。\n- 修复更新状态文案：当本机版本比 GitHub latest 更新时，会明确提示“本机版本较新”，不再误导成“无可更新”。\n- 统一本地 release 元数据输出，APK 资产名固定为 `review-baodian.apk`，避免中文文件名带来的更新识别问题。",
+  "apkSize": 981479,
+  "sha256": "d8bd07cc700e8888fb8efe06bdd44e8ccebf16e271f6e297026913f1a2d8308b",
+  "generatedAt": "2026-06-25T11:37:52.118523+00:00"
 }

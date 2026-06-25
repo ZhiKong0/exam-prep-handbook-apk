@@ -93,6 +93,7 @@ public class MainActivity extends Activity {
     private static final String PREF_UPDATE_STATUS_VERSION_CODE = "update_status_version_code";
     private static final String PREF_LAST_LAUNCHED_VERSION_CODE = "last_launched_version_code";
     private static final String PREF_UPDATE_PENDING_CLEANUP = "update_pending_cleanup_paths";
+    private static final String LEGACY_UPDATE_REPO_SLUG = "ZhiKong0/network-quiz-apk";
     private static final String THEME_DARK = "dark";
     private static final String THEME_LIGHT = "light";
     private static final String DEFAULT_UPDATE_REPO_SLUG = "ZhiKong0/review-baodian-apk";
@@ -2121,31 +2122,40 @@ public class MainActivity extends Activity {
         container.setVisibility(View.VISIBLE);
         String[] lines = markdown.replace("\r\n", "\n").replace('\r', '\n').split("\n");
         StringBuilder paragraph = new StringBuilder();
+        boolean inOptionJudgmentSection = false;
         for (String rawLine : lines) {
             String line = rawLine.trim();
             if (line.length() == 0) {
                 flushMarkdownParagraph(container, paragraph);
                 addMarkdownSpacer(container, dp(4));
+                inOptionJudgmentSection = false;
                 continue;
             }
             if (line.startsWith("# ")) {
                 flushMarkdownParagraph(container, paragraph);
                 int titleColor = line.contains("错误") ? RED : GREEN;
+                inOptionJudgmentSection = false;
                 addMarkdownText(container, line.substring(2), 20, titleColor, true, 0, 6, 0);
             } else if (line.startsWith("## ")) {
                 flushMarkdownParagraph(container, paragraph);
+                inOptionJudgmentSection = false;
                 addMarkdownText(container, line.substring(3), 18, BLUE, true, 12, 6, 0);
             } else if (line.startsWith("### ")) {
                 flushMarkdownParagraph(container, paragraph);
-                addMarkdownText(container, line.substring(4), 16, TEXT, true, 10, 4, 0);
+                String title = line.substring(4);
+                inOptionJudgmentSection = title.contains("选项判断");
+                addMarkdownText(container, title, 16, TEXT, true, 10, 4, 0);
             } else if (line.startsWith("- ")) {
                 flushMarkdownParagraph(container, paragraph);
                 if (isReasonHighlightLine(line)) {
                     addMarkdownHighlight(container, line.substring(2));
+                } else if (inOptionJudgmentSection && isOptionJudgmentLine(line)) {
+                    addMarkdownOptionJudgment(container, line.substring(2));
                 } else {
                     addMarkdownText(container, "• " + line.substring(2), 15, TEXT, false, 2, 4, dp(8));
                 }
             } else {
+                inOptionJudgmentSection = false;
                 if (paragraph.length() > 0) paragraph.append('\n');
                 paragraph.append(line);
             }
@@ -2192,6 +2202,23 @@ public class MainActivity extends Activity {
         return false;
     }
 
+    private boolean isOptionJudgmentLine(String line) {
+        String trimmed = line == null ? "" : line.trim();
+        if (!trimmed.startsWith("- ")) return false;
+        String body = trimmed.substring(2);
+        if (body.length() < 2) return false;
+        char first = body.charAt(0);
+        if (!(first >= 'A' && first <= 'Z')) return false;
+        return body.contains("：对，因为")
+                || body.contains("：错，因为")
+                || body.contains(":对，因为")
+                || body.contains(":错，因为")
+                || body.contains("：对，")
+                || body.contains("：错，")
+                || body.contains(":对，")
+                || body.contains(":错，");
+    }
+
     private void addMarkdownHighlight(LinearLayout container, String value) {
         TextView tv = text("", 15, TEXT, true);
         tv.setText(inlineMarkdown(value));
@@ -2203,6 +2230,32 @@ public class MainActivity extends Activity {
         lp.topMargin = dp(6);
         lp.bottomMargin = dp(8);
         lp.leftMargin = dp(4);
+        lp.rightMargin = dp(2);
+        container.addView(tv, lp);
+    }
+
+    private void addMarkdownOptionJudgment(LinearLayout container, String value) {
+        boolean correct = value.contains("：对，因为") || value.contains(":对，因为") || value.contains("：对，") || value.contains(":对，");
+        int tint = correct ? GREEN : RED;
+        int bgAlpha = THEME_LIGHT.equals(themeMode) ? 28 : 44;
+        int strokeAlpha = THEME_LIGHT.equals(themeMode) ? 72 : 112;
+
+        TextView tv = text("", 15, TEXT, false);
+        tv.setText(inlineMarkdown(value));
+        tv.setLineSpacing(dp(4), 1.0f);
+        tv.setTextIsSelectable(false);
+        tv.setPadding(dp(12), dp(10), dp(12), dp(10));
+
+        GradientDrawable bg = new GradientDrawable();
+        bg.setColor(Color.argb(bgAlpha, Color.red(tint), Color.green(tint), Color.blue(tint)));
+        bg.setCornerRadius(dp(10));
+        bg.setStroke(dp(1), Color.argb(strokeAlpha, Color.red(tint), Color.green(tint), Color.blue(tint)));
+        tv.setBackground(bg);
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2);
+        lp.topMargin = dp(4);
+        lp.bottomMargin = dp(6);
+        lp.leftMargin = dp(6);
         lp.rightMargin = dp(2);
         container.addView(tv, lp);
     }
@@ -2533,39 +2586,38 @@ public class MainActivity extends Activity {
 
     private void showRememberReason(Question q) {
         if (memoryReasonContainer == null) return;
-        memoryReasonContainer.removeAllViews();
-
-        String reason = lineValue(q.quickExplanation, "理由：");
-        if (reason.length() == 0) {
-            reason = lineValue(q.quickExplanation, "为什么选它：");
-        }
-        if (reason.length() == 0) {
-            reason = lineValue(q.quickExplanation, "判断理由：");
-        }
-        if (reason.length() == 0) {
-            reason = lineValue(q.knowledgeDetail, "核心知识点：");
-        }
-        if (reason.length() == 0) {
-            reason = lineValue(q.explanation, "理由：");
-        }
-        if (reason.length() == 0) {
-            reason = quickTipForQuestion(q);
-        }
-        if (reason.length() == 0) {
+        String markdown = rememberReasonMarkdown(q);
+        if (markdown.length() == 0) {
+            memoryReasonContainer.removeAllViews();
             memoryReasonContainer.setVisibility(View.GONE);
             return;
         }
-
-        TextView title = text("理由", 13, AMBER, true);
-        title.setPadding(dp(2), dp(2), dp(2), dp(8));
-        memoryReasonContainer.addView(title);
-        addMarkdownHighlight(memoryReasonContainer, "理由： " + reason);
+        renderMarkdown(memoryReasonContainer, "## 理由\n\n" + markdown);
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) memoryReasonContainer.getLayoutParams();
         if (lp != null) {
             lp.bottomMargin = dp(8);
             memoryReasonContainer.setLayoutParams(lp);
         }
         memoryReasonContainer.setVisibility(View.VISIBLE);
+    }
+
+    private String rememberReasonMarkdown(Question q) {
+        String quick = markdownizeExplanationBlock(q.quickExplanation == null ? "" : q.quickExplanation.trim());
+        if (quick.length() > 0) {
+            return quick;
+        }
+        String detail = markdownizeExplanationBlock(q.knowledgeDetail == null ? "" : q.knowledgeDetail.trim());
+        if (detail.length() > 0) {
+            return detail;
+        }
+        String reason = lineValue(q.explanation, "理由：");
+        if (reason.length() == 0) {
+            reason = quickTipForQuestion(q);
+        }
+        if (reason.length() == 0) {
+            return "";
+        }
+        return "- **理由：** " + reason;
     }
 
     private void move(int delta) {
@@ -3776,6 +3828,9 @@ public class MainActivity extends Activity {
 
     private String ensureDefaultUpdateRepoSlug(String raw) {
         String normalized = normalizeRepoSlug(raw);
+        if (LEGACY_UPDATE_REPO_SLUG.equalsIgnoreCase(normalized)) {
+            return DEFAULT_UPDATE_REPO_SLUG;
+        }
         if (normalized.matches("^[^/]+/[^/]+$")) {
             return normalized;
         }
@@ -3812,7 +3867,7 @@ public class MainActivity extends Activity {
                         public void run() {
                             updateBusy = false;
                             lastUpdateInfo = info;
-                            updateStatusText = info.probeStatusText(compareUpdateWithCurrent(info));
+                            updateStatusText = updateProbeStatusText(info, compareUpdateWithCurrent(info));
                             refreshUpdateSettingViews();
                             if (showToastOnSuccess) {
                                 Toast.makeText(MainActivity.this, updateStatusText, Toast.LENGTH_LONG).show();
@@ -3947,7 +4002,7 @@ public class MainActivity extends Activity {
                                 updateStatusText = "发现新版本 " + info.displayVersion();
                                 showUpdateAvailableDialog(info);
                             } else {
-                                updateStatusText = info.probeStatusText(compare);
+                                updateStatusText = updateProbeStatusText(info, compare);
                                 if (userInitiated) {
                                     Toast.makeText(MainActivity.this, updateStatusText, Toast.LENGTH_LONG).show();
                                 }
@@ -4346,6 +4401,13 @@ public class MainActivity extends Activity {
             return info.versionCode > localCode ? 1 : -1;
         }
         return compareVersionNames(info.versionName, currentVersionName());
+    }
+
+    private String updateProbeStatusText(UpdateInfo info, int compare) {
+        if (compare < 0) {
+            return "本机版本较新（" + currentVersionSummary() + "），GitHub latest 还是 " + info.displayVersion();
+        }
+        return info.probeStatusText(compare);
     }
 
     private int compareVersionNames(String left, String right) {

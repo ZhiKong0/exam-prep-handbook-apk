@@ -10,6 +10,8 @@ WORK = Path(os.environ["TEMP"]) / "NetworkQuizApkBuild"
 ANDROID_HOME = Path(os.environ["ANDROID_HOME"])
 BUILD_TOOLS = ANDROID_HOME / "build-tools" / "35.0.0"
 PLATFORM = ANDROID_HOME / "platforms" / "android-35" / "android.jar"
+RELEASE_APK_NAME = "review-baodian.apk"
+LOCALIZED_APK_NAME = "\u8ba1\u7b97\u673a\u7f51\u7edc\u590d\u4e60\u5b9d\u5178.apk"
 
 
 def run(args, cwd=None):
@@ -139,9 +141,12 @@ def main():
 
     final_dir = ROOT / "build" / "out"
     final_dir.mkdir(parents=True, exist_ok=True)
-    final_apk = final_dir / "计算机网络复习宝典.apk"
-    shutil.copy2(signed_apk, final_apk)
-    print("FINAL", final_apk, final_apk.stat().st_size)
+    release_apk = final_dir / RELEASE_APK_NAME
+    localized_apk = final_dir / LOCALIZED_APK_NAME
+    shutil.copy2(signed_apk, release_apk)
+    shutil.copy2(signed_apk, localized_apk)
+    print("FINAL_RELEASE", release_apk, release_apk.stat().st_size)
+    print("FINAL_LOCALIZED", localized_apk, localized_apk.stat().st_size)
 
 
 if __name__ == "__main__":

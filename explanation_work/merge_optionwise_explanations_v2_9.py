@@ -17,6 +17,7 @@ AGENT_FILES = [
     OUTPUT_DIR / "chapter4_full_optionwise.json",
     OUTPUT_DIR / "chapter5_7_full_optionwise.json",
 ]
+BAD_MARKERS = ["???", "\ufffd"]
 
 
 def load_json(path: Path):
@@ -33,6 +34,25 @@ def build_explanation(quick: str, detail: str) -> str:
     return f"{quick_title}\n{clean_text(quick)}\n\n{detail_title}\n{clean_text(detail)}"
 
 
+def contains_bad_marker(text: str) -> bool:
+    return any(marker in str(text) for marker in BAD_MARKERS)
+
+
+def validate_payload(label: str, quick: str, detail: str, source_name: str) -> list[str]:
+    problems = []
+    if not clean_text(quick):
+        problems.append("empty quickExplanation")
+    if not clean_text(detail):
+        problems.append("empty knowledgeDetail")
+    if contains_bad_marker(quick):
+        problems.append("quickExplanation contains corrupted marker")
+    if contains_bad_marker(detail):
+        problems.append("knowledgeDetail contains corrupted marker")
+    if problems:
+        return [f"{label} from {source_name}: {problem}" for problem in problems]
+    return []
+
+
 def main() -> None:
     questions = load_json(QUESTIONS_PATH)
     if not BACKUP_PATH.exists():
@@ -44,6 +64,7 @@ def main() -> None:
     merged = {}
     source_counts = {}
     missing_files = []
+    source_errors = []
 
     for path in AGENT_FILES:
         if not path.exists():
@@ -53,15 +74,22 @@ def main() -> None:
         source_counts[path.name] = len(data)
         for item in data:
             label = item["label"]
+            quick = clean_text(item["quickExplanation"])
+            detail = clean_text(item["knowledgeDetail"])
+            source_errors.extend(validate_payload(label, quick, detail, path.name))
             merged[label] = {
-                "quickExplanation": clean_text(item["quickExplanation"]),
-                "knowledgeDetail": clean_text(item["knowledgeDetail"]),
+                "quickExplanation": quick,
+                "knowledgeDetail": detail,
                 "source": path.name,
             }
+
+    if source_errors:
+        raise RuntimeError("invalid agent output:\n" + "\n".join(source_errors[:40]))
 
     updated = 0
     untouched = []
     source_used = {}
+    write_errors = []
     for q in questions:
         payload = merged.get(q["label"])
         if not payload:
@@ -70,8 +98,18 @@ def main() -> None:
         q["quickExplanation"] = payload["quickExplanation"]
         q["knowledgeDetail"] = payload["knowledgeDetail"]
         q["explanation"] = build_explanation(q["quickExplanation"], q["knowledgeDetail"])
+        write_errors.extend(
+            validate_payload(q["label"], q["quickExplanation"], q["knowledgeDetail"], payload["source"])
+        )
         updated += 1
         source_used[q["label"]] = payload["source"]
+
+    if missing_files:
+        raise RuntimeError("missing agent outputs: " + ", ".join(missing_files))
+    if untouched:
+        raise RuntimeError("missing merged payload for labels: " + ", ".join(untouched[:40]))
+    if write_errors:
+        raise RuntimeError("refusing to write corrupted questions:\n" + "\n".join(write_errors[:40]))
 
     QUESTIONS_PATH.write_text(
         json.dumps(questions, ensure_ascii=False, indent=2),
@@ -85,6 +123,8 @@ def main() -> None:
         f"- replaced_questions: {updated}",
         f"- untouched_questions: {len(untouched)}",
         f"- missing_outputs: {', '.join(missing_files) if missing_files else 'none'}",
+        f"- source_validation_errors: {len(source_errors)}",
+        f"- write_validation_errors: {len(write_errors)}",
         "",
         "## Agent File Counts",
         "",

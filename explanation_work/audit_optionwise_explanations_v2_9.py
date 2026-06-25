@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 
@@ -58,7 +59,12 @@ def count_option_lines(text: str, accepted_prefixes: list[list[str]]) -> int:
     stripped_lines = [line.strip() for line in text.splitlines() if line.strip()]
     count = 0
     for variants in accepted_prefixes:
-        if any(any(line.startswith(f"- {variant}\uff1a") for variant in variants) for line in stripped_lines):
+        pattern = re.compile(
+            r"^-\s*(?:"
+            + "|".join(re.escape(variant) for variant in variants)
+            + r")(?:\s*[.．、]|\s*\（.*?\）|\s*\(.*?\))?\s*："
+        )
+        if any(pattern.match(line) for line in stripped_lines):
             count += 1
     return count
 
@@ -68,8 +74,12 @@ def count_blank_lines(text: str) -> int:
     return sum(
         1
         for line in stripped_lines
-        if line.startswith("- \u7b2c") and "\u7a7a\uff1a" in line
+        if re.match(r"^-\s*\u7b2c\d+\u7a7a\uff1a", line)
     )
+
+
+def contains_bad_marker(text: str) -> bool:
+    return "???" in text or "\ufffd" in text
 
 
 def main() -> None:
@@ -89,6 +99,8 @@ def main() -> None:
         q_type = q.get("type")
 
         local_problems = []
+        if contains_bad_marker(quick):
+            local_problems.append("quickExplanation contains corrupted marker")
 
         if has_answer_label(quick):
             ok_answer_label += 1

@@ -9,13 +9,16 @@ from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "app" / "src" / "main" / "AndroidManifest.xml"
-APK_PATH = ROOT / "build" / "out" / "计算机网络复习宝典.apk"
 OUTPUT = ROOT / "release" / "network_quiz_update.json"
+DEFAULT_APK_CANDIDATES = [
+    ROOT / "build" / "out" / "review-baodian.apk",
+    ROOT / "build" / "out" / "\u8ba1\u7b97\u673a\u7f51\u7edc\u590d\u4e60\u5b9d\u5178.apk",
+]
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--apk-path", default=str(APK_PATH))
+    parser.add_argument("--apk-path", default="")
     parser.add_argument("--output", default=str(OUTPUT))
     parser.add_argument("--apk-download-url", default="")
     parser.add_argument("--release-html-url", default="")
@@ -48,10 +51,21 @@ def encode_url_path_segment(value: str) -> str:
     return quote(value, safe="")
 
 
+def resolve_apk_path(raw: str) -> Path:
+    if raw:
+        explicit = Path(raw)
+        if explicit.exists():
+            return explicit
+    for candidate in DEFAULT_APK_CANDIDATES:
+        if candidate.exists():
+            return candidate
+    return Path(raw) if raw else DEFAULT_APK_CANDIDATES[0]
+
+
 def main():
     args = parse_args()
     package_name, version_code, version_name = read_manifest()
-    apk_path = Path(args.apk_path)
+    apk_path = resolve_apk_path(args.apk_path)
     output = Path(args.output)
     release_notes = args.release_notes
     if args.release_notes_file:
