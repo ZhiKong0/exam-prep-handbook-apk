@@ -1,5 +1,6 @@
-# v2.10.6
+# v2.10.7
 
+- Auto release after fix: Updater: auto-check on app launch
 - Auto release after fix: Updater: default repo fallback and ready-state copy
 - Auto release after fix: Fallback to APK matching when metadata fetch times out
 - Auto release after fix: Fail auto release when git push does not succeed
