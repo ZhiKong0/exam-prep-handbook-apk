@@ -26,6 +26,29 @@ function Get-GitConfigValue([string]$key) {
     }
 }
 
+function Get-BlockingStatusText {
+    try {
+        $lines = git status --porcelain
+        if ($LASTEXITCODE -ne 0) {
+            return "git status failed"
+        }
+        $blocking = [System.Collections.Generic.List[string]]::new()
+        foreach ($line in ($lines | Out-String).Trim().Split([Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries)) {
+            $trimmed = $line.Trim()
+            if (-not $trimmed) {
+                continue
+            }
+            if ($trimmed -match 'release/network_quiz_update\.json$') {
+                continue
+            }
+            $blocking.Add($trimmed)
+        }
+        return ($blocking | Out-String).Trim()
+    } catch {
+        return "git status failed"
+    }
+}
+
 if ($env:CODEX_AUTO_RELEASE_RUNNING -eq "1") {
     exit 0
 }
@@ -43,9 +66,9 @@ if ($subject -like "Release prep:*" -or $subject -match '\[skip-release\]') {
     exit 0
 }
 
-$dirty = (git status --porcelain | Out-String).Trim()
+$dirty = Get-BlockingStatusText
 if ($dirty.Length -gt 0) {
-    Write-HookLog("Skip auto release because worktree is dirty after commit: $subject")
+    Write-HookLog("Skip auto release because worktree is dirty after commit: $subject :: $dirty")
     exit 0
 }
 
