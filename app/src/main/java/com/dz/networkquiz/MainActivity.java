@@ -33,6 +33,7 @@ import android.text.TextUtils;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -84,6 +85,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class MainActivity extends Activity {
+    private static final String UPDATE_LOG_TAG = "NetworkQuizUpdater";
     private static final String ALL_TYPES = "全部题型";
     private static final String ALL_CHAPTERS = "全部章节";
     private static final String PREF_WRONG_REQUIRED = "wrong_required_correct";
@@ -3985,11 +3987,14 @@ public class MainActivity extends Activity {
     }
 
     private void checkForUpdates(final boolean userInitiated) {
+        logUpdateDebug("checkForUpdates start userInitiated=" + userInitiated + ", busy=" + updateBusy + ", repo=" + updateRepoSlug);
         if (updateBusy) {
             Toast.makeText(this, "正在处理更新，请稍等", Toast.LENGTH_SHORT).show();
+            logUpdateDebug("skip checkForUpdates because updateBusy=true");
             return;
         }
         if (!hasUpdateRepoConfig()) {
+            logUpdateDebug("skip checkForUpdates because repo is not configured");
             showUpdateRepoConfigDialog();
             return;
         }
@@ -4002,6 +4007,7 @@ public class MainActivity extends Activity {
                 try {
                     final UpdateInfo info = fetchLatestUpdateInfo();
                     final int compare = compareUpdateWithCurrent(info);
+                    logUpdateDebug("update info ready latest=" + info.displayVersion() + ", local=" + currentVersionSummary() + ", compare=" + compare);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -4009,9 +4015,11 @@ public class MainActivity extends Activity {
                             lastUpdateInfo = info;
                             if (compare > 0) {
                                 updateStatusText = "发现新版本 " + info.displayVersion();
+                                logUpdateDebug("show update dialog for " + info.displayVersion());
                                 showUpdateAvailableDialog(info);
                             } else {
                                 updateStatusText = updateProbeStatusText(info, compare);
+                                logUpdateDebug("no newer version, status=" + updateStatusText);
                                 if (userInitiated) {
                                     Toast.makeText(MainActivity.this, updateStatusText, Toast.LENGTH_LONG).show();
                                 }
@@ -4020,6 +4028,7 @@ public class MainActivity extends Activity {
                         }
                     });
                 } catch (final Exception e) {
+                    logUpdateWarn("checkForUpdates failed", e);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -4037,25 +4046,49 @@ public class MainActivity extends Activity {
     }
 
     private void scheduleAutoUpdateCheck() {
-        if (autoUpdateCheckScheduled) return;
-        if (rootFrame == null) return;
+        if (autoUpdateCheckScheduled) {
+            logUpdateDebug("skip scheduleAutoUpdateCheck because already scheduled");
+            return;
+        }
+        if (rootFrame == null) {
+            logUpdateDebug("skip scheduleAutoUpdateCheck because rootFrame is null");
+            return;
+        }
+        logUpdateDebug("scheduleAutoUpdateCheck queued");
         autoUpdateCheckScheduled = true;
         rootFrame.postDelayed(new Runnable() {
             @Override
             public void run() {
                 autoUpdateCheckScheduled = false;
+                logUpdateDebug("scheduleAutoUpdateCheck fired");
                 maybeAutoCheckForUpdates();
             }
         }, 1800L);
     }
 
     private void maybeAutoCheckForUpdates() {
-        if (updateBusy) return;
-        if (!hasUpdateRepoConfig()) return;
-        if (pendingInstallApkPath != null && pendingInstallApkPath.trim().length() > 0) return;
-        if (!hasUsableNetworkConnection()) return;
-        if (!shouldRunAutoUpdateCheckNow()) return;
+        if (updateBusy) {
+            logUpdateDebug("skip auto check because updateBusy=true");
+            return;
+        }
+        if (!hasUpdateRepoConfig()) {
+            logUpdateDebug("skip auto check because repo is not configured");
+            return;
+        }
+        if (pendingInstallApkPath != null && pendingInstallApkPath.trim().length() > 0) {
+            logUpdateDebug("skip auto check because pending install exists");
+            return;
+        }
+        if (!hasUsableNetworkConnection()) {
+            logUpdateDebug("skip auto check because network is unavailable");
+            return;
+        }
+        if (!shouldRunAutoUpdateCheckNow()) {
+            logUpdateDebug("skip auto check because interval gate not reached");
+            return;
+        }
         markAutoUpdateCheckStarted();
+        logUpdateDebug("auto check starts now");
         checkForUpdates(false);
     }
 
@@ -4068,23 +4101,42 @@ public class MainActivity extends Activity {
 
     private void markAutoUpdateCheckStarted() {
         lastAutoUpdateCheckElapsedRealtimeMs = SystemClock.elapsedRealtime();
+        logUpdateDebug("mark auto check started at " + lastAutoUpdateCheckElapsedRealtimeMs);
     }
 
     private boolean hasUsableNetworkConnection() {
         try {
             ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (manager == null) return false;
+            if (manager == null) {
+                logUpdateDebug("network check: manager is null");
+                return false;
+            }
             Network network = manager.getActiveNetwork();
-            if (network == null) return false;
+            if (network == null) {
+                logUpdateDebug("network check: active network is null");
+                return false;
+            }
             NetworkCapabilities capabilities = manager.getNetworkCapabilities(network);
-            if (capabilities == null) return false;
-            return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            if (capabilities == null) {
+                logUpdateDebug("network check: capabilities are null");
+                return false;
+            }
+            boolean ok = capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
                     && (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
                     || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
                     || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
                     || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_VPN)
                     || capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED));
+            logUpdateDebug("network check result=" + ok
+                    + ", internet=" + capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                    + ", validated=" + capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+                    + ", wifi=" + capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                    + ", cellular=" + capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                    + ", ethernet=" + capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+                    + ", vpn=" + capabilities.hasTransport(NetworkCapabilities.TRANSPORT_VPN));
+            return ok;
         } catch (Exception e) {
+            logUpdateWarn("network check threw", e);
             return false;
         }
     }
@@ -4115,6 +4167,11 @@ public class MainActivity extends Activity {
                 for (int i = 0; i < fastCandidates.length(); i++) {
                     appendDownloadCandidate(info.downloadCandidates, fastCandidates.optString(i, ""));
                 }
+            }
+            if (hasUsableFastMetadata(info)) {
+                finalizeUpdateDownloadCandidates(repoSlug, info);
+                logUpdateDebug("fast metadata satisfied update check for " + info.displayVersion());
+                return info;
             }
         } catch (UpdateCheckException fastError) {
             info.validationNotes.add("加速更新元数据读取失败，已回退到 GitHub Release：" + fastError.userMessage);
@@ -4209,10 +4266,30 @@ public class MainActivity extends Activity {
         if (!info.hasMetadataAsset) {
             info.validationNotes.add("未提供更新元数据文件，安装前无法提前核验 APK 包名。");
         }
+        finalizeUpdateDownloadCandidates(repoSlug, info);
+        return info;
+    }
+
+    private boolean hasUsableFastMetadata(UpdateInfo info) {
+        if (info == null) return false;
+        boolean hasVersion = info.versionCode > 0 || info.versionName.length() > 0;
+        boolean hasDownload = info.downloadUrl.length() > 0 || !info.downloadCandidates.isEmpty();
+        return hasVersion && hasDownload;
+    }
+
+    private void finalizeUpdateDownloadCandidates(String repoSlug, UpdateInfo info) {
+        if (info == null) return;
+        appendDownloadCandidate(info.downloadCandidates, buildGhfastMirrorUrl(info.downloadUrl));
+        appendDownloadCandidate(info.downloadCandidates, info.downloadUrl);
+        appendDownloadCandidate(info.downloadCandidates, buildGhfastMirrorUrl(buildGithubLatestDownloadUrl(repoSlug, info.apkName)));
+        appendDownloadCandidate(info.downloadCandidates, buildGithubLatestDownloadUrl(repoSlug, info.apkName));
+        if (info.versionName.length() > 0) {
+            appendDownloadCandidate(info.downloadCandidates, buildGhfastMirrorUrl(buildGithubTagDownloadUrl(repoSlug, info.versionName, info.apkName)));
+            appendDownloadCandidate(info.downloadCandidates, buildGithubTagDownloadUrl(repoSlug, info.versionName, info.apkName));
+        }
         if (!info.downloadCandidates.isEmpty()) {
             info.downloadUrl = info.downloadCandidates.get(0);
         }
-        return info;
     }
 
     private JSONObject fetchGithubRepoInfo() throws UpdateCheckException {
@@ -4322,6 +4399,14 @@ public class MainActivity extends Activity {
         return "https://raw.githubusercontent.com/" + repoSlug + "/main/release/" + UPDATE_METADATA_NAME;
     }
 
+    private String buildGithubLatestMetadataUrl(String repoSlug) {
+        return "https://github.com/" + repoSlug + "/releases/latest/download/" + UPDATE_METADATA_NAME;
+    }
+
+    private String buildGhfastLatestMetadataUrl(String repoSlug) {
+        return buildGhfastMirrorUrl(buildGithubLatestMetadataUrl(repoSlug));
+    }
+
     private String buildGithubReleasePageUrl(String repoSlug) {
         return "https://github.com/" + repoSlug + "/releases/latest";
     }
@@ -4362,19 +4447,36 @@ public class MainActivity extends Activity {
     }
 
     private JSONObject fetchFastUpdateMetadata(String repoSlug) throws UpdateCheckException {
-        try {
-            return readFastGithubJsonObject(
-                    buildJsDelivrUpdateMetadataUrl(repoSlug),
-                    "还没有找到更新元数据文件",
-                    "读取加速更新元数据失败"
-            );
-        } catch (UpdateCheckException firstError) {
-            return readFastGithubJsonObject(
-                    buildGithubRawUpdateMetadataUrl(repoSlug),
-                    "还没有找到更新元数据文件",
-                    "读取原始更新元数据失败"
-            );
+        logUpdateDebug("fetchFastUpdateMetadata repo=" + repoSlug);
+        UpdateCheckException lastError = null;
+        String[] urls = new String[] {
+                buildGhfastLatestMetadataUrl(repoSlug),
+                buildGithubLatestMetadataUrl(repoSlug),
+                buildGithubRawUpdateMetadataUrl(repoSlug),
+                buildJsDelivrUpdateMetadataUrl(repoSlug)
+        };
+        String[] errorMessages = new String[] {
+                "读取加速 Release 元数据失败",
+                "读取 Release 元数据失败",
+                "读取原始更新元数据失败",
+                "读取 jsDelivr 更新元数据失败"
+        };
+        for (int i = 0; i < urls.length; i++) {
+            try {
+                return readFastGithubJsonObject(
+                        urls[i],
+                        "还没有找到更新元数据文件",
+                        errorMessages[i]
+                );
+            } catch (UpdateCheckException error) {
+                lastError = error;
+                logUpdateWarn("fast metadata candidate failed: " + urls[i], error);
+            }
         }
+        if (lastError != null) {
+            throw lastError;
+        }
+        throw new UpdateCheckException("还没有找到更新元数据文件");
     }
 
     private String readTextUrl(String urlValue) throws Exception {
@@ -4386,6 +4488,7 @@ public class MainActivity extends Activity {
         InputStream stream = null;
         BufferedReader reader = null;
         try {
+            logUpdateDebug("HTTP GET " + urlValue + " connect=" + connectTimeoutMs + " read=" + readTimeoutMs);
             connection = (HttpURLConnection) new URL(urlValue).openConnection();
             connection.setConnectTimeout(connectTimeoutMs);
             connection.setReadTimeout(readTimeoutMs);
@@ -4405,14 +4508,24 @@ public class MainActivity extends Activity {
             }
             String text = sb.toString().trim();
             if (code < 200 || code >= 300) {
+                logUpdateDebug("HTTP FAIL " + code + " for " + urlValue);
                 throw new IOException(text.length() == 0 ? ("HTTP " + code) : text);
             }
+            logUpdateDebug("HTTP OK " + code + " for " + urlValue);
             return text;
         } finally {
             closeQuietly(reader);
             closeQuietly(stream);
             if (connection != null) connection.disconnect();
         }
+    }
+
+    private void logUpdateDebug(String message) {
+        Log.d(UPDATE_LOG_TAG, message);
+    }
+
+    private void logUpdateWarn(String message, Throwable error) {
+        Log.w(UPDATE_LOG_TAG, message, error);
     }
 
     private int compareUpdateWithCurrent(UpdateInfo info) {
