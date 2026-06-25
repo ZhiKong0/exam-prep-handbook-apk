@@ -1,5 +1,6 @@
-# v2.10.8
+# v2.10.9
 
+- Auto release after fix: Updater: speed up CN update path and rename release repo
 - Auto release after fix: Updater: delayed auto-check with looser network gate
 - Auto release after fix: Updater: auto-check on app launch
 - Auto release after fix: Updater: default repo fallback and ready-state copy
