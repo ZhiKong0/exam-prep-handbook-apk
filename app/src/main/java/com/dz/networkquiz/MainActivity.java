@@ -20,6 +20,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -177,6 +180,7 @@ public class MainActivity extends Activity {
     private boolean questionSeekSyncing = false;
     private boolean suppressQuestionPageSwipe = false;
     private boolean updateBusy = false;
+    private boolean autoUpdateCheckTriggered = false;
     private String updateRepoSlug = "";
     private String updateStatusText = UPDATE_STATUS_NOT_CHECKED;
     private String pendingInstallApkPath = null;
@@ -237,6 +241,7 @@ public class MainActivity extends Activity {
         buildLayout();
         applySystemBars();
         showAllMode();
+        maybeAutoCheckForUpdates();
     }
 
     @Override
@@ -244,6 +249,7 @@ public class MainActivity extends Activity {
         super.onResume();
         cleanupUpdateCache(null);
         maybeResumePendingInstall();
+        maybeAutoCheckForUpdates();
     }
 
     @Override
@@ -3961,6 +3967,31 @@ public class MainActivity extends Activity {
                 }
             }
         }).start();
+    }
+
+    private void maybeAutoCheckForUpdates() {
+        if (autoUpdateCheckTriggered) return;
+        if (updateBusy) return;
+        if (!hasUpdateRepoConfig()) return;
+        if (pendingInstallApkPath != null && pendingInstallApkPath.trim().length() > 0) return;
+        if (!hasUsableNetworkConnection()) return;
+        autoUpdateCheckTriggered = true;
+        checkForUpdates(false);
+    }
+
+    private boolean hasUsableNetworkConnection() {
+        try {
+            ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (manager == null) return false;
+            Network network = manager.getActiveNetwork();
+            if (network == null) return false;
+            NetworkCapabilities capabilities = manager.getNetworkCapabilities(network);
+            if (capabilities == null) return false;
+            return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                    && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private UpdateInfo fetchLatestUpdateInfo() throws Exception {
