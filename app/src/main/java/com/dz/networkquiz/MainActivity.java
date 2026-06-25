@@ -91,6 +91,7 @@ public class MainActivity extends Activity {
     private static final String PREF_UPDATE_PENDING_CLEANUP = "update_pending_cleanup_paths";
     private static final String THEME_DARK = "dark";
     private static final String THEME_LIGHT = "light";
+    private static final String DEFAULT_UPDATE_REPO_SLUG = "ZhiKong0/network-quiz-apk";
     private static final String UPDATE_METADATA_NAME = "network_quiz_update.json";
     private static final String UPDATE_CACHE_DIR = "updates";
     private static final String UPDATE_INSTALL_ACTION = "com.dz.networkquiz.UPDATE_INSTALL_STATUS";
@@ -177,7 +178,7 @@ public class MainActivity extends Activity {
     private boolean suppressQuestionPageSwipe = false;
     private boolean updateBusy = false;
     private String updateRepoSlug = "";
-    private String updateStatusText = "未检查";
+    private String updateStatusText = UPDATE_STATUS_NOT_CHECKED;
     private String pendingInstallApkPath = null;
     private String pendingInstallVersionName = null;
     private UpdateInfo lastUpdateInfo = null;
@@ -219,8 +220,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         prefs = getSharedPreferences("quiz_state", MODE_PRIVATE);
         themeMode = prefs.getString(PREF_THEME_MODE, THEME_LIGHT);
-        updateRepoSlug = normalizeRepoSlug(prefs.getString(PREF_UPDATE_REPO_SLUG, ""));
-        updateStatusText = hasUpdateRepoConfig() ? "未检查" : "未配置 GitHub 仓库";
+        String savedRepoSlug = prefs.getString(PREF_UPDATE_REPO_SLUG, "");
+        updateRepoSlug = ensureDefaultUpdateRepoSlug(savedRepoSlug);
+        if (!updateRepoSlug.equals(normalizeRepoSlug(savedRepoSlug))) {
+            prefs.edit().putString(PREF_UPDATE_REPO_SLUG, updateRepoSlug).apply();
+        }
+        updateStatusText = hasUpdateRepoConfig() ? UPDATE_STATUS_NOT_CHECKED : UPDATE_STATUS_REPO_NOT_CONFIGURED;
         loadPendingUpdateCleanupPaths();
         restorePersistedUpdateStatus();
         applyThemePalette();
@@ -1606,7 +1611,7 @@ public class MainActivity extends Activity {
         LinearLayout.LayoutParams updateCheckLp = new LinearLayout.LayoutParams(-1, dp(46));
         updateCheckLp.topMargin = dp(12);
         updateCard.addView(updateCheckButton, updateCheckLp);
-        Button configRepoButton = bigButton("配置 GitHub 仓库", true);
+        Button configRepoButton = bigButton("更换更新源", false);
         configRepoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -3638,13 +3643,13 @@ public class MainActivity extends Activity {
             persistStableUpdateStatus();
         }
         if (updateVersionLineView != null) {
-            updateVersionLineView.setText("当前版本 路 " + currentVersionSummary());
+            updateVersionLineView.setText("当前版本：" + currentVersionSummary());
         }
         if (updateRepoLineView != null) {
-            updateRepoLineView.setText("GitHub 仓库 路 " + updateRepoSummary());
+            updateRepoLineView.setText("GitHub 仓库：" + updateRepoSummary());
         }
         if (updateStatusLineView != null) {
-            updateStatusLineView.setText("更新状态 路 " + updateStatusSummary());
+            updateStatusLineView.setText("更新状态：" + updateStatusSummary());
         }
         if (updateCheckButton != null) {
             updateCheckButton.setEnabled(!updateBusy);
@@ -3666,7 +3671,7 @@ public class MainActivity extends Activity {
     }
 
     private String updateStatusSummary() {
-        return updateStatusText == null || updateStatusText.trim().length() == 0 ? "未检查" : updateStatusText;
+        return updateStatusText == null || updateStatusText.trim().length() == 0 ? UPDATE_STATUS_NOT_CHECKED : updateStatusText;
     }
 
     private void restorePersistedUpdateStatus() {
@@ -3760,11 +3765,19 @@ public class MainActivity extends Activity {
         return value.replace(" ", "");
     }
 
+    private String ensureDefaultUpdateRepoSlug(String raw) {
+        String normalized = normalizeRepoSlug(raw);
+        if (normalized.matches("^[^/]+/[^/]+$")) {
+            return normalized;
+        }
+        return DEFAULT_UPDATE_REPO_SLUG;
+    }
+
     private void saveUpdateRepoSlug(String raw) {
-        updateRepoSlug = normalizeRepoSlug(raw);
+        updateRepoSlug = ensureDefaultUpdateRepoSlug(raw);
         prefs.edit().putString(PREF_UPDATE_REPO_SLUG, updateRepoSlug).apply();
         lastUpdateInfo = null;
-        updateStatusText = hasUpdateRepoConfig() ? "未检查" : "未配置 GitHub 仓库";
+        updateStatusText = hasUpdateRepoConfig() ? UPDATE_STATUS_NOT_CHECKED : UPDATE_STATUS_REPO_NOT_CONFIGURED;
         refreshUpdateSettingViews();
     }
 
@@ -4755,7 +4768,7 @@ public class MainActivity extends Activity {
             if (hasMetadataAsset) {
                 return "仓库可用，Release 结构完整，当前已是最新版本";
             }
-            return "仓库可用，已找到 APK；建议补充 network_quiz_update.json";
+            return "仓库可用，可直接检查并安装更新";
         }
     }
 
