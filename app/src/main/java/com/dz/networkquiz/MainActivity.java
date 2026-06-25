@@ -95,6 +95,8 @@ public class MainActivity extends Activity {
     private static final String PREF_UPDATE_STATUS_VERSION_CODE = "update_status_version_code";
     private static final String PREF_LAST_LAUNCHED_VERSION_CODE = "last_launched_version_code";
     private static final String PREF_UPDATE_PENDING_CLEANUP = "update_pending_cleanup_paths";
+    private static final String PREF_PENDING_INSTALL_APK_PATH = "pending_install_apk_path";
+    private static final String PREF_PENDING_INSTALL_VERSION_NAME = "pending_install_version_name";
     private static final String LEGACY_UPDATE_REPO_SLUG = "ZhiKong0/network-quiz-apk";
     private static final String THEME_DARK = "dark";
     private static final String THEME_LIGHT = "light";
@@ -237,12 +239,13 @@ public class MainActivity extends Activity {
             prefs.edit().putString(PREF_UPDATE_REPO_SLUG, updateRepoSlug).apply();
         }
         updateStatusText = hasUpdateRepoConfig() ? UPDATE_STATUS_NOT_CHECKED : UPDATE_STATUS_REPO_NOT_CONFIGURED;
+        restorePendingInstallState();
         loadPendingUpdateCleanupPaths();
         restorePersistedUpdateStatus();
         applyThemePalette();
         touchSlop = ViewConfiguration.get(this).getScaledTouchSlop();
         ensureUpdateInstallReceiver();
-        cleanupUpdateCache(null);
+        cleanupUpdateCache(pendingInstallKeepPath());
         loadQuestions();
         loadMemoryCards();
         buildLayout();
@@ -254,7 +257,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        cleanupUpdateCache(null);
+        cleanupUpdateCache(pendingInstallKeepPath());
         maybeResumePendingInstall();
         scheduleAutoUpdateCheck();
     }
@@ -4828,6 +4831,7 @@ public class MainActivity extends Activity {
         if (Build.VERSION.SDK_INT >= 26 && !getPackageManager().canRequestPackageInstalls()) {
             pendingInstallApkPath = file.getAbsolutePath();
             pendingInstallVersionName = versionName;
+            persistPendingInstallState();
             updateBusy = false;
             updateStatusText = "请允许本应用安装更新";
             refreshUpdateSettingViews();
@@ -4851,6 +4855,7 @@ public class MainActivity extends Activity {
         String versionName = pendingInstallVersionName == null ? "" : pendingInstallVersionName;
         pendingInstallApkPath = null;
         pendingInstallVersionName = null;
+        clearPendingInstallState();
         if (!file.exists()) {
             forgetPendingCleanupPath(file.getAbsolutePath());
             updateStatusText = "安装包已丢失，请重新下载";
@@ -4904,6 +4909,7 @@ public class MainActivity extends Activity {
                     closeQuietly(in);
                     out = null;
                     in = null;
+                    clearPendingInstallState();
                     rememberPendingCleanupPath(file.getAbsolutePath());
                     cleanupUpdateCache(file.getAbsolutePath());
                     deleteUpdateFile(file);
@@ -4944,6 +4950,9 @@ public class MainActivity extends Activity {
                     }
                     closeQuietly(out);
                     closeQuietly(in);
+                    pendingInstallApkPath = file == null ? "" : file.getAbsolutePath();
+                    pendingInstallVersionName = versionName == null ? "" : versionName;
+                    persistPendingInstallState();
                     cleanupUpdateCache(null);
                     runOnUiThread(new Runnable() {
                         @Override
@@ -5013,6 +5022,34 @@ public class MainActivity extends Activity {
         if (saved != null) {
             pendingUpdateCleanupPaths.addAll(saved);
         }
+    }
+
+    private void restorePendingInstallState() {
+        if (prefs == null) return;
+        pendingInstallApkPath = prefs.getString(PREF_PENDING_INSTALL_APK_PATH, "");
+        pendingInstallVersionName = prefs.getString(PREF_PENDING_INSTALL_VERSION_NAME, "");
+        if (pendingInstallApkPath == null) pendingInstallApkPath = "";
+        if (pendingInstallVersionName == null) pendingInstallVersionName = "";
+        pendingInstallApkPath = pendingInstallApkPath.trim();
+        pendingInstallVersionName = pendingInstallVersionName.trim();
+    }
+
+    private void persistPendingInstallState() {
+        if (prefs == null) return;
+        prefs.edit()
+                .putString(PREF_PENDING_INSTALL_APK_PATH, pendingInstallApkPath == null ? "" : pendingInstallApkPath)
+                .putString(PREF_PENDING_INSTALL_VERSION_NAME, pendingInstallVersionName == null ? "" : pendingInstallVersionName)
+                .apply();
+    }
+
+    private void clearPendingInstallState() {
+        pendingInstallApkPath = "";
+        pendingInstallVersionName = "";
+        if (prefs == null) return;
+        prefs.edit()
+                .remove(PREF_PENDING_INSTALL_APK_PATH)
+                .remove(PREF_PENDING_INSTALL_VERSION_NAME)
+                .apply();
     }
 
     private void persistPendingUpdateCleanupPaths() {
@@ -5086,6 +5123,12 @@ public class MainActivity extends Activity {
             if (keepPath != null && keepPath.equals(file.getAbsolutePath())) continue;
             deleteUpdateFile(file);
         }
+    }
+
+    private String pendingInstallKeepPath() {
+        if (pendingInstallApkPath == null) return null;
+        String trimmed = pendingInstallApkPath.trim();
+        return trimmed.length() == 0 ? null : trimmed;
     }
 
     private String safeFileName(String value, String fallback) {
