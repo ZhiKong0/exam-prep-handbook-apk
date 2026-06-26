@@ -115,6 +115,7 @@ public class MainActivity extends Activity {
     private static final String THEME_LIGHT = "light";
     private static final String DEFAULT_UPDATE_REPO_SLUG = "ZhiKong0/review-baodian-apk";
     private static final String TAG_MARKDOWN_TABLE_SCROLL = "markdown_table_scroll";
+    private static final String TAG_MIND_MAP_BOARD = "mind_map_board";
     private static final String UPDATE_METADATA_NAME = "network_quiz_update.json";
     private static final String UPDATE_CACHE_DIR = "updates";
     private static final String UPDATE_INSTALL_ACTION = "com.dz.networkquiz.UPDATE_INSTALL_STATUS";
@@ -201,6 +202,7 @@ public class MainActivity extends Activity {
     private boolean questionSeekSyncing = false;
     private boolean suppressQuestionPageSwipe = false;
     private boolean markdownTableGestureActive = false;
+    private boolean mindMapGestureActive = false;
     private boolean updateBusy = false;
     private boolean autoUpdateCheckScheduled = false;
     private String updateRepoSlug = "";
@@ -291,12 +293,20 @@ public class MainActivity extends Activity {
     public boolean dispatchTouchEvent(MotionEvent event) {
         int action = event.getActionMasked();
         if (action == MotionEvent.ACTION_DOWN
+                && cardMode
+                && isTouchInsideMindMapBoard(event)) {
+            mindMapGestureActive = true;
+            suppressQuestionPageSwipe = true;
+            requestNoIntercept(true);
+        }
+        if (action == MotionEvent.ACTION_DOWN
                 && isQuestionPageSwipeEnabled()
                 && isTouchInsideMarkdownTable(event)) {
             markdownTableGestureActive = true;
             suppressQuestionPageSwipe = true;
         }
         if (!markdownTableGestureActive
+                && !mindMapGestureActive
                 && isQuestionPageSwipeEnabled()
                 && handleQuestionPageSwipe(event)) {
             return true;
@@ -308,11 +318,17 @@ public class MainActivity extends Activity {
             suppressQuestionPageSwipe = false;
             requestNoIntercept(false);
         }
+        if (mindMapGestureActive
+                && (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL)) {
+            mindMapGestureActive = false;
+            suppressQuestionPageSwipe = false;
+            requestNoIntercept(false);
+        }
         return handled;
     }
 
     private boolean isQuestionPageSwipeEnabled() {
-        return !suppressQuestionPageSwipe && !cardMode && !settingsMode;
+        return !suppressQuestionPageSwipe && !mindMapGestureActive && !cardMode && !settingsMode;
     }
 
     private boolean isTouchInsideMarkdownTable(MotionEvent event) {
@@ -322,6 +338,15 @@ public class MainActivity extends Activity {
         }
         return isTouchInsideTaggedView(window.getDecorView(), event.getRawX(), event.getRawY(),
                 TAG_MARKDOWN_TABLE_SCROLL);
+    }
+
+    private boolean isTouchInsideMindMapBoard(MotionEvent event) {
+        Window window = getWindow();
+        if (window == null || window.getDecorView() == null) {
+            return false;
+        }
+        return isTouchInsideTaggedView(window.getDecorView(), event.getRawX(), event.getRawY(),
+                TAG_MIND_MAP_BOARD);
     }
 
     private boolean isTouchInsideTaggedView(View view, float rawX, float rawY, String tag) {
@@ -1445,6 +1470,9 @@ public class MainActivity extends Activity {
     }
 
     private boolean handleSwipeNavigationTouch(View target, MotionEvent event) {
+        if (mindMapGestureActive) {
+            return false;
+        }
         if (settingsMode) {
             return false;
         }
@@ -1455,6 +1483,9 @@ public class MainActivity extends Activity {
     }
 
     private boolean handleCardNavigationTouch(View target, MotionEvent event, boolean allowTapFlip) {
+        if (mindMapGestureActive) {
+            return false;
+        }
         if (!cardMode) {
             return handleQuestionPageSwipe(event);
         }
@@ -2168,7 +2199,7 @@ public class MainActivity extends Activity {
         metaView.setText((currentCardIndex + 1) + "/" + visibleCards.size()
                 + "  ·  " + card.chapter
                 + "  ·  思维导图"
-                + "  ·  轻点节点展开，左右滑动切换知识点");
+                + "  ·  画板内拖动缩放，按钮切换分区");
         feedbackContainer.setPadding(dp(2), dp(8), dp(2), dp(16));
         feedbackContainer.setTranslationX(0f);
         feedbackContainer.setAlpha(1f);
@@ -2459,7 +2490,7 @@ public class MainActivity extends Activity {
         addCardSubhead(cardBox, card.chapter + "  ·  覆盖 " + card.questionCount + " 题");
         addCardDivider(cardBox);
         addMindMapSection(cardBox, card);
-        addCardHint(cardBox, "导图内可拖动、双指缩放 · 轻点节点展开分支 · 左右滑动切换知识点");
+        addCardHint(cardBox, "导图内可拖动、双指缩放 · 轻点节点展开分支 · 用上/下一页按钮切换左右分区");
         addCardBottomSpacer(cardBox, 56);
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2);
@@ -2471,7 +2502,7 @@ public class MainActivity extends Activity {
     private void renderNotebookMemoryCard(LinearLayout cardBox, MemoryCard card, boolean backVisible, int sectionColor) {
         String markdown = backVisible ? card.backMarkdown : card.frontMarkdown;
         addNotebookMarkdownShell(cardBox, markdown, sectionColor, dp(4));
-        addCardHint(cardBox, "左右滑动切换知识点");
+        addCardHint(cardBox, "用上/下一页按钮切换左右分区");
     }
 
     private void addNotebookMarkdownShell(LinearLayout parent, String markdown, int sectionColor, int topMargin) {
@@ -2588,11 +2619,12 @@ public class MainActivity extends Activity {
         mapStage.setPadding(dp(14), dp(14), dp(14), dp(14));
         mapStage.setBackground(roundedBackground(CARD_SECTION, 20));
 
-        TextView guide = text("导图模式：单指拖动画布，双指缩放；轻点节点展开分支，并同步下方详细说明。上一页 / 下一页可快速跳到左右分区。", 13, MUTED, false);
+        TextView guide = text("导图模式：单指拖动画布，双指缩放；轻点节点展开分支，并同步下方详细说明。上一页 / 下一页可快速跳到左右分区。画板内横滑不会切换题目或知识点。", 13, MUTED, false);
         guide.setLineSpacing(dp(3), 1.0f);
         mapStage.addView(guide, new LinearLayout.LayoutParams(-1, -2));
 
         FrameLayout boardShell = new FrameLayout(this);
+        boardShell.setTag(TAG_MIND_MAP_BOARD);
         boardShell.setBackground(roundedStrokeBackground(
                 THEME_LIGHT.equals(themeMode) ? Color.argb(238, 20, 25, 34) : Color.argb(244, 13, 18, 28),
                 Color.argb(THEME_LIGHT.equals(themeMode) ? 112 : 76, 115, 152, 219),
