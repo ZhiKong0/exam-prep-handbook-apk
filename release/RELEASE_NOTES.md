@@ -1,5 +1,6 @@
-# v2.10.32
+# v2.10.33
 
+- Auto release after fix: Quiz: remember study progress and dedupe explanations
 - 重写 372 道题的解析结构，全部去掉“题目变形”，改为“核心知识框架 / 知识关系表 / 易混辨析表 / 做题抓手”。
 - 每道带选项题保留独立“选项判断”，多选题和“说法正确/错误”类题目逐项解释为什么选或不选。
 - 清理脚本味模板句，补强 DHCP、DNS、FTP、HTTP、SMTP/POP3、路由器、OSPF、NAT、ICMP/IGMP 等高频题的贴题辨析。
