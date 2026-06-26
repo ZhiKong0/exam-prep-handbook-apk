@@ -1,18 +1,18 @@
 {
   "packageName": "com.dz.networkquiz",
-  "versionCode": 50,
-  "versionName": "2.10.25",
+  "versionCode": 51,
+  "versionName": "2.10.26",
   "apkFileName": "review-baodian.apk",
   "apkDownloadUrl": "https://ghfast.top/https://github.com/ZhiKong0/review-baodian-apk/releases/latest/download/review-baodian.apk",
   "apkDownloadCandidates": [
     "https://ghfast.top/https://github.com/ZhiKong0/review-baodian-apk/releases/latest/download/review-baodian.apk",
     "https://github.com/ZhiKong0/review-baodian-apk/releases/latest/download/review-baodian.apk",
-    "https://ghfast.top/https://github.com/ZhiKong0/review-baodian-apk/releases/download/v2.10.25/review-baodian.apk",
-    "https://github.com/ZhiKong0/review-baodian-apk/releases/download/v2.10.25/review-baodian.apk"
+    "https://ghfast.top/https://github.com/ZhiKong0/review-baodian-apk/releases/download/v2.10.26/review-baodian.apk",
+    "https://github.com/ZhiKong0/review-baodian-apk/releases/download/v2.10.26/review-baodian.apk"
   ],
   "releaseHtmlUrl": "https://github.com/ZhiKong0/review-baodian-apk/releases/latest",
-  "releaseNotes": "# v2.10.25\n\n- Auto release after fix: Quiz: refine multi-option explanations and table swipes\n- Auto release after fix: UI: fix explanation markdown rendering\n- Auto release after fix: Content: rewrite quiz explanations with tables\n- Auto release after fix: UI: replace cards with mind map mode\n- Auto release after fix: Cards: rework chapter 3 overview and mobile mind map\n- Auto release after fix: Tooling: auto-sync emulator after release\n- Auto release after fix: Updater: auto-check on every app entry\n- Auto release after fix: Updater: persist pending install state across permission flow\n- Auto release after fix: Updater: soften fallback notice and purge jsDelivr metadata\n- Auto release after fix: Updater: fix auto-update network gate and prefer fresh fast metadata\n- Auto release after fix: Release hook: ignore generated update metadata when gating auto release\n- Auto release after fix: Updater: auto-check on every app open and harden release hygiene\n- Auto release after fix: Polish option-wise explanations and updater state for v2.10.11\n- 修复多选题答案页的逐项理由展示：每个选项现在都会单独高亮显示对错依据，更容易一眼看懂。\n- 继续精修 75 道多选题的“选项判断”文案，减少脚本腔，补强贴题表达。\n- 修复更新状态文案：当本机版本比 GitHub latest 更新时，会明确提示“本机版本较新”，不再误导成“无可更新”。\n- 统一本地 release 元数据输出，APK 资产名固定为 `review-baodian.apk`，避免中文文件名带来的更新识别问题。",
-  "apkSize": 1034807,
-  "sha256": "fa3b46e4d08462f5513e0fc5a6b23511272c788fea0e434d07547a8500f49b7b",
-  "generatedAt": "2026-06-26T13:25:07.168335+00:00"
+  "releaseNotes": "# v2.10.26\n\n- Auto release after fix: Release: clean update notes text\n- 修复 Markdown 表格横向滑动时误触题目翻页的问题；现在在表格里左右滑动只滚动表格，不会切到上一题或下一题。\n- 75 道多选题已改为“选项 / 结论 / 辨析”表格化解析，每个选项都说明为什么选或不选。\n- 继续清理模板化理由，去掉“本来正确所以不选”这类空泛表达，让小白能直接看出本题考点。\n- 保留 `核心知识点 / 题目变形 / 知识拓展` 三段结构，方便刷题后复习。",
+  "apkSize": 1034805,
+  "sha256": "be30ff346cf3d644561f26403e1c962fa36230756d77ef486b82af5dbcdbff23",
+  "generatedAt": "2026-06-26T13:28:33.719634+00:00"
 }
