@@ -1,6 +1,5 @@
 # v2.10.33
 
-- Auto release after fix: Quiz: remember study progress and dedupe explanations
 - 记住上次学习位置：重新进入 App 会恢复上次的模式、题型筛选、章节筛选和当前题号。
 - 记题/刷题/错题按各自模式分别保存进度，同一章节不会再每次回到第一题。
 - 清理高重复解析块：DNS、HTTP、邮件、FTP、安全、OSI、C/S-P2P、分组交换、DHCP、奈氏/香农等 80 个高频条目改为贴题知识关系表。
