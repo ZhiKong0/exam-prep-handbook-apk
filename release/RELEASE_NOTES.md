@@ -1,5 +1,6 @@
-# v2.10.24
+# v2.10.25
 
+- Auto release after fix: Quiz: refine multi-option explanations and table swipes
 - Auto release after fix: UI: fix explanation markdown rendering
 - Auto release after fix: Content: rewrite quiz explanations with tables
 - Auto release after fix: UI: replace cards with mind map mode
