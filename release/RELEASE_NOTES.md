@@ -1,5 +1,6 @@
-# v2.10.26
+# v2.10.27
 
+- Auto release after fix: Mind map: add draggable zoomable canvas
 - Auto release after fix: Release: clean update notes text
 - 思维导图画板支持单指拖动和双指缩放，导图区域内滑动不会再被外层页面或知识点切换抢走。
 - 修复 Markdown 表格横向滑动时误触题目翻页的问题；现在在表格里左右滑动只滚动表格，不会切到上一题或下一题。
