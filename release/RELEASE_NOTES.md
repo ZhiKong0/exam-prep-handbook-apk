@@ -1,5 +1,6 @@
-# v2.10.21
+# v2.10.22
 
+- Auto release after fix: UI: replace cards with mind map mode
 - Auto release after fix: Cards: rework chapter 3 overview and mobile mind map
 - Auto release after fix: Tooling: auto-sync emulator after release
 - Auto release after fix: Updater: auto-check on every app entry
