@@ -76,6 +76,17 @@ try {
     $env:CODEX_AUTO_RELEASE_RUNNING = "1"
     & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $root "tools\release_after_fix.ps1") -FixSummary $subject
     Write-HookLog("Auto release succeeded for commit: $subject")
+
+    try {
+        & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $root "tools\sync_latest_apk_to_emulators.ps1")
+        if ($LASTEXITCODE -eq 0) {
+            Write-HookLog("Emulator sync completed after auto release: $subject")
+        } else {
+            Write-HookLog("Emulator sync exited with code $LASTEXITCODE after auto release: $subject")
+        }
+    } catch {
+        Write-HookLog("Emulator sync failed after auto release: $subject :: $($_.Exception.Message)")
+    }
 } catch {
     Write-HookLog("Auto release failed for commit: $subject :: $($_.Exception.Message)")
     Write-Host "Auto release failed:" $_.Exception.Message
