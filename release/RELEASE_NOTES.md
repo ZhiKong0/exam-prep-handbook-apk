@@ -1,14 +1,7 @@
 # v2.10.32
 
-- Auto release after fix: Quiz: rebuild relational explanations
-- Auto release after fix: Mind map: rebuild progressive chapter maps
-- Auto release after fix: Mind map: keep fullscreen portrait
-- Auto release after fix: Mind map: add fullscreen and branch controls
-- Auto release after fix: Mind map: isolate canvas drag gestures
-- Auto release after fix: Mind map: add draggable zoomable canvas
-- Auto release after fix: Release: clean update notes text
-- 思维导图画板支持单指拖动和双指缩放，导图区域内滑动不会再被外层页面或知识点切换抢走。
-- 修复 Markdown 表格横向滑动时误触题目翻页的问题；现在在表格里左右滑动只滚动表格，不会切到上一题或下一题。
-- 75 道多选题已改为“选项 / 结论 / 辨析”表格化解析，每个选项都说明为什么选或不选。
-- 继续清理模板化理由，去掉“本来正确所以不选”这类空泛表达，让小白能直接看出本题考点。
-- 保留 `核心知识点 / 题目变形 / 知识拓展` 三段结构，方便刷题后复习。
+- 重写 372 道题的解析结构，全部去掉“题目变形”，改为“核心知识框架 / 知识关系表 / 易混辨析表 / 做题抓手”。
+- 每道带选项题保留独立“选项判断”，多选题和“说法正确/错误”类题目逐项解释为什么选或不选。
+- 清理脚本味模板句，补强 DHCP、DNS、FTP、HTTP、SMTP/POP3、路由器、OSPF、NAT、ICMP/IGMP 等高频题的贴题辨析。
+- 增加整库审计脚本，检查 372/372 覆盖、Markdown 表格、选项行、乱码和坏模板句，避免旧格式回流。
+- 已在模拟器验证新版解析、知识关系表和横向表格渲染。
