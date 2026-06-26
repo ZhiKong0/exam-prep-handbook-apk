@@ -1,5 +1,6 @@
-# v2.10.31
+# v2.10.32
 
+- Auto release after fix: Quiz: rebuild relational explanations
 - Auto release after fix: Mind map: rebuild progressive chapter maps
 - Auto release after fix: Mind map: keep fullscreen portrait
 - Auto release after fix: Mind map: add fullscreen and branch controls
