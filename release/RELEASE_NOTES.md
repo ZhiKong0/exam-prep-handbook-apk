@@ -1,5 +1,6 @@
-# v2.10.23
+# v2.10.24
 
+- Auto release after fix: UI: fix explanation markdown rendering
 - Auto release after fix: Content: rewrite quiz explanations with tables
 - Auto release after fix: UI: replace cards with mind map mode
 - Auto release after fix: Cards: rework chapter 3 overview and mobile mind map
