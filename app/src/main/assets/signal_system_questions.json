@@ -942,6 +942,12 @@
     "options": [],
     "answer": "（1）对差分方程作 Z 变换：\n\n\n$$\nY(z)-0.5z^{-1}Y(z)=F(z)\n$$\n\n\n所以：\n\n\n$$\nH(z)=Y(z)/F(z)=\\frac{1}{1-0.5z^{-1}}\n$$\n\n\n因果系统 ROC 为：\n\n\n$$\n\\lvert z \\rvert>0.5\n$$\n\n\n（2）系统因果，因为当前输出只由当前输入和过去输出决定。系统稳定，因为唯一极点 $z=0.5$ 在单位圆内。\n\n（3）输入：\n\n\n$$\nF(z)=\\frac{1}{1-0.8z^{-1}},\\quad \\lvert z \\rvert>0.8\n$$\n\n\n输出：\n\n\n$$\nY(z)=1/[(1-0.8z^{-1})(1-0.5z^{-1})]\n$$\n\n\n部分分式展开：\n\n\n$$\nY(z)= (8/3)/(1-0.8z^{-1}) - (5/3)/(1-0.5z^{-1})\n$$\n\n\n所以：\n\n\n$$\ny[k]=(8/3)(0.8)^{k} u[k]-(5/3)(0.5)^{k} u[k]\n$$\n\n\n（4）工程解释：系数 0.5 表示系统会保留一部分过去输出，相当于让温度数据不要跟着瞬时噪声剧烈跳变。空调启停时温度采样可能突然波动，一阶平滑系统会让输出逐渐变化，从而抑制尖峰噪声。系数越接近 1，平滑越强但响应越慢；系数越小，响应越快但平滑较弱。\n\n记忆：一阶差分 $H(z)=\\frac{1}{1-az^{-1}}$，极点就是 `a`；$\\lvert a \\rvert<1$ 稳定。",
     "images": [],
+    "stemImages": [
+      "images/signal_system/q36_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/q36_answer.png"
+    ],
     "knowledge": "一阶差分系统响应",
     "chapter": "Z 变换与离散系统稳定性",
     "blankCount": 0,

@@ -654,6 +654,18 @@ public class MainActivity extends Activity {
                         q.images.add(imgs.getString(j));
                     }
                 }
+                JSONArray stemImgs = obj.optJSONArray("stemImages");
+                if (stemImgs != null) {
+                    for (int j = 0; j < stemImgs.length(); j++) {
+                        q.stemImages.add(stemImgs.getString(j));
+                    }
+                }
+                JSONArray answerImgs = obj.optJSONArray("answerImages");
+                if (answerImgs != null) {
+                    for (int j = 0; j < answerImgs.length(); j++) {
+                        q.answerImages.add(answerImgs.getString(j));
+                    }
+                }
                 q.blankCount = obj.optInt("blankCount", 0);
                 allQuestions.add(q);
             }
@@ -2808,6 +2820,9 @@ public class MainActivity extends Activity {
         refreshMeta(q);
         renderQuestionStem(q);
 
+        for (String path : q.stemImages) {
+            addImage(path);
+        }
         for (String path : q.images) {
             addImage(path);
         }
@@ -3866,6 +3881,11 @@ public class MainActivity extends Activity {
             mathStemContainer.removeAllViews();
             mathStemContainer.setVisibility(View.GONE);
         }
+        if (q != null && !q.stemImages.isEmpty()) {
+            stemView.setText("");
+            stemView.setVisibility(View.GONE);
+            return;
+        }
         stemView.setVisibility(View.VISIBLE);
         stemView.setText(inlineMarkdown(q == null ? "" : q.stem));
     }
@@ -4121,8 +4141,12 @@ public class MainActivity extends Activity {
     }
 
     private void addImage(String path) {
+        addAssetImage(imageList, path);
+    }
+
+    private void addAssetImage(LinearLayout target, String path) {
         try {
-            InputStream in = getAssets().open(path);
+            InputStream in = openAsset(path);
             Bitmap bitmap = BitmapFactory.decodeStream(in);
             ImageView img = new ImageView(this);
             img.setImageBitmap(bitmap);
@@ -4131,10 +4155,21 @@ public class MainActivity extends Activity {
             img.setPadding(dp(4), dp(4), dp(4), dp(4));
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2);
             lp.bottomMargin = dp(12);
-            imageList.addView(img, lp);
+            target.addView(img, lp);
         } catch (Exception e) {
             TextView missing = text("图片加载失败：" + path, 14, RED, false);
-            imageList.addView(missing);
+            target.addView(missing);
+        }
+    }
+
+    private InputStream openAsset(String path) throws IOException {
+        try {
+            return getAssets().open(path);
+        } catch (IOException first) {
+            if (path != null && path.indexOf('/') >= 0) {
+                return getAssets().open(path.replace('/', '\\'));
+            }
+            throw first;
         }
     }
 
@@ -4194,6 +4229,22 @@ public class MainActivity extends Activity {
 
     private void showEssayAnswer(final Question q) {
         if (!isEssayQuestion(q)) return;
+        if (!q.answerImages.isEmpty()) {
+            feedbackContainer.removeAllViews();
+            feedbackContainer.setVisibility(View.VISIBLE);
+            addMarkdownText(feedbackContainer, "参考答案", 20, GREEN, true, 0, 6, 0);
+            for (String path : q.answerImages) {
+                addAssetImage(feedbackContainer, path);
+            }
+            addEssaySelfAssessmentButtons(q);
+            scrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    scrollView.smoothScrollTo(0, feedbackContainer.getTop());
+                }
+            });
+            return;
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("# 参考答案\n\n");
         sb.append(displayAnswer(q)).append("\n\n");
@@ -4252,7 +4303,9 @@ public class MainActivity extends Activity {
         LinearLayout.LayoutParams noLp = new LinearLayout.LayoutParams(0, dp(48), 1f);
         row.addView(unknownButton, noLp);
 
-        feedbackContainer.addView(row, new LinearLayout.LayoutParams(-1, -2));
+        LinearLayout.LayoutParams rowLp = new LinearLayout.LayoutParams(-1, -2);
+        rowLp.bottomMargin = bottomSafeInset() + dp(168);
+        feedbackContainer.addView(row, rowLp);
     }
 
     private void submitEssaySelfAssessment(Question q, boolean ok) {
@@ -5561,6 +5614,21 @@ public class MainActivity extends Activity {
 
     private void showRememberReason(Question q) {
         if (memoryReasonContainer == null) return;
+        if (isEssayQuestion(q) && !q.answerImages.isEmpty()) {
+            memoryReasonContainer.removeAllViews();
+            addMarkdownText(memoryReasonContainer, "参考答案", 20, GREEN, true, 0, 6, 0);
+            for (String path : q.answerImages) {
+                addAssetImage(memoryReasonContainer, path);
+            }
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) memoryReasonContainer.getLayoutParams();
+            if (lp != null) {
+                lp.topMargin = dp(12);
+                lp.bottomMargin = dp(8);
+                memoryReasonContainer.setLayoutParams(lp);
+            }
+            memoryReasonContainer.setVisibility(View.VISIBLE);
+            return;
+        }
         String markdown = rememberReasonMarkdown(q);
         if (markdown.length() == 0) {
             memoryReasonContainer.removeAllViews();
@@ -8654,6 +8722,8 @@ public class MainActivity extends Activity {
         int blankCount;
         final List<Option> options = new ArrayList<>();
         final List<String> images = new ArrayList<>();
+        final List<String> stemImages = new ArrayList<>();
+        final List<String> answerImages = new ArrayList<>();
     }
 
     private static class Option {
