@@ -645,7 +645,11 @@ public class MainActivity extends Activity {
                 if (opts != null) {
                     for (int j = 0; j < opts.length(); j++) {
                         JSONObject opt = opts.getJSONObject(j);
-                        q.options.add(new Option(opt.getString("key"), opt.getString("text")));
+                        q.options.add(new Option(
+                                opt.getString("key"),
+                                opt.getString("text"),
+                                opt.optString("image", "")
+                        ));
                     }
                 }
                 JSONArray imgs = obj.optJSONArray("images");
@@ -4146,13 +4150,7 @@ public class MainActivity extends Activity {
 
     private void addAssetImage(LinearLayout target, String path) {
         try {
-            InputStream in = openAsset(path);
-            Bitmap bitmap = BitmapFactory.decodeStream(in);
-            ImageView img = new ImageView(this);
-            img.setImageBitmap(bitmap);
-            img.setAdjustViewBounds(true);
-            img.setBackgroundColor(Color.WHITE);
-            img.setPadding(dp(4), dp(4), dp(4), dp(4));
+            ImageView img = createAssetImageView(path);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2);
             lp.bottomMargin = dp(12);
             target.addView(img, lp);
@@ -4170,6 +4168,22 @@ public class MainActivity extends Activity {
                 return getAssets().open(path.replace('/', '\\'));
             }
             throw first;
+        }
+    }
+
+    private ImageView createAssetImageView(String path) throws IOException {
+        InputStream in = null;
+        try {
+            in = openAsset(path);
+            Bitmap bitmap = BitmapFactory.decodeStream(in);
+            ImageView img = new ImageView(this);
+            img.setImageBitmap(bitmap);
+            img.setAdjustViewBounds(true);
+            img.setBackgroundColor(Color.WHITE);
+            img.setPadding(dp(4), dp(4), dp(4), dp(4));
+            return img;
+        } finally {
+            closeQuietly(in);
         }
     }
 
@@ -4232,7 +4246,6 @@ public class MainActivity extends Activity {
         if (!q.answerImages.isEmpty()) {
             feedbackContainer.removeAllViews();
             feedbackContainer.setVisibility(View.VISIBLE);
-            addMarkdownText(feedbackContainer, "参考答案", 20, GREEN, true, 0, 6, 0);
             for (String path : q.answerImages) {
                 addAssetImage(feedbackContainer, path);
             }
@@ -4321,12 +4334,33 @@ public class MainActivity extends Activity {
     }
 
     private void addOptionView(final Question q, final Option opt) {
-        TextView view = text("", 18, TEXT, false);
-        view.setText(inlineMarkdown(opt.text));
-        view.setGravity(Gravity.CENTER_VERTICAL);
-        view.setMinHeight(dp(62));
+        View view;
+        if (opt.image != null && opt.image.trim().length() > 0) {
+            LinearLayout card = new LinearLayout(this);
+            card.setOrientation(LinearLayout.VERTICAL);
+            card.setGravity(Gravity.CENTER_VERTICAL);
+            card.setMinimumHeight(dp(62));
+            card.setPadding(dp(12), dp(10), dp(12), dp(10));
+            try {
+                ImageView image = createAssetImageView(opt.image);
+                image.setBackgroundColor(Color.TRANSPARENT);
+                card.addView(image, new LinearLayout.LayoutParams(-1, -2));
+            } catch (Exception e) {
+                TextView fallback = text("", 18, TEXT, false);
+                fallback.setText(inlineMarkdown(opt.text));
+                fallback.setGravity(Gravity.CENTER_VERTICAL);
+                card.addView(fallback, new LinearLayout.LayoutParams(-1, -2));
+            }
+            view = card;
+        } else {
+            TextView textView = text("", 18, TEXT, false);
+            textView.setText(inlineMarkdown(opt.text));
+            textView.setGravity(Gravity.CENTER_VERTICAL);
+            textView.setPadding(dp(16), dp(14), dp(16), dp(14));
+            view = textView;
+        }
+        view.setMinimumHeight(dp(62));
         view.setBackground(optionBackground(false));
-        view.setPadding(dp(16), dp(14), dp(16), dp(14));
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -4398,6 +4432,21 @@ public class MainActivity extends Activity {
     }
 
     private void showFeedback(Question q, boolean ok) {
+        if (!q.answerImages.isEmpty()) {
+            renderQuestionMarkdown(feedbackContainer, buildFeedbackSummaryMarkdown(q, ok), q);
+            for (String path : q.answerImages) {
+                addAssetImage(feedbackContainer, path);
+            }
+            Toast.makeText(this, shortProgressToast(q, ok), Toast.LENGTH_SHORT).show();
+            refreshMeta(q);
+            scrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    scrollView.smoothScrollTo(0, feedbackContainer.getTop());
+                }
+            });
+            return;
+        }
         renderQuestionMarkdown(feedbackContainer, buildFeedbackMarkdown(q, ok), q);
         Toast.makeText(this, shortProgressToast(q, ok), Toast.LENGTH_SHORT).show();
         refreshMeta(q);
@@ -4407,6 +4456,20 @@ public class MainActivity extends Activity {
                 scrollView.smoothScrollTo(0, feedbackContainer.getTop());
             }
         });
+    }
+
+    private String buildFeedbackSummaryMarkdown(Question q, boolean ok) {
+        StringBuilder sb = new StringBuilder();
+        if (isEssayQuestion(q)) {
+            sb.append("# ").append(ok ? "已标记会了" : "已加入错题本").append("\n\n");
+        } else {
+            sb.append("# ").append(ok ? "回答正确" : "回答错误，已加入错题本").append("\n\n");
+        }
+        sb.append("## 本题结果\n\n");
+        sb.append("- **正确答案：** ").append(displayAnswer(q)).append("\n");
+        sb.append("- **知识点：** ").append(q.chapter).append(" / ").append(q.knowledge).append("\n");
+        sb.append("- **错题本：** ").append(cleanProgressText(wrongBookProgressText(q, ok))).append("\n");
+        return sb.toString();
     }
 
     private String buildFeedbackMarkdown(Question q, boolean ok) {
@@ -5614,9 +5677,8 @@ public class MainActivity extends Activity {
 
     private void showRememberReason(Question q) {
         if (memoryReasonContainer == null) return;
-        if (isEssayQuestion(q) && !q.answerImages.isEmpty()) {
+        if (!q.answerImages.isEmpty()) {
             memoryReasonContainer.removeAllViews();
-            addMarkdownText(memoryReasonContainer, "参考答案", 20, GREEN, true, 0, 6, 0);
             for (String path : q.answerImages) {
                 addAssetImage(memoryReasonContainer, path);
             }
@@ -8729,10 +8791,16 @@ public class MainActivity extends Activity {
     private static class Option {
         final String key;
         final String text;
+        final String image;
 
         Option(String key, String text) {
+            this(key, text, "");
+        }
+
+        Option(String key, String text, String image) {
             this.key = key;
             this.text = text;
+            this.image = image == null ? "" : image;
         }
     }
 

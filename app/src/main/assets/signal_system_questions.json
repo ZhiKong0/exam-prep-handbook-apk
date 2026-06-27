@@ -8,19 +8,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. 噪声电压信号"
+        "text": "A. 噪声电压信号",
+        "image": "images/signal_system/rendered/q01_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. 股票价格波动信号"
+        "text": "B. 股票价格波动信号",
+        "image": "images/signal_system/rendered/q01_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. 正弦信号"
+        "text": "C. 正弦信号",
+        "image": "images/signal_system/rendered/q01_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. 语音信号"
+        "text": "D. 语音信号",
+        "image": "images/signal_system/rendered/q01_option_d.png"
       }
     ],
     "answer": "C",
@@ -30,7 +34,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：确定信号的意思是：只要知道数学表达式，就能预测任意时刻的值。正弦信号可以写成 $A \\sin(\\omega t+\\varphi)$，所以是确定信号。噪声、股票、语音都含随机或复杂变化，一般归为随机信号或不确定信号。\n\n选项判断：\n- A：不选。噪声电压通常含随机扰动，不能用固定确定公式预测每一时刻。\n- B：不选。股票价格受市场随机因素影响，属于随机或不确定信号。\n- C：应选。正弦信号可写成 $A\\sin(\\omega t+\\varphi)$，给定参数后任意时刻可预测。\n- D：不选。语音随说话内容、语速和环境变化，通常不作为确定信号。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：确定信号与随机信号。\n- 所属知识组：信号与系统基础判断。\n- 题干落点：下列信号中，属于确定信号的是（ ）\n- 答案出口：C，即 正弦信号。\n\n易混辨析：\n- A. 噪声电压信号：不选。噪声电压通常含随机扰动，不能用固定确定公式预测每一时刻。\n- B. 股票价格波动信号：不选。股票价格受市场随机因素影响，属于随机或不确定信号。\n- C. 正弦信号：应选。正弦信号可写成 $A\\sin(\\omega t+\\varphi)$，给定参数后任意时刻可预测。\n- D. 语音信号：不选。语音随说话内容、语速和环境变化，通常不作为确定信号。\n\n做题抓手：\n- 固定公式最稳的是正弦\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | 噪声电压信号 | 不选 | 不选。噪声电压通常含随机扰动，不能用固定确定公式预测每一时刻。 |\n| B | 股票价格波动信号 | 不选 | 不选。股票价格受市场随机因素影响，属于随机或不确定信号。 |\n| C | 正弦信号 | 应选 | 应选。正弦信号可写成 $A\\sin(\\omega t+\\varphi)$，给定参数后任意时刻可预测。 |\n| D | 语音信号 | 不选 | 不选。语音随说话内容、语速和环境变化，通常不作为确定信号。 |",
-    "explanation": "能写成固定公式的，叫确定；听起来“随机”的，基本不是。"
+    "explanation": "能写成固定公式的，叫确定；听起来“随机”的，基本不是。",
+    "stemImages": [
+      "images/signal_system/rendered/q01_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q01_answer.png"
+    ]
   },
   {
     "id": 2,
@@ -41,19 +51,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. 叠加性"
+        "text": "A. 叠加性",
+        "image": "images/signal_system/rendered/q02_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. 齐次性"
+        "text": "B. 齐次性",
+        "image": "images/signal_system/rendered/q02_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. 时不变性"
+        "text": "C. 时不变性",
+        "image": "images/signal_system/rendered/q02_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. 记忆性"
+        "text": "D. 记忆性",
+        "image": "images/signal_system/rendered/q02_option_d.png"
       }
     ],
     "answer": "D",
@@ -63,7 +77,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：LTI = Linear Time-Invariant。Linear 包括叠加性和齐次性；Time-Invariant 是时不变性。记忆性不是 LTI 必备条件，一个 LTI 系统可以有记忆，也可以无记忆。\n\n选项判断：\n- A：不选。叠加性是线性系统的要求之一。\n- B：不选。齐次性是线性系统的要求之一。\n- C：不选。时不变性正是 LTI 中 TI 的含义。\n- D：应选。记忆性不是 LTI 的必备性质，LTI 系统可以有记忆也可以无记忆。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：LTI 系统定义。\n- 所属知识组：信号与系统基础判断。\n- 题干落点：线性时不变系统（LTI）不具有的性质是（ ）\n- 答案出口：D，即 记忆性。\n\n易混辨析：\n- A. 叠加性：不选。叠加性是线性系统的要求之一。\n- B. 齐次性：不选。齐次性是线性系统的要求之一。\n- C. 时不变性：不选。时不变性正是 LTI 中 TI 的含义。\n- D. 记忆性：应选。记忆性不是 LTI 的必备性质，LTI 系统可以有记忆也可以无记忆。\n\n做题抓手：\n- 三件套是叠加、齐次、时不变，没“必须记忆”\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | 叠加性 | 不选 | 不选。叠加性是线性系统的要求之一。 |\n| B | 齐次性 | 不选 | 不选。齐次性是线性系统的要求之一。 |\n| C | 时不变性 | 不选 | 不选。时不变性正是 LTI 中 TI 的含义。 |\n| D | 记忆性 | 应选 | 应选。记忆性不是 LTI 的必备性质，LTI 系统可以有记忆也可以无记忆。 |",
-    "explanation": "LTI 三件套：叠加、齐次、时不变。没有“必须记忆”。"
+    "explanation": "LTI 三件套：叠加、齐次、时不变。没有“必须记忆”。",
+    "stemImages": [
+      "images/signal_system/rendered/q02_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q02_answer.png"
+    ]
   },
   {
     "id": 3,
@@ -74,19 +94,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. $f(t)=\\sin(t)u(-t)$"
+        "text": "A. $f(t)=\\sin(t)u(-t)$",
+        "image": "images/signal_system/rendered/q03_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. $f(t)=e^{2t}u(t)$"
+        "text": "B. $f(t)=e^{2t}u(t)$",
+        "image": "images/signal_system/rendered/q03_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. $f(t)=\\cos(t)u(-t+1)$"
+        "text": "C. $f(t)=\\cos(t)u(-t+1)$",
+        "image": "images/signal_system/rendered/q03_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. $f(t)=tu(-t)$"
+        "text": "D. $f(t)=tu(-t)$",
+        "image": "images/signal_system/rendered/q03_option_d.png"
       }
     ],
     "answer": "B",
@@ -96,7 +120,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：因果信号要求 $t<0$ 时信号为 0。$u(t)$ 在 $t<0$ 时为 0，所以 $e^{2t}u(t)$ 是因果信号。$u(-t)$ 或 $u(1-t)$ 会让信号在负时间存在，不因果。\n\n选项判断：\n- A：不选。$u(-t)$ 使信号在 $t<0$ 可能存在，不满足因果信号要求。\n- B：应选。$u(t)$ 使 $t<0$ 时信号为 0，因此 $e^{2t}u(t)$ 是因果信号。\n- C：不选。$u(1-t)$ 在部分负时间不为 0，不是标准因果信号。\n- D：不选。$u(-t)$ 使负时间段存在信号，不因果。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：因果信号。\n- 所属知识组：信号与系统基础判断。\n- 题干落点：下列信号中，属于因果信号的是（ ）\n- 答案出口：B，即 $f(t)=e^{2t}u(t)$。\n\n易混辨析：\n- A. $f(t)=\\sin(t)u(-t)$：不选。$u(-t)$ 使信号在 $t<0$ 可能存在，不满足因果信号要求。\n- B. $f(t)=e^{2t}u(t)$：应选。$u(t)$ 使 $t<0$ 时信号为 0，因此 $e^{2t}u(t)$ 是因果信号。\n- C. $f(t)=\\cos(t)u(-t+1)$：不选。$u(1-t)$ 在部分负时间不为 0，不是标准因果信号。\n- D. $f(t)=tu(-t)$：不选。$u(-t)$ 使负时间段存在信号，不因果。\n\n做题抓手：\n- $t<0$ 清零，就是因果\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | $f(t)=\\sin(t)u(-t)$ | 不选 | 不选。$u(-t)$ 使信号在 $t<0$ 可能存在，不满足因果信号要求。 |\n| B | $f(t)=e^{2t}u(t)$ | 应选 | 应选。$u(t)$ 使 $t<0$ 时信号为 0，因此 $e^{2t}u(t)$ 是因果信号。 |\n| C | $f(t)=\\cos(t)u(-t+1)$ | 不选 | 不选。$u(1-t)$ 在部分负时间不为 0，不是标准因果信号。 |\n| D | $f(t)=tu(-t)$ | 不选 | 不选。$u(-t)$ 使负时间段存在信号，不因果。 |",
-    "explanation": "看到 $u(t)$，先想“从 0 开始”；看到 $u(-t)$，先想“0 以前存在”。"
+    "explanation": "看到 $u(t)$，先想“从 0 开始”；看到 $u(-t)$，先想“0 以前存在”。",
+    "stemImages": [
+      "images/signal_system/rendered/q03_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q03_answer.png"
+    ]
   },
   {
     "id": 4,
@@ -107,19 +137,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. $f(t)=e^{-t}u(t)$"
+        "text": "A. $f(t)=e^{-t}u(t)$",
+        "image": "images/signal_system/rendered/q04_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. $f(t)=\\sin(t)+\\sin(\\sqrt{2}t)$"
+        "text": "B. $f(t)=\\sin(t)+\\sin(\\sqrt{2}t)$",
+        "image": "images/signal_system/rendered/q04_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. $f(t)=\\sin(2t)+\\cos(2t)$"
+        "text": "C. $f(t)=\\sin(2t)+\\cos(2t)$",
+        "image": "images/signal_system/rendered/q04_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. $f(t)=tu(t)$"
+        "text": "D. $f(t)=tu(t)$",
+        "image": "images/signal_system/rendered/q04_option_d.png"
       }
     ],
     "answer": "C",
@@ -129,7 +163,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：单个正弦/余弦是周期信号；多个正弦相加时，频率比必须是有理数。B 的频率比为 $1:\\sqrt{2}$，不是有理数，所以不周期。C 两项角频率都是 2，当然周期。\n\n选项判断：\n- A：不选。$e^{-t}u(t)$ 是单边衰减信号，不会周期重复。\n- B：不选。两个正弦频率比涉及 $1:\\sqrt{2}$，不是有理数，叠加后不周期。\n- C：应选。$\\sin(2t)$ 与 $\\cos(2t)$ 角频率相同，叠加仍为周期信号。\n- D：不选。$tu(t)$ 是斜坡信号，不会周期重复。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：周期信号。\n- 所属知识组：信号与系统基础判断。\n- 题干落点：下列信号中，属于周期信号的是（ ）\n- 答案出口：C，即 $f(t)=\\sin(2t)+\\cos(2t)$。\n\n易混辨析：\n- A. $f(t)=e^{-t}u(t)$：不选。$e^{-t}u(t)$ 是单边衰减信号，不会周期重复。\n- B. $f(t)=\\sin(t)+\\sin(\\sqrt{2}t)$：不选。两个正弦频率比涉及 $1:\\sqrt{2}$，不是有理数，叠加后不周期。\n- C. $f(t)=\\sin(2t)+\\cos(2t)$：应选。$\\sin(2t)$ 与 $\\cos(2t)$ 角频率相同，叠加仍为周期信号。\n- D. $f(t)=tu(t)$：不选。$tu(t)$ 是斜坡信号，不会周期重复。\n\n做题抓手：\n- 同频同拍才周期\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | $f(t)=e^{-t}u(t)$ | 不选 | 不选。$e^{-t}u(t)$ 是单边衰减信号，不会周期重复。 |\n| B | $f(t)=\\sin(t)+\\sin(\\sqrt{2}t)$ | 不选 | 不选。两个正弦频率比涉及 $1:\\sqrt{2}$，不是有理数，叠加后不周期。 |\n| C | $f(t)=\\sin(2t)+\\cos(2t)$ | 应选 | 应选。$\\sin(2t)$ 与 $\\cos(2t)$ 角频率相同，叠加仍为周期信号。 |\n| D | $f(t)=tu(t)$ | 不选 | 不选。$tu(t)$ 是斜坡信号，不会周期重复。 |",
-    "explanation": "指数衰减不周期，斜坡不周期；正弦相加看频率比。"
+    "explanation": "指数衰减不周期，斜坡不周期；正弦相加看频率比。",
+    "stemImages": [
+      "images/signal_system/rendered/q04_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q04_answer.png"
+    ]
   },
   {
     "id": 5,
@@ -140,19 +180,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. $y(t)=3f(t)+2$"
+        "text": "A. $y(t)=3f(t)+2$",
+        "image": "images/signal_system/rendered/q05_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. $y(t)=f(2t)$"
+        "text": "B. $y(t)=f(2t)$",
+        "image": "images/signal_system/rendered/q05_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. $y(t)=f(t)f(t-1)$"
+        "text": "C. $y(t)=f(t)f(t-1)$",
+        "image": "images/signal_system/rendered/q05_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. $y(t)=\\int_{-\\infty}^{t} f(\\tau)d\\tau$"
+        "text": "D. $y(t)=\\int_{-\\infty}^{t} f(\\tau)d\\tau$",
+        "image": "images/signal_system/rendered/q05_option_d.png"
       }
     ],
     "answer": "C",
@@ -162,7 +206,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：线性系统要满足两个要求：齐次性和叠加性。C 中输出等于 $f(t)$ 和 $f(t-1)$ 相乘，输入放大 2 倍时输出会放大 4 倍，不满足齐次性，所以非线性。\n\n选项判断：\n- A：严格说也非线性。因为输入为 0 时输出为 2，不满足零输入零输出；但单选考试通常不把它作为目标答案。\n- B：不选。$y(t)=f(2t)$ 是时间尺度变化，仍满足线性叠加关系。\n- C：应选。输出含 $f(t)f(t-1)$ 的乘积，输入放大 2 倍时输出放大 4 倍，典型非线性。\n- D：不选。积分算子满足叠加和齐次，属于线性系统。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：线性与非线性系统。\n- 所属知识组：信号与系统基础判断。\n- 题干落点：下列系统中，属于非线性系统的是（ ）\n- 答案出口：C，即 $y(t)=f(t)f(t-1)$。\n\n易混辨析：\n- A. $y(t)=3f(t)+2$：严格说也非线性。因为输入为 0 时输出为 2，不满足零输入零输出；但单选考试通常不把它作为目标答案。\n- B. $y(t)=f(2t)$：不选。$y(t)=f(2t)$ 是时间尺度变化，仍满足线性叠加关系。\n- C. $y(t)=f(t)f(t-1)$：应选。输出含 $f(t)f(t-1)$ 的乘积，输入放大 2 倍时输出放大 4 倍，典型非线性。\n- D. $y(t)=\\int_{-\\infty}^{t} f(\\tau)d\\tau$：不选。积分算子满足叠加和齐次，属于线性系统。\n\n做题抓手：\n- 乘积最像非线性，单选先抓 C\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | $y(t)=3f(t)+2$ | 不选 | 严格说也非线性。因为输入为 0 时输出为 2，不满足零输入零输出；但单选考试通常不把它作为目标答案。 |\n| B | $y(t)=f(2t)$ | 不选 | 不选。$y(t)=f(2t)$ 是时间尺度变化，仍满足线性叠加关系。 |\n| C | $y(t)=f(t)f(t-1)$ | 应选 | 应选。输出含 $f(t)f(t-1)$ 的乘积，输入放大 2 倍时输出放大 4 倍，典型非线性。 |\n| D | $y(t)=\\int_{-\\infty}^{t} f(\\tau)d\\tau$ | 不选 | 不选。积分算子满足叠加和齐次，属于线性系统。 |\n\n\n\n### 考试口径提醒\n\n单选题按出题人意图选最典型非线性项 C，同时在 caveats 中保留严格定义提醒。",
-    "explanation": "有平方、乘积、绝对值、常数偏置，基本非线性。"
+    "explanation": "有平方、乘积、绝对值、常数偏置，基本非线性。",
+    "stemImages": [
+      "images/signal_system/rendered/q05_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q05_answer.png"
+    ]
   },
   {
     "id": 6,
@@ -173,19 +223,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. $tu(t)$"
+        "text": "A. $tu(t)$",
+        "image": "images/signal_system/rendered/q06_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. $(t-1)u(t-1)$"
+        "text": "B. $(t-1)u(t-1)$",
+        "image": "images/signal_system/rendered/q06_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. $tu(t)-(t-1)u(t-1)$"
+        "text": "C. $tu(t)-(t-1)u(t-1)$",
+        "image": "images/signal_system/rendered/q06_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. $u(t)-u(t-1)$"
+        "text": "D. $u(t)-u(t-1)$",
+        "image": "images/signal_system/rendered/q06_option_d.png"
       }
     ],
     "answer": "C",
@@ -195,7 +249,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：LTI 系统的零状态响应为卷积：\n\n\n$$\ny(t)=f(t) \\ast h(t)\n$$\n\n\n这里 $h(t)$ 是 0 到 1 之间高度为 1 的矩形，$f(t)=u(t)$ 是阶跃。卷积后结果先从 0 线性增加，到 $t=1$ 后保持为 1：\n\n\n$$\ny(t)=tu(t)-(t-1)u(t-1)\n$$\n\n选项判断：\n- A：不选。$tu(t)$ 只描述一直爬坡，没有体现 $t=1$ 后保持。\n- B：不选。$(t-1)u(t-1)$ 只有延迟斜坡，缺少 0 到 1 秒的响应。\n- C：应选。阶跃输入卷积宽度 1 的矩形冲激响应，结果为 $tu(t)-(t-1)u(t-1)$。\n- D：不选。这是冲激响应本身，不是阶跃输入后的零状态响应。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：卷积与零状态响应。\n- 所属知识组：LTI、卷积与冲激响应。\n- 题干落点：冲激响应 $h(t)=u(t)-u(t-1)$ 的 LTI 系统，对输入 $f(t)=u(t)$ 的零状态响应为（ ）\n- 答案出口：C，即 $tu(t)-(t-1)u(t-1)$。\n\n易混辨析：\n- A. $tu(t)$：不选。$tu(t)$ 只描述一直爬坡，没有体现 $t=1$ 后保持。\n- B. $(t-1)u(t-1)$：不选。$(t-1)u(t-1)$ 只有延迟斜坡，缺少 0 到 1 秒的响应。\n- C. $tu(t)-(t-1)u(t-1)$：应选。阶跃输入卷积宽度 1 的矩形冲激响应，结果为 $tu(t)-(t-1)u(t-1)$。\n- D. $u(t)-u(t-1)$：不选。这是冲激响应本身，不是阶跃输入后的零状态响应。\n\n做题抓手：\n- 阶跃卷矩形 = 先爬坡后封顶\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | $tu(t)$ | 不选 | 不选。$tu(t)$ 只描述一直爬坡，没有体现 $t=1$ 后保持。 |\n| B | $(t-1)u(t-1)$ | 不选 | 不选。$(t-1)u(t-1)$ 只有延迟斜坡，缺少 0 到 1 秒的响应。 |\n| C | $tu(t)-(t-1)u(t-1)$ | 应选 | 应选。阶跃输入卷积宽度 1 的矩形冲激响应，结果为 $tu(t)-(t-1)u(t-1)$。 |\n| D | $u(t)-u(t-1)$ | 不选 | 不选。这是冲激响应本身，不是阶跃输入后的零状态响应。 |",
-    "explanation": "阶跃卷矩形，结果是“斜坡再保持”。"
+    "explanation": "阶跃卷矩形，结果是“斜坡再保持”。",
+    "stemImages": [
+      "images/signal_system/rendered/q06_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q06_answer.png"
+    ]
   },
   {
     "id": 7,
@@ -206,19 +266,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. 信号放大"
+        "text": "A. 信号放大",
+        "image": "images/signal_system/rendered/q07_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. 信号延迟 2s"
+        "text": "B. 信号延迟 2s",
+        "image": "images/signal_system/rendered/q07_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. 信号微分"
+        "text": "C. 信号微分",
+        "image": "images/signal_system/rendered/q07_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. 信号积分"
+        "text": "D. 信号积分",
+        "image": "images/signal_system/rendered/q07_option_d.png"
       }
     ],
     "answer": "B",
@@ -228,7 +292,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：$$\ny(t)=f(t) \\ast \\delta(t-2)=f(t-2)\n$$\n\n\n$f(t-2)$ 表示波形整体向右移动 2 秒，即延迟 2s。\n\n选项判断：\n- A：不选。$\\delta(t-2)$ 不改变幅度，只造成延迟。\n- B：应选。$f(t)*\\delta(t-2)=f(t-2)$，表示信号延迟 2 秒。\n- C：不选。微分系统的冲激响应通常与 $\\delta'(t)$ 有关。\n- D：不选。积分系统的冲激响应通常与 $u(t)$ 有关。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：冲激响应与延迟。\n- 所属知识组：LTI、卷积与冲激响应。\n- 题干落点：线性时不变系统（LTI）的冲激响应为 $h(t)=\\delta(t-2)$，则该系统的功能是（ ）\n- 答案出口：B，即 信号延迟 2s。\n\n易混辨析：\n- A. 信号放大：不选。$\\delta(t-2)$ 不改变幅度，只造成延迟。\n- B. 信号延迟 2s：应选。$f(t)*\\delta(t-2)=f(t-2)$，表示信号延迟 2 秒。\n- C. 信号微分：不选。微分系统的冲激响应通常与 $\\delta'(t)$ 有关。\n- D. 信号积分：不选。积分系统的冲激响应通常与 $u(t)$ 有关。\n\n做题抓手：\n- δ 往右推 2 秒 = 延迟 2 秒\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | 信号放大 | 不选 | 不选。$\\delta(t-2)$ 不改变幅度，只造成延迟。 |\n| B | 信号延迟 2s | 应选 | 应选。$f(t)*\\delta(t-2)=f(t-2)$，表示信号延迟 2 秒。 |\n| C | 信号微分 | 不选 | 不选。微分系统的冲激响应通常与 $\\delta'(t)$ 有关。 |\n| D | 信号积分 | 不选 | 不选。积分系统的冲激响应通常与 $u(t)$ 有关。 |",
-    "explanation": "$\\delta(t-a)$ 卷一下，就是延迟 `a`。"
+    "explanation": "$\\delta(t-a)$ 卷一下，就是延迟 `a`。",
+    "stemImages": [
+      "images/signal_system/rendered/q07_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q07_answer.png"
+    ]
   },
   {
     "id": 8,
@@ -239,19 +309,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. 将时域信号转换为频域信号，反映信号的频率分布"
+        "text": "A. 将时域信号转换为频域信号，反映信号的频率分布",
+        "image": "images/signal_system/rendered/q08_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. 将频域信号转换为时域信号"
+        "text": "B. 将频域信号转换为时域信号",
+        "image": "images/signal_system/rendered/q08_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. 描述信号的时域变化规律"
+        "text": "C. 描述信号的时域变化规律",
+        "image": "images/signal_system/rendered/q08_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. 反映系统的因果性"
+        "text": "D. 反映系统的因果性",
+        "image": "images/signal_system/rendered/q08_option_d.png"
       }
     ],
     "answer": "A",
@@ -261,7 +335,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：傅里叶变换的核心是把一个信号拆成不同频率的正弦/余弦成分，所以能看出信号含有哪些频率。\n\n选项判断：\n- A：应选。傅里叶变换把时域信号表示为频率成分，反映频率分布。\n- B：不选。这更像傅里叶反变换的方向。\n- C：不选。时域变化规律主要由原时域波形描述。\n- D：不选。因果性不是傅里叶变换的物理意义。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：傅里叶变换物理意义。\n- 所属知识组：傅里叶变换与频谱。\n- 题干落点：傅里叶变换的物理意义是（ ）\n- 答案出口：A，即 将时域信号转换为频域信号，反映信号的频率分布。\n\n易混辨析：\n- A. 将时域信号转换为频域信号，反映信号的频率分布：应选。傅里叶变换把时域信号表示为频率成分，反映频率分布。\n- B. 将频域信号转换为时域信号：不选。这更像傅里叶反变换的方向。\n- C. 描述信号的时域变化规律：不选。时域变化规律主要由原时域波形描述。\n- D. 反映系统的因果性：不选。因果性不是傅里叶变换的物理意义。\n\n做题抓手：\n- 傅里叶 = 拆频谱\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | 将时域信号转换为频域信号，反映信号的频率分布 | 应选 | 应选。傅里叶变换把时域信号表示为频率成分，反映频率分布。 |\n| B | 将频域信号转换为时域信号 | 不选 | 不选。这更像傅里叶反变换的方向。 |\n| C | 描述信号的时域变化规律 | 不选 | 不选。时域变化规律主要由原时域波形描述。 |\n| D | 反映系统的因果性 | 不选 | 不选。因果性不是傅里叶变换的物理意义。 |",
-    "explanation": "傅里叶 = 看频谱。"
+    "explanation": "傅里叶 = 看频谱。",
+    "stemImages": [
+      "images/signal_system/rendered/q08_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q08_answer.png"
+    ]
   },
   {
     "id": 9,
@@ -272,19 +352,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. $1/2 F(j\\omega/2)e^{-j3\\omega}$"
+        "text": "A. $1/2 F(j\\omega/2)e^{-j3\\omega}$",
+        "image": "images/signal_system/rendered/q09_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. $1/2 F(j\\omega/2)e^{-j3\\omega/2}$"
+        "text": "B. $1/2 F(j\\omega/2)e^{-j3\\omega/2}$",
+        "image": "images/signal_system/rendered/q09_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. $2F(j2\\omega)e^{-j3\\omega}$"
+        "text": "C. $2F(j2\\omega)e^{-j3\\omega}$",
+        "image": "images/signal_system/rendered/q09_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. $2F(j2\\omega)e^{-j6\\omega}$"
+        "text": "D. $2F(j2\\omega)e^{-j6\\omega}$",
+        "image": "images/signal_system/rendered/q09_option_d.png"
       }
     ],
     "answer": "B",
@@ -294,7 +378,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：$$\nf(2t-3)=f(2(t-3/2))\n$$\n\n\n先做时间压缩 $a=2$，再延迟 $t_0=3/2$。性质为：\n\n\n$$\nf(a(t-t_0)) \\leftrightarrow (\\frac{1}{\\lvert a \\rvert})F(j\\omega/a)e^{-j\\omega t_0}\n$$\n\n\n所以：\n\n\n$$\nf(2t-3) \\leftrightarrow 1/2 F(j\\omega/2)e^{-j3\\omega/2}\n$$\n\n选项判断：\n- A：不选。指数项把延迟量错写成 3，而 $2t-3=2(t-3/2)$。\n- B：应选。时间压缩因子为 2，频域有 $1/2F(j\\omega/2)$，延迟 $3/2$ 对应 $e^{-j3\\omega/2}$。\n- C：不选。时间压缩后幅度因子应为 $1/2$，不是 2。\n- D：不选。频率缩放和时移指数都不对。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：时间缩放与平移性质。\n- 所属知识组：傅里叶变换与频谱。\n- 题干落点：已知信号 $f(t)$ 的傅里叶变换为 $F(j\\omega)$，则 $f(2t-3)$ 的傅里叶变换为（ ）\n- 答案出口：B，即 $1/2 F(j\\omega/2)e^{-j3\\omega/2}$。\n\n易混辨析：\n- A. $1/2 F(j\\omega/2)e^{-j3\\omega}$：不选。指数项把延迟量错写成 3，而 $2t-3=2(t-3/2)$。\n- B. $1/2 F(j\\omega/2)e^{-j3\\omega/2}$：应选。时间压缩因子为 2，频域有 $1/2F(j\\omega/2)$，延迟 $3/2$ 对应 $e^{-j3\\omega/2}$。\n- C. $2F(j2\\omega)e^{-j3\\omega}$：不选。时间压缩后幅度因子应为 $1/2$，不是 2。\n- D. $2F(j2\\omega)e^{-j6\\omega}$：不选。频率缩放和时移指数都不对。\n\n做题抓手：\n- 先压缩 2 倍，再延迟 1.5 秒\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | $1/2 F(j\\omega/2)e^{-j3\\omega}$ | 不选 | 不选。指数项把延迟量错写成 3，而 $2t-3=2(t-3/2)$。 |\n| B | $1/2 F(j\\omega/2)e^{-j3\\omega/2}$ | 应选 | 应选。时间压缩因子为 2，频域有 $1/2F(j\\omega/2)$，延迟 $3/2$ 对应 $e^{-j3\\omega/2}$。 |\n| C | $2F(j2\\omega)e^{-j3\\omega}$ | 不选 | 不选。时间压缩后幅度因子应为 $1/2$，不是 2。 |\n| D | $2F(j2\\omega)e^{-j6\\omega}$ | 不选 | 不选。频率缩放和时移指数都不对。 |",
-    "explanation": "时间压缩 2 倍，频域变成 `1/2` 和 $\\omega/2$；括号里 `t-3/2`，所以指数是 $-j\\omega·3/2$。"
+    "explanation": "时间压缩 2 倍，频域变成 `1/2` 和 $\\omega/2$；括号里 `t-3/2`，所以指数是 $-j\\omega·3/2$。",
+    "stemImages": [
+      "images/signal_system/rendered/q09_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q09_answer.png"
+    ]
   },
   {
     "id": 10,
@@ -305,19 +395,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. $\\frac{1}{j\\omega+2}$"
+        "text": "A. $\\frac{1}{j\\omega+2}$",
+        "image": "images/signal_system/rendered/q10_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. $\\frac{1}{j\\omega-2}$"
+        "text": "B. $\\frac{1}{j\\omega-2}$",
+        "image": "images/signal_system/rendered/q10_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. $2/(j\\omega+2)$"
+        "text": "C. $2/(j\\omega+2)$",
+        "image": "images/signal_system/rendered/q10_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. $\\frac{1}{2-j\\omega}$"
+        "text": "D. $\\frac{1}{2-j\\omega}$",
+        "image": "images/signal_system/rendered/q10_option_d.png"
       }
     ],
     "answer": "A",
@@ -327,7 +421,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：常用公式：\n\n\n$$\ne^{-at}u(t) \\leftrightarrow \\frac{1}{a+j\\omega},\\quad a>0\n$$\n\n\n这里 $a=2$，所以结果是 $\\frac{1}{2+j\\omega}$。\n\n选项判断：\n- A：应选。常用变换对为 $e^{-at}u(t)\\leftrightarrow 1/(a+j\\omega)$，这里 $a=2$。\n- B：不选。分母符号错，会对应增长指数或不同变换约定。\n- C：不选。分子多了 2。\n- D：不选。$2-j\\omega$ 与 $2+j\\omega$ 符号不一致。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：常用傅里叶变换对。\n- 所属知识组：傅里叶变换与频谱。\n- 题干落点：信号 $f(t)=e^{-2t}u(t)$ 的傅里叶变换为（ ）\n- 答案出口：A，即 $\\frac{1}{j\\omega+2}$。\n\n易混辨析：\n- A. $\\frac{1}{j\\omega+2}$：应选。常用变换对为 $e^{-at}u(t)\\leftrightarrow 1/(a+j\\omega)$，这里 $a=2$。\n- B. $\\frac{1}{j\\omega-2}$：不选。分母符号错，会对应增长指数或不同变换约定。\n- C. $2/(j\\omega+2)$：不选。分子多了 2。\n- D. $\\frac{1}{2-j\\omega}$：不选。$2-j\\omega$ 与 $2+j\\omega$ 符号不一致。\n\n做题抓手：\n- 指数衰减 + 阶跃，分母 $2+j\\omega$\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | $\\frac{1}{j\\omega+2}$ | 应选 | 应选。常用变换对为 $e^{-at}u(t)\\leftrightarrow 1/(a+j\\omega)$，这里 $a=2$。 |\n| B | $\\frac{1}{j\\omega-2}$ | 不选 | 不选。分母符号错，会对应增长指数或不同变换约定。 |\n| C | $2/(j\\omega+2)$ | 不选 | 不选。分子多了 2。 |\n| D | $\\frac{1}{2-j\\omega}$ | 不选 | 不选。$2-j\\omega$ 与 $2+j\\omega$ 符号不一致。 |",
-    "explanation": "`e` 的指数里是 `-at`，分母就是 $a+j\\omega$。"
+    "explanation": "`e` 的指数里是 `-at`，分母就是 $a+j\\omega$。",
+    "stemImages": [
+      "images/signal_system/rendered/q10_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q10_answer.png"
+    ]
   },
   {
     "id": 11,
@@ -338,19 +438,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. 基波频率"
+        "text": "A. 基波频率",
+        "image": "images/signal_system/rendered/q11_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. 直流分量"
+        "text": "B. 直流分量",
+        "image": "images/signal_system/rendered/q11_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. 无限次谐波频率"
+        "text": "C. 无限次谐波频率",
+        "image": "images/signal_system/rendered/q11_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. 非谐波频率"
+        "text": "D. 非谐波频率",
+        "image": "images/signal_system/rendered/q11_option_d.png"
       }
     ],
     "answer": "D",
@@ -360,7 +464,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：傅里叶级数只包含直流分量、基波、整数倍谐波。非谐波频率不是傅里叶级数的标准组成。\n\n选项判断：\n- A：不选。基波频率是傅里叶级数的重要组成。\n- B：不选。直流分量可以存在，是 0 次频率分量。\n- C：不选。谐波频率是周期信号傅里叶级数的核心。\n- D：应选。傅里叶级数只包含基波整数倍谐波，不包含非谐波频率。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：傅里叶级数频率组成。\n- 所属知识组：傅里叶变换与频谱。\n- 题干落点：周期信号的傅里叶级数表示中，不包含的频率分量是（ ）\n- 答案出口：D，即 非谐波频率。\n\n易混辨析：\n- A. 基波频率：不选。基波频率是傅里叶级数的重要组成。\n- B. 直流分量：不选。直流分量可以存在，是 0 次频率分量。\n- C. 无限次谐波频率：不选。谐波频率是周期信号傅里叶级数的核心。\n- D. 非谐波频率：应选。傅里叶级数只包含基波整数倍谐波，不包含非谐波频率。\n\n做题抓手：\n- 只认整数谐波，不认野频\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | 基波频率 | 不选 | 不选。基波频率是傅里叶级数的重要组成。 |\n| B | 直流分量 | 不选 | 不选。直流分量可以存在，是 0 次频率分量。 |\n| C | 无限次谐波频率 | 不选 | 不选。谐波频率是周期信号傅里叶级数的核心。 |\n| D | 非谐波频率 | 应选 | 应选。傅里叶级数只包含基波整数倍谐波，不包含非谐波频率。 |",
-    "explanation": "周期信号频谱是一排“整数倍”的线。"
+    "explanation": "周期信号频谱是一排“整数倍”的线。",
+    "stemImages": [
+      "images/signal_system/rendered/q11_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q11_answer.png"
+    ]
   },
   {
     "id": 12,
@@ -371,19 +481,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. $\\lvert \\omega \\rvert>\\omega_c$"
+        "text": "A. $\\lvert \\omega \\rvert>\\omega_c$",
+        "image": "images/signal_system/rendered/q12_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. $\\lvert \\omega \\rvert<\\omega_c$"
+        "text": "B. $\\lvert \\omega \\rvert<\\omega_c$",
+        "image": "images/signal_system/rendered/q12_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. $0<\\omega<\\omega_c$"
+        "text": "C. $0<\\omega<\\omega_c$",
+        "image": "images/signal_system/rendered/q12_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. $\\omega>\\omega_c$"
+        "text": "D. $\\omega>\\omega_c$",
+        "image": "images/signal_system/rendered/q12_option_d.png"
       }
     ],
     "answer": "B",
@@ -393,7 +507,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：低通 = 低频通过，高频截止。频率轴有正频率和负频率，所以完整写法是 $\\lvert \\omega \\rvert<\\omega_c$。\n\n选项判断：\n- A：不选。这是高通滤波器通过的范围。\n- B：应选。低通滤波器通过低频，标准写法是 $|\\omega|<\\omega_c$。\n- C：不选。只写正频率不完整，频谱通常有正负频率。\n- D：不选。这是高频范围，不是低通。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：理想滤波器频率范围。\n- 所属知识组：傅里叶变换与频谱。\n- 题干落点：若一个低通滤波器的截止频率为 $\\omega_c$，则它允许通过的信号频率范围是（ ）\n- 答案出口：B，即 $\\lvert \\omega \\rvert<\\omega_c$。\n\n易混辨析：\n- A. $\\lvert \\omega \\rvert>\\omega_c$：不选。这是高通滤波器通过的范围。\n- B. $\\lvert \\omega \\rvert<\\omega_c$：应选。低通滤波器通过低频，标准写法是 $|\\omega|<\\omega_c$。\n- C. $0<\\omega<\\omega_c$：不选。只写正频率不完整，频谱通常有正负频率。\n- D. $\\omega>\\omega_c$：不选。这是高频范围，不是低通。\n\n做题抓手：\n- 低通就是低频放行\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | $\\lvert \\omega \\rvert>\\omega_c$ | 不选 | 不选。这是高通滤波器通过的范围。 |\n| B | $\\lvert \\omega \\rvert<\\omega_c$ | 应选 | 应选。低通滤波器通过低频，标准写法是 $|\\omega|<\\omega_c$。 |\n| C | $0<\\omega<\\omega_c$ | 不选 | 不选。只写正频率不完整，频谱通常有正负频率。 |\n| D | $\\omega>\\omega_c$ | 不选 | 不选。这是高频范围，不是低通。 |",
-    "explanation": "低通看绝对值小于截止频率。"
+    "explanation": "低通看绝对值小于截止频率。",
+    "stemImages": [
+      "images/signal_system/rendered/q12_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q12_answer.png"
+    ]
   },
   {
     "id": 13,
@@ -404,19 +524,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. $f_s\\ge 2f_m$"
+        "text": "A. $f_s\\ge 2f_m$",
+        "image": "images/signal_system/rendered/q13_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. $f_s\\le 2f_m$"
+        "text": "B. $f_s\\le 2f_m$",
+        "image": "images/signal_system/rendered/q13_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. $f_s\\ge f_m$"
+        "text": "C. $f_s\\ge f_m$",
+        "image": "images/signal_system/rendered/q13_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. $f_s\\le f_m$"
+        "text": "D. $f_s\\le f_m$",
+        "image": "images/signal_system/rendered/q13_option_d.png"
       }
     ],
     "answer": "A",
@@ -426,7 +550,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：奈奎斯特抽样定理要求采样频率至少是最高频率的 2 倍。\n\n选项判断：\n- A：应选。奈奎斯特采样定理要求 $f_s\\ge 2f_m$。\n- B：不选。采样频率低于两倍最高频率会混叠。\n- C：不选。只大于最高频率还不够。\n- D：不选。低于最高频率更无法无失真恢复。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：奈奎斯特采样定理。\n- 所属知识组：采样与数字通信。\n- 题干落点：抽样定理中，为了无失真恢复原连续信号，抽样频率 $f_s$ 与信号最高频率 $f_m$ 的关系为（ ）\n- 答案出口：A，即 $f_s\\ge 2f_m$。\n\n易混辨析：\n- A. $f_s\\ge 2f_m$：应选。奈奎斯特采样定理要求 $f_s\\ge 2f_m$。\n- B. $f_s\\le 2f_m$：不选。采样频率低于两倍最高频率会混叠。\n- C. $f_s\\ge f_m$：不选。只大于最高频率还不够。\n- D. $f_s\\le f_m$：不选。低于最高频率更无法无失真恢复。\n\n做题抓手：\n- 采样频率至少翻倍\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | $f_s\\ge 2f_m$ | 应选 | 应选。奈奎斯特采样定理要求 $f_s\\ge 2f_m$。 |\n| B | $f_s\\le 2f_m$ | 不选 | 不选。采样频率低于两倍最高频率会混叠。 |\n| C | $f_s\\ge f_m$ | 不选 | 不选。只大于最高频率还不够。 |\n| D | $f_s\\le f_m$ | 不选 | 不选。低于最高频率更无法无失真恢复。 |",
-    "explanation": "采样必须“翻倍”。"
+    "explanation": "采样必须“翻倍”。",
+    "stemImages": [
+      "images/signal_system/rendered/q13_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q13_answer.png"
+    ]
   },
   {
     "id": 14,
@@ -437,19 +567,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. 50Hz"
+        "text": "A. 50Hz",
+        "image": "images/signal_system/rendered/q14_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. 100Hz"
+        "text": "B. 100Hz",
+        "image": "images/signal_system/rendered/q14_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. 200Hz"
+        "text": "C. 200Hz",
+        "image": "images/signal_system/rendered/q14_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. 400Hz"
+        "text": "D. 400Hz",
+        "image": "images/signal_system/rendered/q14_option_d.png"
       }
     ],
     "answer": "C",
@@ -459,7 +593,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：按这份卷子的选项，出题人明显把 100 当作最高频率来用，所以奈奎斯特采样频率为 $2\\times 100=200\\text{Hz}$。\n\n严格提醒：如果 `100t` 中的 100 是角频率 `rad/s`，则普通频率为 $100/(2\\pi) Hz$，奈奎斯特频率约为 `31.8Hz`，选项中没有。因此考试按选项习惯选 C。\n\n选项判断：\n- A：不选。按试卷选项口径，100 的两倍是 200Hz，50Hz 太低。\n- B：不选。100Hz 等于题目给出的最高频率口径，没有达到两倍。\n- C：应选。按出题习惯把 100 当最高频率，奈奎斯特采样频率为 200Hz。\n- D：不选。400Hz 可以采样但不是题目问的奈奎斯特最低采样频率。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：奈奎斯特采样频率。\n- 所属知识组：采样与数字通信。\n- 题干落点：已知信号 $f(t)=\\cos(100t)$，其奈奎斯特采样频率为（ ）\n- 答案出口：C，即 200Hz。\n\n易混辨析：\n- A. 50Hz：不选。按试卷选项口径，100 的两倍是 200Hz，50Hz 太低。\n- B. 100Hz：不选。100Hz 等于题目给出的最高频率口径，没有达到两倍。\n- C. 200Hz：应选。按出题习惯把 100 当最高频率，奈奎斯特采样频率为 200Hz。\n- D. 400Hz：不选。400Hz 可以采样但不是题目问的奈奎斯特最低采样频率。\n\n做题抓手：\n- 题目按 100Hz 算，翻倍 200Hz\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | 50Hz | 不选 | 不选。按试卷选项口径，100 的两倍是 200Hz，50Hz 太低。 |\n| B | 100Hz | 不选 | 不选。100Hz 等于题目给出的最高频率口径，没有达到两倍。 |\n| C | 200Hz | 应选 | 应选。按出题习惯把 100 当最高频率，奈奎斯特采样频率为 200Hz。 |\n| D | 400Hz | 不选 | 不选。400Hz 可以采样但不是题目问的奈奎斯特最低采样频率。 |\n\n\n\n### 考试口径提醒\n\n按试卷选项口径把 100 当作最高频率 Hz，而不是角频率 rad/s。",
-    "explanation": "看到这种题，先用“最高频率 ×2”。"
+    "explanation": "看到这种题，先用“最高频率 ×2”。",
+    "stemImages": [
+      "images/signal_system/rendered/q14_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q14_answer.png"
+    ]
   },
   {
     "id": 15,
@@ -470,19 +610,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. 所有信号都存在拉普拉斯变换"
+        "text": "A. 所有信号都存在拉普拉斯变换",
+        "image": "images/signal_system/rendered/q15_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. 拉普拉斯变换的收敛域一定包含虚轴"
+        "text": "B. 拉普拉斯变换的收敛域一定包含虚轴",
+        "image": "images/signal_system/rendered/q15_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. 因果信号的拉普拉斯变换收敛域为 $Re[s]>σ0$"
+        "text": "C. 因果信号的拉普拉斯变换收敛域为 $Re[s]>σ0$",
+        "image": "images/signal_system/rendered/q15_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. 拉普拉斯变换的逆变换唯一"
+        "text": "D. 拉普拉斯变换的逆变换唯一",
+        "image": "images/signal_system/rendered/q15_option_d.png"
       }
     ],
     "answer": "C",
@@ -492,7 +636,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：不是所有信号都有拉普拉斯变换；ROC 不一定包含虚轴，只有傅里叶变换存在时才需要包含虚轴。因果信号一般是右边信号，ROC 位于最右极点右侧，即 $Re[s]>σ0$。\n\n选项判断：\n- A：不选。不是所有信号都存在拉普拉斯变换。\n- B：不选。ROC 不一定包含虚轴；包含虚轴时才可对应傅里叶变换存在。\n- C：应选。因果右边信号的 ROC 位于最右极点右侧，常写为 $\\operatorname{Re}(s)>\\sigma_0$。\n- D：不选。只给 $F(s)$ 不给 ROC 时，反变换不一定唯一。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：拉普拉斯 ROC。\n- 所属知识组：拉普拉斯变换与连续系统稳定性。\n- 题干落点：下列关于拉普拉斯变换的说法，正确的是（ ）\n- 答案出口：C，即 因果信号的拉普拉斯变换收敛域为 $Re[s]>σ0$。\n\n易混辨析：\n- A. 所有信号都存在拉普拉斯变换：不选。不是所有信号都存在拉普拉斯变换。\n- B. 拉普拉斯变换的收敛域一定包含虚轴：不选。ROC 不一定包含虚轴；包含虚轴时才可对应傅里叶变换存在。\n- C. 因果信号的拉普拉斯变换收敛域为 $Re[s]>σ0$：应选。因果右边信号的 ROC 位于最右极点右侧，常写为 $\\operatorname{Re}(s)>\\sigma_0$。\n- D. 拉普拉斯变换的逆变换唯一：不选。只给 $F(s)$ 不给 ROC 时，反变换不一定唯一。\n\n做题抓手：\n- 因果信号 ROC 往右站\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | 所有信号都存在拉普拉斯变换 | 不选 | 不选。不是所有信号都存在拉普拉斯变换。 |\n| B | 拉普拉斯变换的收敛域一定包含虚轴 | 不选 | 不选。ROC 不一定包含虚轴；包含虚轴时才可对应傅里叶变换存在。 |\n| C | 因果信号的拉普拉斯变换收敛域为 $Re[s]>σ0$ | 应选 | 应选。因果右边信号的 ROC 位于最右极点右侧，常写为 $\\operatorname{Re}(s)>\\sigma_0$。 |\n| D | 拉普拉斯变换的逆变换唯一 | 不选 | 不选。只给 $F(s)$ 不给 ROC 时，反变换不一定唯一。 |",
-    "explanation": "因果 = 右边信号 = ROC 向右。"
+    "explanation": "因果 = 右边信号 = ROC 向右。",
+    "stemImages": [
+      "images/signal_system/rendered/q15_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q15_answer.png"
+    ]
   },
   {
     "id": 16,
@@ -503,19 +653,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. `s` 平面的右半平面"
+        "text": "A. `s` 平面的右半平面",
+        "image": "images/signal_system/rendered/q16_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. `s` 平面的左半平面"
+        "text": "B. `s` 平面的左半平面",
+        "image": "images/signal_system/rendered/q16_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. `s` 平面上某条垂线的右方"
+        "text": "C. `s` 平面上某条垂线的右方",
+        "image": "images/signal_system/rendered/q16_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. `s` 平面上某条垂线的左方"
+        "text": "D. `s` 平面上某条垂线的左方",
+        "image": "images/signal_system/rendered/q16_option_d.png"
       }
     ],
     "answer": "C",
@@ -525,7 +679,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：因果系统的 ROC 在最右极点右侧，不一定刚好是整个右半平面，而是某条垂线 $Re[s]=σ0$ 的右方。\n\n选项判断：\n- A：不选。因果系统 ROC 不一定刚好是整个右半平面。\n- B：不选。左侧 ROC 常对应左边信号或反因果情形。\n- C：应选。因果系统 ROC 通常在某条垂线右方，即最右极点右侧。\n- D：不选。垂线左方不是因果右边系统的一般 ROC。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：因果系统 ROC。\n- 所属知识组：拉普拉斯变换与连续系统稳定性。\n- 题干落点：拉普拉斯变换的收敛域（ROC）对于因果系统而言，通常位于（ ）\n- 答案出口：C，即 `s` 平面上某条垂线的右方。\n\n易混辨析：\n- A. `s` 平面的右半平面：不选。因果系统 ROC 不一定刚好是整个右半平面。\n- B. `s` 平面的左半平面：不选。左侧 ROC 常对应左边信号或反因果情形。\n- C. `s` 平面上某条垂线的右方：应选。因果系统 ROC 通常在某条垂线右方，即最右极点右侧。\n- D. `s` 平面上某条垂线的左方：不选。垂线左方不是因果右边系统的一般 ROC。\n\n做题抓手：\n- 某条垂线右方\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | `s` 平面的右半平面 | 不选 | 不选。因果系统 ROC 不一定刚好是整个右半平面。 |\n| B | `s` 平面的左半平面 | 不选 | 不选。左侧 ROC 常对应左边信号或反因果情形。 |\n| C | `s` 平面上某条垂线的右方 | 应选 | 应选。因果系统 ROC 通常在某条垂线右方，即最右极点右侧。 |\n| D | `s` 平面上某条垂线的左方 | 不选 | 不选。垂线左方不是因果右边系统的一般 ROC。 |",
-    "explanation": "因果 ROC 向右，不因果 ROC 向左。"
+    "explanation": "因果 ROC 向右，不因果 ROC 向左。",
+    "stemImages": [
+      "images/signal_system/rendered/q16_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q16_answer.png"
+    ]
   },
   {
     "id": 17,
@@ -536,19 +696,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. 1 个"
+        "text": "A. 1 个",
+        "image": "images/signal_system/rendered/q17_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. 2 个"
+        "text": "B. 2 个",
+        "image": "images/signal_system/rendered/q17_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. 3 个"
+        "text": "C. 3 个",
+        "image": "images/signal_system/rendered/q17_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. 4 个"
+        "text": "D. 4 个",
+        "image": "images/signal_system/rendered/q17_option_d.png"
       }
     ],
     "answer": "A",
@@ -558,7 +722,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：$$\n\\begin{aligned}\ns^{2}+3s+2&=(s+1)(s+2) \\\\\nH(s)&=(s+1)/[(s+1)(s+2)]=\\frac{1}{s+2}\n\\end{aligned}\n$$\n\n\n约掉公共因子后，只剩一个极点 $s=-2$。\n\n选项判断：\n- A：应选。分母 $(s+1)(s+2)$ 与分子 $s+1$ 约掉后只剩极点 $s=-2$。\n- B：不选。未约分前看似两个极点，但零极点相消后不算系统函数剩余极点。\n- C：不选。分母二阶最多两个根，不可能有三个剩余极点。\n- D：不选。没有四个极点。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：系统函数极点。\n- 所属知识组：拉普拉斯变换与连续系统稳定性。\n- 题干落点：系统的传递函数 $H(s)=(s+1)/(s^{2}+3s+2)$，其极点个数为（ ）\n- 答案出口：A，即 1 个。\n\n易混辨析：\n- A. 1 个：应选。分母 $(s+1)(s+2)$ 与分子 $s+1$ 约掉后只剩极点 $s=-2$。\n- B. 2 个：不选。未约分前看似两个极点，但零极点相消后不算系统函数剩余极点。\n- C. 3 个：不选。分母二阶最多两个根，不可能有三个剩余极点。\n- D. 4 个：不选。没有四个极点。\n\n做题抓手：\n- 先约掉 `(s+1)`，剩一个极点\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | 1 个 | 应选 | 应选。分母 $(s+1)(s+2)$ 与分子 $s+1$ 约掉后只剩极点 $s=-2$。 |\n| B | 2 个 | 不选 | 不选。未约分前看似两个极点，但零极点相消后不算系统函数剩余极点。 |\n| C | 3 个 | 不选 | 不选。分母二阶最多两个根，不可能有三个剩余极点。 |\n| D | 4 个 | 不选 | 不选。没有四个极点。 |",
-    "explanation": "先因式分解，看能不能零极点相消。"
+    "explanation": "先因式分解，看能不能零极点相消。",
+    "stemImages": [
+      "images/signal_system/rendered/q17_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q17_answer.png"
+    ]
   },
   {
     "id": 18,
@@ -569,19 +739,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. $z^{-3}$"
+        "text": "A. $z^{-3}$",
+        "image": "images/signal_system/rendered/q18_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. $z^{3}$"
+        "text": "B. $z^{3}$",
+        "image": "images/signal_system/rendered/q18_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. `1`"
+        "text": "C. `1`",
+        "image": "images/signal_system/rendered/q18_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. $e^{-j3\\omega}$"
+        "text": "D. $e^{-j3\\omega}$",
+        "image": "images/signal_system/rendered/q18_option_d.png"
       }
     ],
     "answer": "A",
@@ -591,7 +765,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：Z 变换定义为：\n\n\n$$\nF(z)=Σ f[k]z^{-k}\n$$\n\n\n$\\delta[k-3]$ 只有 $k=3$ 时为 1，所以 $F(z)=z^{-3}$。\n\n选项判断：\n- A：应选。Z 变换定义中 $\\delta[k-3]$ 只在 $k=3$ 取 1，所以结果为 $z^{-3}$。\n- B：不选。指数符号方向反了。\n- C：不选。$1$ 对应 $\\delta[k]$，不是延迟 3 个采样。\n- D：不选。这是离散时间傅里叶变换中的形式，不是 Z 变换标准答案。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：离散冲激的 Z 变换。\n- 所属知识组：Z 变换与离散系统稳定性。\n- 题干落点：序列 $f[k]=\\delta[k-3]$ 的 Z 变换为（ ）\n- 答案出口：A，即 $z^{-3}$。\n\n易混辨析：\n- A. $z^{-3}$：应选。Z 变换定义中 $\\delta[k-3]$ 只在 $k=3$ 取 1，所以结果为 $z^{-3}$。\n- B. $z^{3}$：不选。指数符号方向反了。\n- C. `1`：不选。$1$ 对应 $\\delta[k]$，不是延迟 3 个采样。\n- D. $e^{-j3\\omega}$：不选。这是离散时间傅里叶变换中的形式，不是 Z 变换标准答案。\n\n做题抓手：\n- 位移 3 格，变 $z^{-3}$\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | $z^{-3}$ | 应选 | 应选。Z 变换定义中 $\\delta[k-3]$ 只在 $k=3$ 取 1，所以结果为 $z^{-3}$。 |\n| B | $z^{3}$ | 不选 | 不选。指数符号方向反了。 |\n| C | `1` | 不选 | 不选。$1$ 对应 $\\delta[k]$，不是延迟 3 个采样。 |\n| D | $e^{-j3\\omega}$ | 不选 | 不选。这是离散时间傅里叶变换中的形式，不是 Z 变换标准答案。 |",
-    "explanation": "$\\delta[k-n] \\leftrightarrow z^-n$。"
+    "explanation": "$\\delta[k-n] \\leftrightarrow z^-n$。",
+    "stemImages": [
+      "images/signal_system/rendered/q18_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q18_answer.png"
+    ]
   },
   {
     "id": 19,
@@ -602,19 +782,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. 右半平面"
+        "text": "A. 右半平面",
+        "image": "images/signal_system/rendered/q19_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. 左半平面"
+        "text": "B. 左半平面",
+        "image": "images/signal_system/rendered/q19_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. 虚轴上"
+        "text": "C. 虚轴上",
+        "image": "images/signal_system/rendered/q19_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. 原点"
+        "text": "D. 原点",
+        "image": "images/signal_system/rendered/q19_option_d.png"
       }
     ],
     "answer": "B",
@@ -624,7 +808,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：连续时间 LTI 系统稳定要求所有极点实部小于 0，也就是全部在左半平面。\n\n选项判断：\n- A：不选。右半平面极点会使响应发散。\n- B：应选。连续时间 LTI 系统稳定要求极点全部在 s 左半平面。\n- C：不选。虚轴极点通常临界，重复虚轴极点会不稳定。\n- D：不选。原点极点不满足渐近稳定。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：连续系统稳定性。\n- 所属知识组：拉普拉斯变换与连续系统稳定性。\n- 题干落点：连续时间系统稳定的充分必要条件是其系统函数的极点位于 `s` 平面的（ ）\n- 答案出口：B，即 左半平面。\n\n易混辨析：\n- A. 右半平面：不选。右半平面极点会使响应发散。\n- B. 左半平面：应选。连续时间 LTI 系统稳定要求极点全部在 s 左半平面。\n- C. 虚轴上：不选。虚轴极点通常临界，重复虚轴极点会不稳定。\n- D. 原点：不选。原点极点不满足渐近稳定。\n\n做题抓手：\n- 极点全去左半平面\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | 右半平面 | 不选 | 不选。右半平面极点会使响应发散。 |\n| B | 左半平面 | 应选 | 应选。连续时间 LTI 系统稳定要求极点全部在 s 左半平面。 |\n| C | 虚轴上 | 不选 | 不选。虚轴极点通常临界，重复虚轴极点会不稳定。 |\n| D | 原点 | 不选 | 不选。原点极点不满足渐近稳定。 |",
-    "explanation": "连续稳定看 `s` 平面左边。"
+    "explanation": "连续稳定看 `s` 平面左边。",
+    "stemImages": [
+      "images/signal_system/rendered/q19_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q19_answer.png"
+    ]
   },
   {
     "id": 20,
@@ -635,19 +825,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. $F(z)=\\frac{1}{1-1/2 z^{-1}}，\\lvert z \\rvert>1/2$"
+        "text": "A. $F(z)=\\frac{1}{1-1/2 z^{-1}}，\\lvert z \\rvert>1/2$",
+        "image": "images/signal_system/rendered/q20_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. $F(z)=\\frac{1}{1-1/2 z^{-1}}，\\lvert z \\rvert<1/2$"
+        "text": "B. $F(z)=\\frac{1}{1-1/2 z^{-1}}，\\lvert z \\rvert<1/2$",
+        "image": "images/signal_system/rendered/q20_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. $F(z)=\\frac{1}{1+1/2 z^{-1}}，\\lvert z \\rvert>1/2$"
+        "text": "C. $F(z)=\\frac{1}{1+1/2 z^{-1}}，\\lvert z \\rvert>1/2$",
+        "image": "images/signal_system/rendered/q20_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. $F(z)=\\frac{1}{1+1/2 z^{-1}}，\\lvert z \\rvert<1/2$"
+        "text": "D. $F(z)=\\frac{1}{1+1/2 z^{-1}}，\\lvert z \\rvert<1/2$",
+        "image": "images/signal_system/rendered/q20_option_d.png"
       }
     ],
     "answer": "A",
@@ -657,7 +851,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：常用公式：\n\n\n$$\na^{k} u[k] \\leftrightarrow \\frac{1}{1-az^{-1}},\\quad \\mathrm{ROC}: \\lvert z \\rvert>\\lvert a \\rvert\n$$\n\n\n这里 $a=1/2$，所以：\n\n\n$$\nF(z)=\\frac{1}{1-1/2 z^{-1}},\\quad \\lvert z \\rvert>1/2\n$$\n\n选项判断：\n- A：应选。$a^ku[k]\\leftrightarrow 1/(1-az^{-1})$，$a=1/2$，右边序列 ROC 为 $|z|>1/2$。\n- B：不选。ROC 写成圆内对应左边序列，不符合 $u[k]$。\n- C：不选。分母符号应为 $1-az^{-1}$。\n- D：不选。分母符号和 ROC 都不对。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：右边指数序列 Z 变换。\n- 所属知识组：Z 变换与离散系统稳定性。\n- 题干落点：离散信号 $f[k]=(1/2)^{k} u[k]$ 的 Z 变换及其收敛域为（ ）\n- 答案出口：A，即 $F(z)=\\frac{1}{1-1/2 z^{-1}}，\\lvert z \\rvert>1/2$。\n\n易混辨析：\n- A. $F(z)=\\frac{1}{1-1/2 z^{-1}}，\\lvert z \\rvert>1/2$：应选。$a^ku[k]\\leftrightarrow 1/(1-az^{-1})$，$a=1/2$，右边序列 ROC 为 $|z|>1/2$。\n- B. $F(z)=\\frac{1}{1-1/2 z^{-1}}，\\lvert z \\rvert<1/2$：不选。ROC 写成圆内对应左边序列，不符合 $u[k]$。\n- C. $F(z)=\\frac{1}{1+1/2 z^{-1}}，\\lvert z \\rvert>1/2$：不选。分母符号应为 $1-az^{-1}$。\n- D. $F(z)=\\frac{1}{1+1/2 z^{-1}}，\\lvert z \\rvert<1/2$：不选。分母符号和 ROC 都不对。\n\n做题抓手：\n- 右边几何级数，分母 $1-az^{-1}$，ROC 在外圈\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | $F(z)=\\frac{1}{1-1/2 z^{-1}}，\\lvert z \\rvert>1/2$ | 应选 | 应选。$a^ku[k]\\leftrightarrow 1/(1-az^{-1})$，$a=1/2$，右边序列 ROC 为 $|z|>1/2$。 |\n| B | $F(z)=\\frac{1}{1-1/2 z^{-1}}，\\lvert z \\rvert<1/2$ | 不选 | 不选。ROC 写成圆内对应左边序列，不符合 $u[k]$。 |\n| C | $F(z)=\\frac{1}{1+1/2 z^{-1}}，\\lvert z \\rvert>1/2$ | 不选 | 不选。分母符号应为 $1-az^{-1}$。 |\n| D | $F(z)=\\frac{1}{1+1/2 z^{-1}}，\\lvert z \\rvert<1/2$ | 不选 | 不选。分母符号和 ROC 都不对。 |",
-    "explanation": "右边序列 `u[k]`，ROC 在圆外。"
+    "explanation": "右边序列 `u[k]`，ROC 在圆外。",
+    "stemImages": [
+      "images/signal_system/rendered/q20_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q20_answer.png"
+    ]
   },
   {
     "id": 21,
@@ -668,19 +868,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. 单位圆内"
+        "text": "A. 单位圆内",
+        "image": "images/signal_system/rendered/q21_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. 单位圆外"
+        "text": "B. 单位圆外",
+        "image": "images/signal_system/rendered/q21_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. 单位圆上"
+        "text": "C. 单位圆上",
+        "image": "images/signal_system/rendered/q21_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. 原点"
+        "text": "D. 原点",
+        "image": "images/signal_system/rendered/q21_option_d.png"
       }
     ],
     "answer": "A",
@@ -690,7 +894,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：离散系统稳定要求单位圆 $\\lvert z \\rvert=1$ 在 ROC 内。对因果稳定系统来说，所有极点必须在单位圆内。\n\n选项判断：\n- A：应选。因果离散系统稳定时极点必须在单位圆内。\n- B：不选。单位圆外极点会导致响应不稳定。\n- C：不选。单位圆上极点一般不满足 BIBO 稳定。\n- D：不选。原点只是一个具体位置，不是稳定性充分必要条件。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：离散系统稳定性。\n- 所属知识组：Z 变换与离散系统稳定性。\n- 题干落点：离散时间系统稳定的充分必要条件是其系统函数的极点位于 `z` 平面的（ ）\n- 答案出口：A，即 单位圆内。\n\n易混辨析：\n- A. 单位圆内：应选。因果离散系统稳定时极点必须在单位圆内。\n- B. 单位圆外：不选。单位圆外极点会导致响应不稳定。\n- C. 单位圆上：不选。单位圆上极点一般不满足 BIBO 稳定。\n- D. 原点：不选。原点只是一个具体位置，不是稳定性充分必要条件。\n\n做题抓手：\n- 极点进单位圆\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | 单位圆内 | 应选 | 应选。因果离散系统稳定时极点必须在单位圆内。 |\n| B | 单位圆外 | 不选 | 不选。单位圆外极点会导致响应不稳定。 |\n| C | 单位圆上 | 不选 | 不选。单位圆上极点一般不满足 BIBO 稳定。 |\n| D | 原点 | 不选 | 不选。原点只是一个具体位置，不是稳定性充分必要条件。 |",
-    "explanation": "离散稳定看 `z` 平面圆内。"
+    "explanation": "离散稳定看 `z` 平面圆内。",
+    "stemImages": [
+      "images/signal_system/rendered/q21_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q21_answer.png"
+    ]
   },
   {
     "id": 22,
@@ -701,19 +911,23 @@
     "options": [
       {
         "key": "A",
-        "text": "A. 将时域离散信号转换为复频域信号，便于离散系统分析"
+        "text": "A. 将时域离散信号转换为复频域信号，便于离散系统分析",
+        "image": "images/signal_system/rendered/q22_option_a.png"
       },
       {
         "key": "B",
-        "text": "B. 将复频域信号转换为时域离散信号"
+        "text": "B. 将复频域信号转换为时域离散信号",
+        "image": "images/signal_system/rendered/q22_option_b.png"
       },
       {
         "key": "C",
-        "text": "C. 描述离散信号的频率分布"
+        "text": "C. 描述离散信号的频率分布",
+        "image": "images/signal_system/rendered/q22_option_c.png"
       },
       {
         "key": "D",
-        "text": "D. 判断离散系统的线性性"
+        "text": "D. 判断离散系统的线性性",
+        "image": "images/signal_system/rendered/q22_option_d.png"
       }
     ],
     "answer": "A",
@@ -723,7 +937,13 @@
     "blankCount": 0,
     "quickExplanation": "本题理由：Z 变换是离散系统分析工具，把离散时间序列变成复频域函数，从而方便研究系统函数、极点、稳定性和响应。\n\n选项判断：\n- A：应选。Z 变换把离散时域序列变到复频域，便于分析离散系统。\n- B：不选。这是反 Z 变换方向。\n- C：不选。频率分布更偏 DTFT/频谱描述，Z 变换范围更广。\n- D：不选。线性不是 Z 变换的核心作用。",
     "knowledgeDetail": "核心知识框架：\n- 本题考点：Z 变换作用。\n- 所属知识组：Z 变换与离散系统稳定性。\n- 题干落点：离散信号 Z 变换的核心作用是（ ）\n- 答案出口：A，即 将时域离散信号转换为复频域信号，便于离散系统分析。\n\n易混辨析：\n- A. 将时域离散信号转换为复频域信号，便于离散系统分析：应选。Z 变换把离散时域序列变到复频域，便于分析离散系统。\n- B. 将复频域信号转换为时域离散信号：不选。这是反 Z 变换方向。\n- C. 描述离散信号的频率分布：不选。频率分布更偏 DTFT/频谱描述，Z 变换范围更广。\n- D. 判断离散系统的线性性：不选。线性不是 Z 变换的核心作用。\n\n做题抓手：\n- 离散信号上复频地图\n\n### 选项辨析\n\n| 选项 | 内容 | 结论 | 理由 |\n|---|---|---|---|\n| A | 将时域离散信号转换为复频域信号，便于离散系统分析 | 应选 | 应选。Z 变换把离散时域序列变到复频域，便于分析离散系统。 |\n| B | 将复频域信号转换为时域离散信号 | 不选 | 不选。这是反 Z 变换方向。 |\n| C | 描述离散信号的频率分布 | 不选 | 不选。频率分布更偏 DTFT/频谱描述，Z 变换范围更广。 |\n| D | 判断离散系统的线性性 | 不选 | 不选。线性不是 Z 变换的核心作用。 |",
-    "explanation": "连续系统常用 Laplace，离散系统常用 Z。"
+    "explanation": "连续系统常用 Laplace，离散系统常用 Z。",
+    "stemImages": [
+      "images/signal_system/rendered/q22_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q22_answer.png"
+    ]
   },
   {
     "id": 23,
@@ -739,7 +959,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：LTI 为什么适合音频滤波。\n答案出口：线性不生新频率，时不变让滤波规则稳定。\n记忆抓手：`人声 + 噪声`，用带通/陷波，保人声、去 50Hz。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：用 LTI 的两条性质解释音频滤波为什么可靠。\n- 线性：输入是“人声 + 背景噪声 + 音乐”时，输出可以看成各部分分别滤波后的叠加，不会因为混合输入而乱出额外成分。\n- 时不变：同一个滤波器今天和明天规则一致，同样频率的人声会被同样保留，同样频率的噪声会被同样衰减。\n\n关系梳理：\n| 性质 | 在公式里 | 在音频滤波里 |\n|---|---|---|\n| 线性 | $a x_1+b x_2 \\rightarrow a y_1+b y_2$ | 人声和噪声可分开理解，不会互相“变形”成新规则 |\n| 时不变 | 输入延迟，输出同样延迟 | 滤波效果稳定，不会一会儿强一会儿弱 |\n| 频率选择 | 不同频段增益不同 | 保留人声频段，压低噪声频段 |\n\n作答抓手：先定义 LTI，再把“线性=可叠加处理”，“时不变=规则稳定”翻译到音频场景，最后举带通/陷波例子。",
-    "explanation": "LTI 定义一句话；线性可分离频率、不产生新频率；时不变保证滤波规则稳定；举语音和 50Hz 噪声例子；结论是降低噪声、减少失真。"
+    "explanation": "LTI 定义一句话；线性可分离频率、不产生新频率；时不变保证滤波规则稳定；举语音和 50Hz 噪声例子；结论是降低噪声、减少失真。",
+    "stemImages": [
+      "images/signal_system/rendered/q23_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q23_answer.png"
+    ]
   },
   {
     "id": 24,
@@ -755,7 +981,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：采样频率怎么选。\n答案出口：$f_s \\ge 2fm$，低了混叠，高了浪费。\n记忆抓手：语音最高约 3.4kHz，所以常取 8kHz。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：采样频率如何影响数字通信质量。\n- 采样定理给底线：$f_s \\ge 2f_m$，低于这个值会混叠，恢复不出原信号。\n- 工程取值不是越高越好，而是在“防混叠”和“码率/带宽/功耗成本”之间折中。\n\n关系梳理：\n| 采样频率选择 | 后果 | 语音通信例子 |\n|---|---|---|\n| 太低 | 频谱混叠，语音失真 | 低于 6.8kHz 不可靠 |\n| 合理 | 可恢复且成本可控 | 常用 8kHz |\n| 太高 | 数据量和带宽增加 | 质量提升有限但成本上升 |\n\n作答抓手：先写 $2f_m$，再写混叠，最后用 3.4kHz 语音推出 8kHz 工程采样。",
-    "explanation": "最高频率 $f_m$；采样频率 $f_s\\ge 2f_m$；低了混叠；高了浪费；语音 3.4kHz 对应 8kHz。"
+    "explanation": "最高频率 $f_m$；采样频率 $f_s\\ge 2f_m$；低了混叠；高了浪费；语音 3.4kHz 对应 8kHz。",
+    "stemImages": [
+      "images/signal_system/rendered/q24_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q24_answer.png"
+    ]
   },
   {
     "id": 25,
@@ -771,7 +1003,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：极点怎么判稳定。\n答案出口：左稳右不稳，虚轴要小心。\n记忆抓手：连续系统看 `s` 平面左边。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：用系统函数极点判断控制系统稳定性。\n- 连续因果系统常用判断：极点全部在左半平面，响应会衰减，系统稳定。\n- 工程意义：稳定不是抽象数学要求，而是保证温度、转速、电压等物理量不会振荡失控。\n\n关系梳理：\n| 极点位置 | 响应表现 | 工程后果 |\n|---|---|---|\n| 左半平面 | 暂态衰减 | 输出逐渐接近设定值 |\n| 虚轴 | 不衰减振荡风险 | 可能持续摆动 |\n| 右半平面 | 指数发散 | 设备失控或损坏 |\n\n作答抓手：先说“极点实部”，再联系控制对象的安全性和可靠性。",
-    "explanation": "极点左半平面稳定；右半平面不稳定；虚轴看情况；稳定输出收敛；工程上防止设备异常和事故。"
+    "explanation": "极点左半平面稳定；右半平面不稳定；虚轴看情况；稳定输出收敛；工程上防止设备异常和事故。",
+    "stemImages": [
+      "images/signal_system/rendered/q25_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q25_answer.png"
+    ]
   },
   {
     "id": 26,
@@ -787,7 +1025,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：傅里叶和 AM 频谱。\n答案出口：时域拆频谱，载波在 $\\pm\\omega_c$，边带在 $\\pm\\omega_c\\pm\\omega_m$。\n记忆抓手：先找载波，再找边带。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：AM 调幅信号的频谱分析。\n- 傅里叶变换把时域通信信号展开为频率成分，从而看清载波和边带。\n- AM 的低频调制信号会被搬移到载波附近，形成上边带和下边带。\n\n关系梳理：\n| 成分 | 时域来源 | 频域位置 |\n|---|---|---|\n| 载波 | $\\cos(\\omega_c t)$ | $\\pm\\omega_c$ 附近 |\n| 调制信号 | $m(t)$ | 原本在低频 |\n| 边带 | 调制乘载波 | $\\omega_c\\pm\\omega_m$ |\n\n作答抓手：写清“频谱峰值看载波，载波两侧看调制信息，带宽由边带范围决定”。",
-    "explanation": "傅里叶变换 = 时域转频域；AM = 载波 + 上下边带；载波在 $\\pm\\omega_c$；信息在边带；用于判断频率占用。"
+    "explanation": "傅里叶变换 = 时域转频域；AM = 载波 + 上下边带；载波在 $\\pm\\omega_c$；信息在边带；用于判断频率占用。",
+    "stemImages": [
+      "images/signal_system/rendered/q26_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q26_answer.png"
+    ]
   },
   {
     "id": 27,
@@ -803,7 +1047,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：LTI 定义 + 失真。\n答案出口：叠加 + 时不变；非线性生谐波，时变会变调。\n记忆抓手：先说定义，再说坏处。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：数字滤波器为什么要求 LTI，以及不满足时会怎样失真。\n- 线性保证多个频率分量可分别处理再叠加；时不变保证同一滤波规则不随时间漂移。\n- 非线性会产生新谐波/互调，时变会导致音量、音色或频率响应随时间晃动。\n\n辨析表：\n| 性质 | 满足时 | 不满足时 |\n|---|---|---|\n| 线性 | 人声、噪声、伴奏可按叠加分析 | 产生谐波和互调失真 |\n| 时不变 | 同一声音片段处理规则稳定 | 音色忽明忽暗、参数漂移 |\n| LTI | 可用频率响应设计滤波器 | 频域设计口径失效 |\n\n作答抓手：这题不是单纯定义题，要把叠加性和时不变性落到“音频失真”上。",
-    "explanation": "定义写 LTI；叠加性写“多频率分量分别处理再相加”；时不变写“不同时间效果一致”；非线性导致谐波失真；时变导致滤波效果不稳定。"
+    "explanation": "定义写 LTI；叠加性写“多频率分量分别处理再相加”；时不变写“不同时间效果一致”；非线性导致谐波失真；时变导致滤波效果不稳定。",
+    "stemImages": [
+      "images/signal_system/rendered/q27_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q27_answer.png"
+    ]
   },
   {
     "id": 28,
@@ -819,7 +1069,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：模拟 vs 数字。\n答案出口：模拟省电，数字抗干扰强、升级灵活。\n记忆抓手：降噪用数字算法更猛。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：模拟处理和数字处理在手机语音模块中的对比。\n- 模拟处理功耗低、结构直接，但抗干扰和升级能力弱；数字处理功耗较高，但算法灵活、抗干扰强。\n- 语音降噪体现数字处理优势：可以按环境噪声动态估计和更新算法。\n\n对比表：\n| 维度 | 模拟处理 | 数字处理 |\n|---|---|---|\n| 功耗 | 电路简单，通常较低 | A/D、处理器运算，较高 |\n| 抗干扰 | 噪声直接叠加 | 可滤波、编码、纠错 |\n| 升级 | 改硬件才方便 | 软件/固件可升级 |\n| 降噪 | 固定电路参数 | 自适应滤波、谱减、AI 降噪 |\n\n作答抓手：按三个小问逐项对比，再用“语音降噪算法可更新”收束。",
-    "explanation": "功耗模拟低；抗干扰数字强；升级数字灵活；降噪靠算法动态调整。"
+    "explanation": "功耗模拟低；抗干扰数字强；升级数字灵活；降噪靠算法动态调整。",
+    "stemImages": [
+      "images/signal_system/rendered/q28_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q28_answer.png"
+    ]
   },
   {
     "id": 29,
@@ -835,7 +1091,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：蓝牙音频。\n答案出口：音频低频，干扰高频，频谱分开后过滤。\n记忆抓手：看频段，不看波形。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：蓝牙音频里，傅里叶变换负责“看清频谱”，滤波器负责“处理频谱”。\n- 音频有效成分主要落在音频频段，外界高频干扰常落在更高频段或表现为异常频谱峰。\n- 频域能把时域混在一起的音频和干扰分开看，这是本题最核心的理由。\n\n辨析表：\n| 项目 | 时域看到的样子 | 频域看到的样子 | 处理方法 |\n|---|---|---|---|\n| 有效音频 | 复杂波形 | 音频范围内的主要能量 | 保留 |\n| 高频干扰 | 叠在波形上的毛刺/抖动 | 高频区异常成分 | 衰减 |\n| 傅里叶变换 | 不直接滤波 | 负责暴露频率组成 | 为滤波提供依据 |\n\n作答抓手：本题不是问蓝牙协议细节，而是问“频域如何区分有效音频与高频干扰”。",
-    "explanation": "傅里叶看频率；音频在音频段；干扰在其他高频段；频谱上分开；滤波保留有效信号。"
+    "explanation": "傅里叶看频率；音频在音频段；干扰在其他高频段；频谱上分开；滤波保留有效信号。",
+    "stemImages": [
+      "images/signal_system/rendered/q29_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q29_answer.png"
+    ]
   },
   {
     "id": 30,
@@ -851,7 +1113,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：无人机遥控。\n答案出口：遥控信号在指定频段冒峰，干扰在别的频段。\n记忆抓手：先找“正经频段”。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：无人机遥控信号能通过频谱位置与环境干扰区分。\n- 遥控指令通常有指定通信频段；干扰可能在其他频段，也可能表现为宽带噪声。\n- 傅里叶变换把混合接收信号变成频谱后，就可以按频段筛选目标信号。\n\n辨析表：\n| 成分 | 频谱特征 | 判断依据 | 处理 |\n|---|---|---|---|\n| 遥控指令 | 目标频段内较稳定分量 | 符合通信频段 | 保留/解调 |\n| 窄带干扰 | 非目标频段尖峰 | 频率位置不匹配 | 滤除 |\n| 宽带噪声 | 多频段底噪升高 | 没有稳定目标峰 | 抑制 |\n\n作答抓手：先说傅里叶变换的物理意义，再说“指定频段”和“环境干扰频段”的差异。",
-    "explanation": "傅里叶变换看频谱；遥控信号在指定频段；干扰在其他频段；按频段筛选；保证控制可靠。"
+    "explanation": "傅里叶变换看频谱；遥控信号在指定频段；干扰在其他频段；按频段筛选；保证控制可靠。",
+    "stemImages": [
+      "images/signal_system/rendered/q30_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q30_answer.png"
+    ]
   },
   {
     "id": 31,
@@ -867,7 +1135,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：RC 低通卷积。\n答案出口：$y=f \\ast h$，矩形输入 = 阶跃响应差，结果先涨后稳。\n记忆抓手：$H(s)=\\frac{1}{s+1}$，$y'+y=f$。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：RC 低通输入矩形脉冲时，用卷积求零状态响应。\n- 输入 $f(t)=u(t)-u(t-1)$ 可以看作两个阶跃相减，所以输出等于两个阶跃响应相减。\n- $h(t)=e^{-t}u(t)$ 的阶跃响应是 $(1-e^{-t})u(t)$。\n\n关系梳理：\n| 对象 | 本题表达 | 作用 |\n|---|---|---|\n| 冲激响应 | $h(t)=e^{-t}u(t)$ | 系统特性 |\n| 输入脉冲 | $u(t)-u(t-1)$ | 宽度 1 秒 |\n| 输出 | 阶跃响应相减 | 形成先上升后衰减 |\n\n作答抓手：矩形脉冲卷积题，优先拆成“阶跃 - 延迟阶跃”。",
-    "explanation": "公式 + 代入 + 化简 + 最终结论。"
+    "explanation": "公式 + 代入 + 化简 + 最终结论。",
+    "stemImages": [
+      "images/signal_system/rendered/q31_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q31_answer.png"
+    ]
   },
   {
     "id": 32,
@@ -883,7 +1157,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：矩形脉冲 + 理想低通 + 延迟放大。\n答案出口：$\\mathrm{rect}(t/2)$ 宽度 2，变换是 sinc；低通截 $2\\pi$；$3x(t-1)$ 就是右移 1 秒再放大 3 倍。\n记忆抓手：宽度越宽，频谱越窄。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：矩形脉冲的傅里叶变换、低通滤波和时移幅度变化。\n- $\\mathrm{rect}(t/2)$ 的有效宽度为 2，频谱呈 sinc 型：$2\\sin\\omega/\\omega$。\n- 理想低通只保留 $|\\omega|<2\\pi$ 的频率；延迟会给频谱乘相位因子，幅度放大会整体放大频谱。\n\n关系梳理：\n| 操作 | 时域表现 | 频域表现 |\n|---|---|---|\n| 矩形脉冲 | 有限时间窗 | sinc 频谱 |\n| 低通滤波 | 波形变平滑 | 截掉高频 |\n| 延迟 $t_0$ | 波形右移 | 乘 $e^{-j\\omega t_0}$ |\n| 放大 3 倍 | 幅度变 3 倍 | 频谱幅度变 3 倍 |\n\n作答抓手：第 1 问算积分，第 2 问写 $Y=HX$，第 3 问分别说时移和幅度缩放。",
-    "explanation": "公式 + 代入 + 化简 + 最终结论。"
+    "explanation": "公式 + 代入 + 化简 + 最终结论。",
+    "stemImages": [
+      "images/signal_system/rendered/q32_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q32_answer.png"
+    ]
   },
   {
     "id": 33,
@@ -899,7 +1179,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：RC 低通 + 10V 阶跃。\n答案出口：$H(s)=\\frac{1}{s+1}$，宽 2 的脉冲是阶跃差，10V 阶跃最后稳到 10V。\n记忆抓手：过渡过程带 $e^{-t}$。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：RC 低通的系统函数、ROC、矩形脉冲响应和阶跃过渡。\n- $h(t)=e^{-t}u(t)$ 对应 $H(s)=1/(s+1)$，因果 ROC 是 $\\operatorname{Re}(s)>-1$。\n- 输入 $u(t)-u(t-2)$ 时，仍然用“阶跃响应 - 延迟阶跃响应”。\n\n关系梳理：\n| 分问 | 关键公式 | 本题意义 |\n|---|---|---|\n| $H(s)$ | $1/(s+1)$ | 一阶低通 |\n| ROC | $\\operatorname{Re}(s)>-1$ | 因果右边信号 |\n| 矩形输入 | 两个阶跃相减 | 先充电后放电 |\n| 10V 阶跃 | $10(1-e^{-t})u(t)$ | 稳态 10V |\n\n作答抓手：RC 低通就是一阶惯性系统，过渡过程按指数逐渐接近稳态。",
-    "explanation": "公式 + 代入 + 化简 + 最终结论。"
+    "explanation": "公式 + 代入 + 化简 + 最终结论。",
+    "stemImages": [
+      "images/signal_system/rendered/q33_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q33_answer.png"
+    ]
   },
   {
     "id": 34,
@@ -915,7 +1201,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：两个冲激 + 一阶系统。\n答案出口：$F(z)=2+3z^{-1}$，过系统直接乘 $H(z)$。\n记忆抓手：$\\delta[k]$ 给 1，$\\delta[k-1]$ 给 $z^{-1}$。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：有限长离散序列的 Z 变换和通过系统后的零状态响应。\n- $\\delta[k-n] \\leftrightarrow z^{-n}$，所以 $2\\delta[k]+3\\delta[k-1]$ 直接写成 $2+3z^{-1}$。\n- 有限长序列的 ROC 通常排除使表达式无意义的点，本题含 $z^{-1}$，所以排除 $z=0$。\n\n关系梳理：\n| 内容 | 结果 | 理由 |\n|---|---|---|\n| 输入 Z 变换 | $2+3z^{-1}$ | 冲激移位 |\n| 输入 ROC | $0<|z|<\\infty$ | 含负幂，排除 0 |\n| 系统函数 | $1/(1-0.5z^{-1})$ | 一阶因果系统 |\n| 输出 | $Y=XH$ | Z 域相乘 |\n\n作答抓手：先算 $F(z)$，再乘 $H(z)$；ROC 要取二者共同满足并考虑系统极点。",
-    "explanation": "公式 + 代入 + 化简 + 最终结论。"
+    "explanation": "公式 + 代入 + 化简 + 最终结论。",
+    "stemImages": [
+      "images/signal_system/rendered/q34_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q34_answer.png"
+    ]
   },
   {
     "id": 35,
@@ -931,7 +1223,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：FIR 稳不稳定、因不因果。\n答案出口：有限长冲激响应 = 稳定；$k<0$ 没值 = 因果。\n记忆抓手：FIR 基本稳。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：有限冲激响应 FIR 系统的 Z 变换、因果性和稳定性。\n- $h[k]$ 只在有限几个非负时刻非零，所以系统因果且绝对可和。\n- FIR 系统没有无限长尾巴，通常稳定；本题 $sum |h[k]|=8<\\infty$。\n\n关系梳理：\n| 判断 | 本题依据 | 结论 |\n|---|---|---|\n| Z 变换 | $-3+5z^{-2}$ | 两个冲激项 |\n| ROC | $0<|z|<\\infty$ | 含 $z^{-2}$ |\n| 因果性 | $k<0$ 无冲激 | 因果 |\n| 稳定性 | 绝对值和有限 | 稳定 |\n\n作答抓手：看到有限个冲激，先想到 FIR；因果看是否有负时刻，稳定看绝对可和。",
-    "explanation": "公式 + 代入 + 化简 + 最终结论。"
+    "explanation": "公式 + 代入 + 化简 + 最终结论。",
+    "stemImages": [
+      "images/signal_system/rendered/q35_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q35_answer.png"
+    ]
   },
   {
     "id": 36,
@@ -943,10 +1241,10 @@
     "answer": "（1）对差分方程作 Z 变换：\n\n\n$$\nY(z)-0.5z^{-1}Y(z)=F(z)\n$$\n\n\n所以：\n\n\n$$\nH(z)=Y(z)/F(z)=\\frac{1}{1-0.5z^{-1}}\n$$\n\n\n因果系统 ROC 为：\n\n\n$$\n\\lvert z \\rvert>0.5\n$$\n\n\n（2）系统因果，因为当前输出只由当前输入和过去输出决定。系统稳定，因为唯一极点 $z=0.5$ 在单位圆内。\n\n（3）输入：\n\n\n$$\nF(z)=\\frac{1}{1-0.8z^{-1}},\\quad \\lvert z \\rvert>0.8\n$$\n\n\n输出：\n\n\n$$\nY(z)=1/[(1-0.8z^{-1})(1-0.5z^{-1})]\n$$\n\n\n部分分式展开：\n\n\n$$\nY(z)= (8/3)/(1-0.8z^{-1}) - (5/3)/(1-0.5z^{-1})\n$$\n\n\n所以：\n\n\n$$\ny[k]=(8/3)(0.8)^{k} u[k]-(5/3)(0.5)^{k} u[k]\n$$\n\n\n（4）工程解释：系数 0.5 表示系统会保留一部分过去输出，相当于让温度数据不要跟着瞬时噪声剧烈跳变。空调启停时温度采样可能突然波动，一阶平滑系统会让输出逐渐变化，从而抑制尖峰噪声。系数越接近 1，平滑越强但响应越慢；系数越小，响应越快但平滑较弱。\n\n记忆：一阶差分 $H(z)=\\frac{1}{1-az^{-1}}$，极点就是 `a`；$\\lvert a \\rvert<1$ 稳定。",
     "images": [],
     "stemImages": [
-      "images/signal_system/q36_stem.png"
+      "images/signal_system/rendered/q36_stem.png"
     ],
     "answerImages": [
-      "images/signal_system/q36_answer.png"
+      "images/signal_system/rendered/q36_answer.png"
     ],
     "knowledge": "一阶差分系统响应",
     "chapter": "Z 变换与离散系统稳定性",
@@ -969,7 +1267,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：二阶电机响应。\n答案出口：分母就是特征方程，根是 `-3,-4`，所以稳定；输出是 $2-8e^{-3t}+6e^{-4t}$。\n记忆抓手：先部分分式，再看稳态 2。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：二阶系统响应、方框图和状态空间是同一个系统的三种表达。\n- $H(s)=12/(s^2+7s+12)$ 的分母给出自然模态，极点为 $-3,-4$，所以暂态会衰减。\n- 阶跃输入 $2u(t)$ 的稳态值可用终值定理或直流增益：$H(0)\\times 2=1\\times2=2$。\n\n关系梳理：\n| 表达方式 | 本题对应 | 用途 |\n|---|---|---|\n| 传递函数 | $12/(s^2+7s+12)$ | 求零状态响应 |\n| 微分方程 | $y''+7y'+12y=12f$ | 画积分器方框图 |\n| 状态空间 | $x_1=y, x_2=y'$ | 看特征值和稳定性 |\n\n作答抓手：先部分分式求 $y(t)$，再用分母根说明稳定；方框图不会画时写清“两个积分器 + 反馈系数”。",
-    "explanation": "公式 + 代入 + 化简 + 最终结论。"
+    "explanation": "公式 + 代入 + 化简 + 最终结论。",
+    "stemImages": [
+      "images/signal_system/rendered/q37_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q37_answer.png"
+    ]
   },
   {
     "id": 38,
@@ -987,7 +1291,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：RLC 电容电压。\n答案出口：串联分压得 $H(s)=4/(s^{2}+3s+4)$，是衰减振荡。\n记忆抓手：状态选 $u_c$ 和 `i_L`。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：RLC 串联电路输出电容电压，先用 s 域分压求系统函数，再反变换求响应。\n- 本题 $Z_C=4/s$，所以 $H(s)=4/(s^2+3s+4)$。\n- 极点为 $(-3\\pm j\\sqrt7)/2$，实部为负，说明响应是衰减振荡并且系统稳定。\n\n关系梳理：\n| 分问 | 关键动作 | 本题结果 |\n|---|---|---|\n| 求 $H(s)$ | 电容阻抗 / 总阻抗 | $4/(s^2+3s+4)$ |\n| 求 $u_c(t)$ | $10/s$ 乘 $H(s)$ 后反变换 | 稳态 10V + 衰减振荡暂态 |\n| 状态空间 | 取 $x_1=u_c, x_2=i_L$ | $x_1'=4x_2, x_2'=u_s-3x_2-x_1$ |\n| 稳定性 | 看特征根实部 | 实部 $-3/2$，稳定 |\n\n作答抓手：串联电路输出电容电压就想“电容分压”；状态变量优先选电容电压和电感电流。",
-    "explanation": "公式 + 代入 + 化简 + 最终结论。"
+    "explanation": "公式 + 代入 + 化简 + 最终结论。",
+    "stemImages": [
+      "images/signal_system/rendered/q38_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q38_answer.png"
+    ]
   },
   {
     "id": 39,
@@ -1003,7 +1313,13 @@
     "blankCount": 0,
     "quickExplanation": "题眼：带初始状态的 RLC。\n答案出口：$A=[0 2; -1 -2]$，特征值 $-1\\pm j$，全响应 $1+e^{-t}(\\cos t+3\\sin t)$。\n记忆抓手：有初值就先想“稳态 + 衰减振荡”。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：带初始状态的 RLC 要求全响应，而不只是零状态响应。\n- 选 $x_1=u_C, x_2=i_L$ 后，电容关系给 $x_1'=2x_2$，电感 KVL 给 $x_2'=e(t)-2x_2-x_1$。\n- 初始电容电压直接给 $y(0)$，初始电感电流通过 $y'(0)=x_1'(0)=2x_2(0)$ 给导数初值。\n\n关系梳理：\n| 信息 | 转成数学条件 |\n|---|---|\n| $u_C(0)=2$ | $y(0)=2$ |\n| $i_L(0)=1$ | $y'(0)=2$ |\n| 单位阶跃输入 | 稳态满足 $2y=2$，所以 $y_{ss}=1$ |\n| 极点 $-1\\pm j$ | 衰减振荡项 $e^{-t}(C_1\\\\cos t+C_2\\\\sin t)$ |\n\n作答抓手：全响应 = 稳态 + 由初值决定的暂态；不要把初始电流漏掉。",
-    "explanation": "公式 + 代入 + 化简 + 最终结论。"
+    "explanation": "公式 + 代入 + 化简 + 最终结论。",
+    "stemImages": [
+      "images/signal_system/rendered/q39_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q39_answer.png"
+    ]
   },
   {
     "id": 40,
@@ -1021,6 +1337,12 @@
     "blankCount": 0,
     "quickExplanation": "题眼：框图状态空间。\n答案出口：$x_1'=f-3x_1-2x_2$，$x_2'=x_1$，$y=x_1+x_2$。\n记忆抓手：积分器输出就是状态，积分器输入就是状态导数。",
     "knowledgeDetail": "核心知识框架：\n- 题目中心：从框图写状态空间，核心是“积分器输入 = 状态导数，积分器输出 = 状态变量”。\n- 本题第一个积分器输出 $x_1$，第二个积分器输出 $x_2$；加法器关系直接给 $x_1'=f(t)-3x_1-2x_2$，第二个积分器输入来自 $x_1$，所以 $x_2'=x_1$。\n- 零输入响应只看初始状态；零状态响应只看输入，两者最后可以叠加。\n\n关系梳理：\n| 任务 | 看哪里 | 本题结论 |\n|---|---|---|\n| 状态方程 | 积分器输入端 | $x_1'=f-3x_1-2x_2, x_2'=x_1$ |\n| 输出方程 | 输出加法器 | $y=x_1+x_2$ |\n| 特征根 | $|\\lambda I-A|=0$ | $-1,-2$ |\n| 零输入 | 初值 $x_1(0),x_2(0)$ | $y_{zi}=2e^{-2t}$ |\n| 零状态 | 传递函数 | $Y_{zs}(s)=F(s)/(s+2)$ |\n\n作答抓手：框图题不要先猜传递函数，先逐个积分器写状态方程。",
-    "explanation": "公式 + 代入 + 化简 + 最终结论。"
+    "explanation": "公式 + 代入 + 化简 + 最终结论。",
+    "stemImages": [
+      "images/signal_system/rendered/q40_stem.png"
+    ],
+    "answerImages": [
+      "images/signal_system/rendered/q40_answer.png"
+    ]
   }
 ]
