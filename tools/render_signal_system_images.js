@@ -85,6 +85,36 @@ function escapeHtml(value) {
     .replace(/>/g, "&gt;");
 }
 
+function formatSlashFractions(math) {
+  let out = String(math || "");
+  out = out.replace(/\((\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)\)/g, "\\frac{$1}{$2}");
+  out = out.replace(/(\d+(?:\.\d+)?)\/(\((?:[^()]+|\([^()]*\))*\)|\[[^\]]+\])/g, "\\frac{$1}{$2}");
+  out = out.replace(/([A-Za-z]\([^()]+\))\/([A-Za-z]\([^()]+\))/g, "\\frac{$1}{$2}");
+  out = out.replace(/([A-Za-z]\([^()]+\))\/(\((?:[^()]+|\([^()]*\))*\)|\[[^\]]+\])/g, "\\frac{$1}{$2}");
+  out = out.replace(/(\\frac\{[^{}]+\}\{[^{}]+\})\/(\((?:[^()]+|\([^()]*\))*\)|\[[^\]]+\])/g, "\\frac{$1}{$2}");
+  out = out.replace(/((?:j)?\d*\\[A-Za-z]+(?:\{[^}]+\})?)\/(\d+(?:\.\d+)?)/g, "\\frac{$1}{$2}");
+  out = out.replace(/([A-Za-z])\/(\d+(?:\.\d+)?)/g, "\\frac{$1}{$2}");
+  out = out.replace(/(\d+(?:\.\d+)?)\/(\\sqrt\{[^}]+\}|[A-Za-z](?:_\{?[\w]+\}?)?|\d+(?:\.\d+)?)/g, "\\frac{$1}{$2}");
+  out = out.replace(/(?<![A-Za-z\\])(\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)(?![\w.])/g, "\\frac{$1}{$2}");
+  return out.replace(/\((\\frac\{[^{}]+\}\{[^{}]+\})\)/g, "$1");
+}
+
+function normalizeMath(match) {
+  if (match.startsWith("$$") && match.endsWith("$$")) {
+    return `$$${formatSlashFractions(match.slice(2, -2))}$$`;
+  }
+  if (match.startsWith("\\[") && match.endsWith("\\]")) {
+    return `\\[${formatSlashFractions(match.slice(2, -2))}\\]`;
+  }
+  if (match.startsWith("\\(") && match.endsWith("\\)")) {
+    return `\\(${formatSlashFractions(match.slice(2, -2))}\\)`;
+  }
+  if (match.startsWith("$") && match.endsWith("$")) {
+    return `$${formatSlashFractions(match.slice(1, -1))}$`;
+  }
+  return match;
+}
+
 function protectMath(markdown) {
   const source = String(markdown == null ? "" : markdown);
   const stash = [];
@@ -98,7 +128,7 @@ function protectMath(markdown) {
   for (const pattern of patterns) {
     protectedText = protectedText.replace(pattern, (match) => {
       const token = `MATH_TOKEN_${stash.length}_END`;
-      stash.push(match);
+      stash.push(normalizeMath(match));
       return token;
     });
   }
@@ -129,6 +159,19 @@ function normalizeMarkdown(text) {
     .trim();
 }
 
+function normalizeEssayMarkdown(text) {
+  return normalizeMarkdown(text)
+    .replace(/([^\n])（([0-9一二三四五六七八九十]+)）/g, "$1\n\n（$2）")
+    .replace(/\n{3,}/g, "\n\n");
+}
+
+function stemMarkdown(q) {
+  if (q && q.type === "essay") {
+    return normalizeEssayMarkdown(q.stem || "");
+  }
+  return normalizeMarkdown(q ? q.stem || "" : "");
+}
+
 function markdownToHtml(marked, markdown) {
   const { protectedText, stash } = protectMath(normalizeMarkdown(markdown));
   const html = marked.parse(protectedText, {
@@ -144,14 +187,14 @@ function markdownToHtml(marked, markdown) {
 function answerMarkdown(q) {
   const lines = [];
   if (q.type === "essay") {
-    lines.push("# 参考答案", "", normalizeMarkdown(q.answer));
+    lines.push("# 参考答案", "", normalizeEssayMarkdown(q.answer));
     if (q.quickExplanation) {
-      lines.push("", "## 怎么抓这题", "", normalizeMarkdown(q.quickExplanation));
+      lines.push("", "## 怎么抓这题", "", normalizeEssayMarkdown(q.quickExplanation));
     }
     if (q.knowledgeDetail) {
-      lines.push("", "## 知识点与推导", "", normalizeMarkdown(q.knowledgeDetail));
+      lines.push("", "## 知识点与推导", "", normalizeEssayMarkdown(q.knowledgeDetail));
     } else if (q.explanation) {
-      lines.push("", "## 解析", "", normalizeMarkdown(q.explanation));
+      lines.push("", "## 解析", "", normalizeEssayMarkdown(q.explanation));
     }
   } else {
     lines.push("# 答案与解析", "", `**正确答案：${q.answer}**`);
@@ -188,45 +231,45 @@ function pageHtml(marked, markdown, kind) {
     #card {
       box-sizing: border-box;
       width: 900px;
-      background: #ffffff;
+      background: transparent;
       color: #20242a;
       overflow: hidden;
     }
     .stem #card {
       padding: 24px 28px;
-      font-size: 24px;
+      font-size: 26px;
       line-height: 1.56;
       font-weight: 650;
     }
     .option #card {
       padding: 12px 16px;
-      font-size: 23px;
+      font-size: 24px;
       line-height: 1.36;
       font-weight: 600;
     }
     .answer #card {
       padding: 24px 28px;
-      font-size: 21px;
+      font-size: 22px;
       line-height: 1.58;
       font-weight: 450;
     }
     h1, h2, h3, p, ul, ol, table, pre { margin-top: 0; }
     h1 {
-      font-size: 27px;
+      font-size: 29px;
       line-height: 1.35;
       margin: 0 0 16px;
       color: #2c5fd5;
       font-weight: 800;
     }
     h2 {
-      font-size: 23px;
+      font-size: 24px;
       line-height: 1.38;
       margin: 22px 0 12px;
       color: #2c5fd5;
       font-weight: 800;
     }
     h3 {
-      font-size: 21px;
+      font-size: 22px;
       line-height: 1.4;
       margin: 18px 0 10px;
       font-weight: 800;
@@ -246,7 +289,7 @@ function pageHtml(marked, markdown, kind) {
       border-collapse: collapse;
       width: 100%;
       margin: 12px 0 16px;
-      font-size: 18px;
+      font-size: 19px;
       line-height: 1.45;
       table-layout: auto;
     }
@@ -313,7 +356,7 @@ async function renderCard(page, marked, markdown, kind, outputPath) {
   if (!box) throw new Error(`Cannot locate card for ${outputPath}`);
   const height = Math.max(240, Math.ceil(box.height + 4));
   await page.setViewportSize({ width: 900, height: Math.min(22000, height + 20) });
-  await card.screenshot({ path: outputPath, omitBackground: false });
+  await card.screenshot({ path: outputPath, omitBackground: true });
 }
 
 async function main() {
@@ -341,7 +384,7 @@ async function main() {
     const base = slug(q.label);
     const stemName = `${base}_stem.png`;
     q.stemImages = [assetPath(stemName)];
-    await renderCard(page, marked, q.stem || "", "stem", path.join(outputDir, stemName));
+    await renderCard(page, marked, stemMarkdown(q), "stem", path.join(outputDir, stemName));
     rendered++;
 
     if (Array.isArray(q.options)) {

@@ -4179,8 +4179,8 @@ public class MainActivity extends Activity {
             ImageView img = new ImageView(this);
             img.setImageBitmap(bitmap);
             img.setAdjustViewBounds(true);
-            img.setBackgroundColor(Color.WHITE);
-            img.setPadding(dp(4), dp(4), dp(4), dp(4));
+            img.setBackgroundColor(Color.TRANSPARENT);
+            img.setPadding(0, 0, 0, 0);
             return img;
         } finally {
             closeQuietly(in);
