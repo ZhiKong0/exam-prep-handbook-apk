@@ -1,18 +1,18 @@
 {
   "packageName": "com.dz.networkquiz",
-  "versionCode": 62,
-  "versionName": "2.10.37",
+  "versionCode": 63,
+  "versionName": "2.10.38",
   "apkFileName": "exam-prep-handbook.apk",
   "apkDownloadUrl": "https://ghfast.top/https://github.com/ZhiKong0/exam-prep-handbook-apk/releases/latest/download/exam-prep-handbook.apk",
   "apkDownloadCandidates": [
     "https://ghfast.top/https://github.com/ZhiKong0/exam-prep-handbook-apk/releases/latest/download/exam-prep-handbook.apk",
     "https://github.com/ZhiKong0/exam-prep-handbook-apk/releases/latest/download/exam-prep-handbook.apk",
-    "https://ghfast.top/https://github.com/ZhiKong0/exam-prep-handbook-apk/releases/download/v2.10.37/exam-prep-handbook.apk",
-    "https://github.com/ZhiKong0/exam-prep-handbook-apk/releases/download/v2.10.37/exam-prep-handbook.apk"
+    "https://ghfast.top/https://github.com/ZhiKong0/exam-prep-handbook-apk/releases/download/v2.10.38/exam-prep-handbook.apk",
+    "https://github.com/ZhiKong0/exam-prep-handbook-apk/releases/download/v2.10.38/exam-prep-handbook.apk"
   ],
   "releaseHtmlUrl": "https://github.com/ZhiKong0/exam-prep-handbook-apk/releases/latest",
-  "releaseNotes": "# v2.10.37\n\n- 启动 App 后默认恢复上次学习页；无记录时进入“刷题”，不再先停在课程首页。\n- 底部高频导航改为“记题 / 刷题 / 错题 / 导图”，在设置、建议、课程页也能一键回到学习模式。\n- 右上角新增自绘三横菜单按钮，点击从右侧打开玻璃侧边栏。\n- 侧边栏包含学习模式、课程选择、设置、建议，并显示当前课程“计算机网络”和版本号。\n- 课程选择页保留为低频入口；App 显示名称继续保持“备考宝典”。\n- 抽屉打开时会屏蔽题目横滑并隐藏悬浮导出箭头，避免误触。",
-  "apkSize": 1104439,
-  "sha256": "a621c9e426791c0219ffe0c2c26b9c3b04694803e3bf6b14487847feb8e7381b",
-  "generatedAt": "2026-06-27T08:01:45.016791+00:00"
+  "releaseNotes": "# v2.10.38\n\n- Auto release after fix: UI: simplify study chrome and rename project\n- 启动 App 后默认恢复上次学习页；无记录时进入“刷题”，不再先停在课程首页。\n- 底部高频导航改为“记题 / 刷题 / 错题 / 导图”，在设置、建议、课程页也能一键回到学习模式。\n- 右上角新增自绘三横菜单按钮，点击从右侧打开玻璃侧边栏。\n- 侧边栏包含学习模式、课程选择、设置、建议，并显示当前课程“计算机网络”和版本号。\n- 课程选择页保留为低频入口；App 显示名称继续保持“备考宝典”。\n- 抽屉打开时会屏蔽题目横滑并隐藏悬浮导出箭头，避免误触。",
+  "apkSize": 1104437,
+  "sha256": "8efcdc9241622127660ed45aaa119bb092ceef212e02ae4355b4be09467a0657",
+  "generatedAt": "2026-06-27T08:16:08.426250+00:00"
 }
