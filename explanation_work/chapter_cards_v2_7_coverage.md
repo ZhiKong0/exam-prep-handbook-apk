@@ -3,7 +3,7 @@
 - 生成时间：2026-06-24 15:45:00
 - 题库文件：`E:\Learning\课程学习\计算机网络\计算机网络_考试练习_APK\app\src\main\assets\questions.json`
 - 输出文件：`E:\Learning\课程学习\计算机网络\计算机网络_考试练习_APK\app\src\main\assets\chapter_cards.json`
-- 校验结论：通过，372/372 题全部进入知识卡片逐题覆盖线索。
+- 校验结论：历史 v2.7 覆盖报告原覆盖 372 题；当前题库已扩展为 416 题，新增大题导入情况见 `marked_essay_import_report.md`。
 
 ## 章节覆盖
 

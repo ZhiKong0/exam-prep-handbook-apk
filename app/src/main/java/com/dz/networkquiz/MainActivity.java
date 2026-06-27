@@ -126,6 +126,7 @@ public class MainActivity extends Activity {
     private static final String STUDY_MODE_REMEMBER = "remember";
     private static final String STUDY_MODE_WRONG = "wrong";
     private static final String STUDY_MODE_CARD = "card";
+    private static final String QUESTION_TYPE_ESSAY = "essay";
     private static final String PREF_LAST_CARD_CHAPTER = "last_card_chapter";
     private static final String DEFAULT_UPDATE_REPO_SLUG = "ZhiKong0/exam-prep-handbook-apk";
     private static final String TAG_MARKDOWN_TABLE_SCROLL = "markdown_table_scroll";
@@ -2522,6 +2523,7 @@ public class MainActivity extends Activity {
         items.add("单选题");
         items.add("多选题");
         items.add("填空题");
+        items.add("大题");
         return items;
     }
 
@@ -2693,6 +2695,10 @@ public class MainActivity extends Activity {
             submitButton.setText("提交多选");
             submitButton.setEnabled(true);
             submitButton.setVisibility(rememberMode ? View.GONE : View.VISIBLE);
+        } else if (isEssayQuestion(q)) {
+            submitButton.setText("");
+            submitButton.setEnabled(false);
+            submitButton.setVisibility(View.GONE);
         } else {
             submitButton.setText("提交填空");
             submitButton.setEnabled(true);
@@ -2706,6 +2712,8 @@ public class MainActivity extends Activity {
         }
         if ("blank".equals(q.type)) {
             renderBlankInputs(q);
+        } else if (isEssayQuestion(q)) {
+            renderEssayActions(q);
         } else {
             for (Option opt : q.options) {
                 addOptionView(q, opt);
@@ -3764,6 +3772,102 @@ public class MainActivity extends Activity {
         }
     }
 
+    private void renderEssayActions(final Question q) {
+        if (rememberMode) {
+            return;
+        }
+        Button showAnswer = bigButton("查看参考答案", true);
+        showAnswer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEssayAnswer(q);
+            }
+        });
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, dp(52));
+        lp.topMargin = dp(4);
+        lp.bottomMargin = dp(10);
+        optionList.addView(showAnswer, lp);
+
+        TextView hint = text("大题不会自动判分。先看答案，再按自己的掌握程度点“会了 / 不会”。", 13, MUTED, false);
+        hint.setLineSpacing(dp(3), 1.0f);
+        optionList.addView(hint, new LinearLayout.LayoutParams(-1, -2));
+    }
+
+    private void showEssayAnswer(final Question q) {
+        if (!isEssayQuestion(q)) return;
+        StringBuilder sb = new StringBuilder();
+        sb.append("# 参考答案\n\n");
+        sb.append(displayAnswer(q)).append("\n\n");
+        if (q.quickExplanation != null && q.quickExplanation.trim().length() > 0) {
+            sb.append("## 怎么抓这题\n\n");
+            sb.append(markdownizeExplanationBlock(q.quickExplanation)).append("\n\n");
+        }
+        if (q.knowledgeDetail != null && q.knowledgeDetail.trim().length() > 0) {
+            sb.append("## 知识点与推导\n\n");
+            sb.append(markdownizeExplanationBlock(q.knowledgeDetail)).append("\n");
+        } else if (q.explanation != null && q.explanation.trim().length() > 0) {
+            sb.append("## 解析\n\n");
+            sb.append(markdownizeExplanationBlock(q.explanation)).append("\n");
+        }
+        renderMarkdown(feedbackContainer, sb.toString());
+        addEssaySelfAssessmentButtons(q);
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.smoothScrollTo(0, feedbackContainer.getTop());
+            }
+        });
+    }
+
+    private void addEssaySelfAssessmentButtons(final Question q) {
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER);
+        row.setPadding(0, dp(8), 0, 0);
+
+        Button knowButton = bigButton("会了", true);
+        Button unknownButton = bigButton("不会，加入错题本", false);
+        unknownButton.setTextColor(RED);
+        unknownButton.setBackground(roundedStrokeBackground(
+                THEME_LIGHT.equals(themeMode) ? Color.rgb(255, 244, 244) : Color.rgb(64, 38, 42),
+                RED,
+                24,
+                1
+        ));
+        knowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitEssaySelfAssessment(q, true);
+            }
+        });
+        unknownButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitEssaySelfAssessment(q, false);
+            }
+        });
+
+        LinearLayout.LayoutParams yesLp = new LinearLayout.LayoutParams(0, dp(48), 1f);
+        yesLp.rightMargin = dp(8);
+        row.addView(knowButton, yesLp);
+        LinearLayout.LayoutParams noLp = new LinearLayout.LayoutParams(0, dp(48), 1f);
+        row.addView(unknownButton, noLp);
+
+        feedbackContainer.addView(row, new LinearLayout.LayoutParams(-1, -2));
+    }
+
+    private void submitEssaySelfAssessment(Question q, boolean ok) {
+        if (submitted) {
+            Toast.makeText(this, "本题已经记录过一次自评", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        submitted = true;
+        lastAnswerOk = ok;
+        recordAttempt(q, ok);
+        updateWrongBookState(q, ok);
+        showFeedback(q, ok);
+    }
+
     private void addOptionView(final Question q, final Option opt) {
         TextView view = text(opt.text, 18, TEXT, false);
         view.setGravity(Gravity.CENTER_VERTICAL);
@@ -3854,7 +3958,11 @@ public class MainActivity extends Activity {
 
     private String buildFeedbackMarkdown(Question q, boolean ok) {
         StringBuilder sb = new StringBuilder();
-        sb.append("# ").append(ok ? "回答正确" : "回答错误，已加入错题本").append("\n\n");
+        if (isEssayQuestion(q)) {
+            sb.append("# ").append(ok ? "已标记会了" : "已加入错题本").append("\n\n");
+        } else {
+            sb.append("# ").append(ok ? "回答正确" : "回答错误，已加入错题本").append("\n\n");
+        }
         sb.append("## 本题结果\n\n");
         sb.append("- **正确答案：** ").append(displayAnswer(q)).append("\n");
         sb.append("- **知识点：** ").append(q.chapter).append(" / ").append(q.knowledge).append("\n");
@@ -4801,7 +4909,7 @@ public class MainActivity extends Activity {
     }
 
     private void revealRememberModeAnswer(Question q) {
-        if (!"blank".equals(q.type)) {
+        if (!"blank".equals(q.type) && !isEssayQuestion(q)) {
             paintSubmittedOptions(q);
         }
         showRememberReason(q);
@@ -4827,6 +4935,18 @@ public class MainActivity extends Activity {
 
     private String rememberReasonMarkdown(Question q) {
         String quick = markdownizeExplanationBlock(q.quickExplanation == null ? "" : q.quickExplanation.trim());
+        if (isEssayQuestion(q)) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("- **参考答案：** ").append(displayAnswer(q)).append("\n\n");
+            if (quick.length() > 0) {
+                sb.append(quick).append("\n\n");
+            }
+            String detail = markdownizeExplanationBlock(q.knowledgeDetail == null ? "" : q.knowledgeDetail.trim());
+            if (detail.length() > 0) {
+                sb.append("### 知识点与推导\n\n").append(detail);
+            }
+            return sb.toString().trim();
+        }
         if (quick.length() > 0) {
             return quick;
         }
@@ -5483,7 +5603,7 @@ public class MainActivity extends Activity {
         sb.append("- 覆盖题目：").append(allQuestions.size()).append(" 题\n");
         sb.append("- 覆盖章节：").append(chapterList().size()).append(" 章\n");
         sb.append("- 覆盖知识点：").append(knowledgePairCount(allQuestions)).append(" 个\n");
-        sb.append("- 生成方式：直接从 App 内置 372 题题库按章节与知识点分组生成。\n\n");
+        sb.append("- 生成方式：直接从 App 内置 ").append(allQuestions.size()).append(" 题题库按章节与知识点分组生成。\n\n");
         sb.append("## 覆盖总览\n\n");
         for (String chapter : chapterList()) {
             sb.append("- ").append(chapter).append("：").append(questionsInChapter(chapter).size()).append(" 题，")
@@ -5976,6 +6096,9 @@ public class MainActivity extends Activity {
     }
 
     private String displayAnswer(Question q) {
+        if (isEssayQuestion(q)) {
+            return answerString(q);
+        }
         if ("blank".equals(q.type)) {
             return join(answerList(q), "；");
         }
@@ -5995,6 +6118,10 @@ public class MainActivity extends Activity {
     private String answerString(Question q) {
         if (q.answer instanceof String) return (String) q.answer;
         return String.valueOf(q.answer);
+    }
+
+    private boolean isEssayQuestion(Question q) {
+        return q != null && QUESTION_TYPE_ESSAY.equals(q.type);
     }
 
     private int correctChoiceCount(Question q) {

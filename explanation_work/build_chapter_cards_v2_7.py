@@ -1129,9 +1129,8 @@ def build_cards() -> tuple[list[dict], str]:
             }
         )
 
-    if len(questions) != 372:
-        raise AssertionError(f"Expected 372 questions, got {len(questions)}")
-    if len(covered) != 372 or len(set(covered)) != 372:
+    expected_total = len(questions)
+    if len(covered) != expected_total or len(set(covered)) != expected_total:
         duplicates = [k for k, v in collections.Counter(covered).items() if v > 1]
         missing = sorted(set(q["label"] for q in questions) - set(covered))
         raise AssertionError(f"Coverage mismatch: covered={len(covered)} unique={len(set(covered))} dup={duplicates} missing={missing}")
@@ -1153,7 +1152,7 @@ def build_cards() -> tuple[list[dict], str]:
     report.append(f"- 生成时间：{dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     report.append(f"- 题库文件：`{QUESTIONS_PATH}`")
     report.append(f"- 输出文件：`{CARDS_PATH}`")
-    report.append("- 校验结论：通过，372/372 题全部进入知识卡片逐题覆盖线索。\n")
+    report.append(f"- 校验结论：通过，{expected_total}/{expected_total} 题全部进入知识卡片逐题覆盖线索。\n")
     report.append("## 章节覆盖\n")
     report.append("| 章节 | 题数 | 卡片数 | 题型分布 |")
     report.append("|---|---:|---:|---|")
