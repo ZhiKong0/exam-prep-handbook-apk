@@ -3,16 +3,16 @@
   "versionCode": 62,
   "versionName": "2.10.37",
   "apkFileName": "review-baodian.apk",
-  "apkDownloadUrl": "https://ghfast.top/https://github.com/ZhiKong0/review-baodian-apk/releases/latest/download/review-baodian.apk",
+  "apkDownloadUrl": "https://ghfast.top/https://github.com/ZhiKong0/review-baodian-apk/releases/download/v2.10.37/review-baodian.apk",
   "apkDownloadCandidates": [
-    "https://ghfast.top/https://github.com/ZhiKong0/review-baodian-apk/releases/latest/download/review-baodian.apk",
-    "https://github.com/ZhiKong0/review-baodian-apk/releases/latest/download/review-baodian.apk",
     "https://ghfast.top/https://github.com/ZhiKong0/review-baodian-apk/releases/download/v2.10.37/review-baodian.apk",
-    "https://github.com/ZhiKong0/review-baodian-apk/releases/download/v2.10.37/review-baodian.apk"
+    "https://github.com/ZhiKong0/review-baodian-apk/releases/download/v2.10.37/review-baodian.apk",
+    "https://ghfast.top/https://github.com/ZhiKong0/review-baodian-apk/releases/latest/download/review-baodian.apk",
+    "https://github.com/ZhiKong0/review-baodian-apk/releases/latest/download/review-baodian.apk"
   ],
-  "releaseHtmlUrl": "https://github.com/ZhiKong0/review-baodian-apk/releases/latest",
+  "releaseHtmlUrl": "https://github.com/ZhiKong0/review-baodian-apk/releases/tag/v2.10.37",
   "releaseNotes": "# v2.10.37\n\n- 启动 App 后默认恢复上次学习页；无记录时进入“刷题”，不再先停在课程首页。\n- 底部高频导航改为“记题 / 刷题 / 错题 / 导图”，在设置、建议、课程页也能一键回到学习模式。\n- 右上角新增自绘三横菜单按钮，点击从右侧打开玻璃侧边栏。\n- 侧边栏包含学习模式、课程选择、设置、建议，并显示当前课程“计算机网络”和版本号。\n- 课程选择页保留为低频入口；App 显示名称继续保持“备考宝典”。\n- 抽屉打开时会屏蔽题目横滑并隐藏悬浮导出箭头，避免误触。",
   "apkSize": 1104439,
-  "sha256": "ab62a2e2adc6b6b35c3e3c750b9c8ec7dcda43bc940a8886b09477f41e9ef4ef",
-  "generatedAt": "2026-06-27T07:08:31.656215+00:00"
+  "sha256": "15390bd29f6f8332976af81fc1fd7be565ca0a87e5af59107cc57e220ec88b4f",
+  "generatedAt": "2026-06-27T07:11:48.664358+00:00"
 }
