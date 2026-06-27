@@ -1,5 +1,6 @@
-# v2.10.43
+# v2.10.44
 
+- Auto release after fix: Signal: use image fallback for Q36 rendering
 - Auto release after fix: Fix signal formula rendering
 - 修复“信号与系统”题目公式渲染：不再把整题塞进 WebView，选项、题干和解析统一使用与“计算机网络”相同的原生排版。
 - 修复信号题选项字号/高度过大的问题；公式只在 `$...$` 等片段内做离线上下标、希腊字母、根号和常见运算符显示。
