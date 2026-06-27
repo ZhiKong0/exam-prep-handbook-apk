@@ -1,5 +1,6 @@
-# v2.10.38
+# v2.10.39
 
+- Auto release after fix: Release: harden exam prep auto publishing
 - Auto release after fix: UI: simplify study chrome and rename project
 - 启动 App 后默认恢复上次学习页；无记录时进入“刷题”，不再先停在课程首页。
 - 底部高频导航改为“记题 / 刷题 / 错题 / 导图”，在设置、建议、课程页也能一键回到学习模式。
