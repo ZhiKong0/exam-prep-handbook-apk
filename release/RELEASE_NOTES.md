@@ -1,5 +1,6 @@
-# v2.10.39
+# v2.10.40
 
+- Auto release after fix: Quiz: add marked essay questions
 - Auto release after fix: Release: harden exam prep auto publishing
 - Auto release after fix: UI: simplify study chrome and rename project
 - 启动 App 后默认恢复上次学习页；无记录时进入“刷题”，不再先停在课程首页。
