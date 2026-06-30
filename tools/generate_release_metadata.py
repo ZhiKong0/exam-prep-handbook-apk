@@ -53,6 +53,37 @@ def encode_url_path_segment(value: str) -> str:
     return quote(value, safe="")
 
 
+def unwrap_update_mirror_url(url: str) -> str:
+    value = (url or "").strip()
+    for prefix in ("https://ghfast.top/", "https://gh-proxy.com/"):
+        if value.startswith(prefix):
+            return value[len(prefix):]
+    return value
+
+
+def gh_proxy_url(url: str) -> str:
+    value = unwrap_update_mirror_url(url)
+    return f"https://gh-proxy.com/{value}" if value else ""
+
+
+def ghfast_url(url: str) -> str:
+    value = unwrap_update_mirror_url(url)
+    return f"https://ghfast.top/{value}" if value else ""
+
+
+def append_download_candidate(candidates: list[str], url: str) -> None:
+    value = (url or "").strip()
+    if value and value not in candidates:
+        candidates.append(value)
+
+
+def append_download_candidate_with_mirrors(candidates: list[str], url: str) -> None:
+    direct = unwrap_update_mirror_url(url)
+    append_download_candidate(candidates, direct)
+    append_download_candidate(candidates, gh_proxy_url(direct))
+    append_download_candidate(candidates, ghfast_url(direct))
+
+
 def resolve_apk_path(raw: str) -> Path:
     if raw:
         explicit = Path(raw)
@@ -78,19 +109,12 @@ def main():
     release_html_url = args.release_html_url.strip() or f"https://github.com/{args.repo_slug}/releases/latest"
     download_candidates = []
     if apk_download_url:
-        download_candidates.append(f"https://ghfast.top/{apk_download_url}")
-        download_candidates.append(apk_download_url)
+        append_download_candidate_with_mirrors(download_candidates, apk_download_url)
     encoded_apk_name = encode_url_path_segment(apk_path.name)
     latest_url = f"https://github.com/{args.repo_slug}/releases/latest/download/{encoded_apk_name}"
     tag_url = f"https://github.com/{args.repo_slug}/releases/download/v{version_name}/{encoded_apk_name}"
-    for candidate in (
-        f"https://ghfast.top/{latest_url}",
-        latest_url,
-        f"https://ghfast.top/{tag_url}",
-        tag_url,
-    ):
-        if candidate not in download_candidates:
-            download_candidates.append(candidate)
+    append_download_candidate_with_mirrors(download_candidates, tag_url)
+    append_download_candidate_with_mirrors(download_candidates, latest_url)
     data = {
         "packageName": package_name,
         "versionCode": version_code,

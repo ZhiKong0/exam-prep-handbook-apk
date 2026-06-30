@@ -157,6 +157,8 @@ public class MainActivity extends Activity {
     private static final String UPDATE_STATUS_UPDATED_TO_PREFIX = "\u5df2\u66f4\u65b0\u5230 ";
     private static final int HTTP_TIMEOUT_MS = 15000;
     private static final int FAST_HTTP_TIMEOUT_MS = 6000;
+    private static final int DOWNLOAD_CONNECT_TIMEOUT_MS = 8000;
+    private static final int DOWNLOAD_READ_TIMEOUT_MS = 15000;
     private static final int DEFAULT_WRONG_REQUIRED = 2;
     private static final int MIN_WRONG_REQUIRED = 1;
     private static final int MAX_WRONG_REQUIRED = 10;
@@ -7791,14 +7793,18 @@ public class MainActivity extends Activity {
 
     private void finalizeUpdateDownloadCandidates(String repoSlug, UpdateInfo info) {
         if (info == null) return;
-        appendDownloadCandidate(info.downloadCandidates, buildGhfastMirrorUrl(info.downloadUrl));
-        appendDownloadCandidate(info.downloadCandidates, info.downloadUrl);
-        appendDownloadCandidate(info.downloadCandidates, buildGhfastMirrorUrl(buildGithubLatestDownloadUrl(repoSlug, info.apkName)));
-        appendDownloadCandidate(info.downloadCandidates, buildGithubLatestDownloadUrl(repoSlug, info.apkName));
+        List<String> existingCandidates = new ArrayList<>(info.downloadCandidates);
+        List<String> orderedCandidates = new ArrayList<>();
+        appendDownloadCandidateWithMirrors(orderedCandidates, info.downloadUrl);
+        appendDownloadCandidateWithMirrors(orderedCandidates, buildGithubLatestDownloadUrl(repoSlug, info.apkName));
         if (info.versionName.length() > 0) {
-            appendDownloadCandidate(info.downloadCandidates, buildGhfastMirrorUrl(buildGithubTagDownloadUrl(repoSlug, info.versionName, info.apkName)));
-            appendDownloadCandidate(info.downloadCandidates, buildGithubTagDownloadUrl(repoSlug, info.versionName, info.apkName));
+            appendDownloadCandidateWithMirrors(orderedCandidates, buildGithubTagDownloadUrl(repoSlug, info.versionName, info.apkName));
         }
+        for (String candidate : existingCandidates) {
+            appendDownloadCandidateWithMirrors(orderedCandidates, candidate);
+        }
+        info.downloadCandidates.clear();
+        info.downloadCandidates.addAll(orderedCandidates);
         if (!info.downloadCandidates.isEmpty()) {
             info.downloadUrl = info.downloadCandidates.get(0);
         }
@@ -7944,6 +7950,10 @@ public class MainActivity extends Activity {
         return buildGhfastMirrorUrl(buildGithubLatestMetadataUrl(repoSlug, metadataName));
     }
 
+    private String buildGhProxyLatestMetadataUrl(String repoSlug, String metadataName) {
+        return buildGhProxyMirrorUrl(buildGithubLatestMetadataUrl(repoSlug, metadataName));
+    }
+
     private String buildGithubReleasePageUrl(String repoSlug) {
         return "https://github.com/" + repoSlug + "/releases/latest";
     }
@@ -7958,10 +7968,28 @@ public class MainActivity extends Activity {
     }
 
     private String buildGhfastMirrorUrl(String originalUrl) {
-        String trimmed = originalUrl == null ? "" : originalUrl.trim();
+        String trimmed = unwrapUpdateMirrorUrl(originalUrl);
         if (trimmed.length() == 0) return "";
         if (trimmed.startsWith("https://ghfast.top/")) return trimmed;
         return "https://ghfast.top/" + trimmed;
+    }
+
+    private String buildGhProxyMirrorUrl(String originalUrl) {
+        String trimmed = unwrapUpdateMirrorUrl(originalUrl);
+        if (trimmed.length() == 0) return "";
+        if (trimmed.startsWith("https://gh-proxy.com/")) return trimmed;
+        return "https://gh-proxy.com/" + trimmed;
+    }
+
+    private String unwrapUpdateMirrorUrl(String originalUrl) {
+        String trimmed = originalUrl == null ? "" : originalUrl.trim();
+        if (trimmed.startsWith("https://ghfast.top/")) {
+            return trimmed.substring("https://ghfast.top/".length());
+        }
+        if (trimmed.startsWith("https://gh-proxy.com/")) {
+            return trimmed.substring("https://gh-proxy.com/".length());
+        }
+        return trimmed;
     }
 
     private String encodeUrlPathSegment(String value) {
@@ -7983,16 +8011,25 @@ public class MainActivity extends Activity {
         }
     }
 
+    private void appendDownloadCandidateWithMirrors(List<String> out, String candidate) {
+        String direct = unwrapUpdateMirrorUrl(candidate);
+        appendDownloadCandidate(out, direct);
+        appendDownloadCandidate(out, buildGhProxyMirrorUrl(direct));
+        appendDownloadCandidate(out, buildGhfastMirrorUrl(direct));
+    }
+
     private JSONObject fetchFastUpdateMetadata(String repoSlug) throws UpdateCheckException {
         logUpdateDebug("fetchFastUpdateMetadata repo=" + repoSlug);
         UpdateCheckException lastError = null;
         List<String> urls = new ArrayList<>();
         List<String> errorMessages = new ArrayList<>();
         for (String metadataName : updateMetadataNames()) {
-            urls.add(buildGhfastLatestMetadataUrl(repoSlug, metadataName));
-            errorMessages.add("读取加速 Release 元数据失败");
             urls.add(buildGithubLatestMetadataUrl(repoSlug, metadataName));
             errorMessages.add("读取 Release 元数据失败");
+            urls.add(buildGhProxyLatestMetadataUrl(repoSlug, metadataName));
+            errorMessages.add("读取 gh-proxy Release 元数据失败");
+            urls.add(buildGhfastLatestMetadataUrl(repoSlug, metadataName));
+            errorMessages.add("读取 ghfast Release 元数据失败");
             urls.add(buildGithubRawUpdateMetadataUrl(repoSlug, metadataName));
             errorMessages.add("读取原始更新元数据失败");
             urls.add(buildJsDelivrUpdateMetadataUrl(repoSlug, metadataName));
@@ -8000,6 +8037,7 @@ public class MainActivity extends Activity {
         }
         for (int i = 0; i < urls.size(); i++) {
             try {
+                postUpdateStatus("正在读取更新信息 " + (i + 1) + "/" + urls.size() + "：" + updateDownloadSourceLabel(urls.get(i)));
                 return readFastGithubJsonObject(
                         urls.get(i),
                         "还没有找到更新元数据文件",
@@ -8288,26 +8326,36 @@ public class MainActivity extends Activity {
         List<String> candidates = info.downloadCandidates.isEmpty()
                 ? Collections.singletonList(info.downloadUrl)
                 : info.downloadCandidates;
-        for (String candidate : candidates) {
+        int totalCandidates = candidates.size();
+        for (int i = 0; i < totalCandidates; i++) {
+            String candidate = candidates.get(i);
+            final String sourceLabel = updateDownloadSourceLabel(candidate);
+            postUpdateStatus("正在尝试下载源 " + (i + 1) + "/" + totalCandidates + "：" + sourceLabel);
             try {
-                return downloadUpdateApkFromUrl(info, candidate);
+                return downloadUpdateApkFromUrl(info, candidate, sourceLabel);
             } catch (Exception e) {
                 lastError = e;
+                logUpdateWarn("download candidate failed: " + candidate, e);
+                if (i + 1 < totalCandidates) {
+                    postUpdateStatus("下载源 " + (i + 1) + " 失败，正在切换：" + sourceLabel);
+                }
             }
         }
-        if (lastError != null) throw lastError;
+        if (lastError != null) {
+            throw new IOException("所有下载源都失败，最后错误：" + safeErrorMessage(lastError), lastError);
+        }
         throw new IOException("没有可用的下载地址");
     }
 
-    private File downloadUpdateApkFromUrl(UpdateInfo info, String url) throws Exception {
+    private File downloadUpdateApkFromUrl(UpdateInfo info, String url, String sourceLabel) throws Exception {
         HttpURLConnection connection = null;
         InputStream stream = null;
         FileOutputStream out = null;
         File tempFile = null;
         try {
             connection = (HttpURLConnection) new URL(url).openConnection();
-            connection.setConnectTimeout(HTTP_TIMEOUT_MS);
-            connection.setReadTimeout(HTTP_TIMEOUT_MS * 2);
+            connection.setConnectTimeout(DOWNLOAD_CONNECT_TIMEOUT_MS);
+            connection.setReadTimeout(DOWNLOAD_READ_TIMEOUT_MS);
             connection.setRequestProperty("User-Agent", "ExamPrepHandbookUpdater/" + currentVersionName());
             connection.setRequestProperty("Accept", "application/octet-stream");
             int code = connection.getResponseCode();
@@ -8328,6 +8376,8 @@ public class MainActivity extends Activity {
             long copied = 0L;
             int read;
             int lastProgress = -1;
+            long lastBytesStatus = 0L;
+            long lastStatusAt = 0L;
             while ((read = stream.read(buffer)) != -1) {
                 out.write(buffer, 0, read);
                 copied += read;
@@ -8335,13 +8385,14 @@ public class MainActivity extends Activity {
                     final int progress = (int) ((copied * 100L) / total);
                     if (progress == 100 || progress - lastProgress >= 5) {
                         lastProgress = progress;
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                updateStatusText = "正在下载更新 " + progress + "%";
-                                refreshUpdateSettingViews();
-                            }
-                        });
+                        postUpdateStatus("正在下载更新 " + progress + "%（" + sourceLabel + "）");
+                    }
+                } else {
+                    long now = SystemClock.elapsedRealtime();
+                    if (copied - lastBytesStatus >= 1024L * 1024L || now - lastStatusAt >= 1000L) {
+                        lastBytesStatus = copied;
+                        lastStatusAt = now;
+                        postUpdateStatus("正在下载更新 " + humanFileSize(copied) + "（" + sourceLabel + "）");
                     }
                 }
             }
@@ -8359,6 +8410,29 @@ public class MainActivity extends Activity {
             if (tempFile != null && tempFile.exists() && tempFile.getName().endsWith(".download")) {
                 deleteUpdateFile(tempFile);
             }
+        }
+    }
+
+    private void postUpdateStatus(final String statusText) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateStatusText = statusText;
+                refreshUpdateSettingViews();
+            }
+        });
+    }
+
+    private String updateDownloadSourceLabel(String url) {
+        String value = url == null ? "" : url.trim();
+        if (value.contains("gh-proxy.com")) return "gh-proxy 镜像";
+        if (value.contains("ghfast.top")) return "ghfast 镜像";
+        if (value.contains("github.com")) return "GitHub 原链";
+        try {
+            String host = new URL(value).getHost();
+            return host == null || host.length() == 0 ? "备用源" : host;
+        } catch (Exception ignored) {
+            return "备用源";
         }
     }
 
