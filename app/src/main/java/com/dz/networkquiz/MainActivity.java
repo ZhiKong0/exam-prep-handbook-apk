@@ -1898,7 +1898,7 @@ public class MainActivity extends Activity {
         sideDrawerPanel.addView(courseTitle, courseLp);
 
         addDrawerSection("更多");
-        addDrawerRow("课程选择", "切换三门课程与学习进度", BLUE, homeMode, new Runnable() {
+        addDrawerRow("课程选择", "切换四门课程与学习进度", BLUE, homeMode, new Runnable() {
             @Override
             public void run() {
                 showCoursesHome();
