@@ -10,7 +10,7 @@ RES = ROOT / "app" / "src" / "main" / "res"
 SOURCE = RES / "drawable" / "ic_launcher_foreground.png"
 SOURCE_ORIGINAL = ROOT / "tools" / "icon_sources" / "ic_launcher_source.png"
 BACKGROUND = (87, 62, 44, 255)
-SCALE = 0.86
+SCALE = 0.74
 
 SIZES = {
     "mipmap-mdpi": 48,
