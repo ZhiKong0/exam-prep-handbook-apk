@@ -1,5 +1,6 @@
-# v2.10.56
+# v2.10.57
 
+- Auto release after fix: Fix course drawer copy
 - Auto release after fix: Add data structures course
 - Auto release after fix: Make Xi explanations knowledge focused
 - Auto release after fix: Refine Xi highlighted explanations
